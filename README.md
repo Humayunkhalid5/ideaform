@@ -45,6 +45,10 @@ frontend/app/      Next.js app router
 scripts/           model pull and future ingestion scripts
 ```
 
-## Design docs
+##   Design docs
 
 `SRS.md`, `architecture.md`, `database_design.md`, `implementation_plan.md`, `AI_DESIGN.md`.
+
+
+
+
