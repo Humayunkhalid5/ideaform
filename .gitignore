@@ -1,0 +1,25 @@
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# node
+node_modules/
+.next/
+out/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# runtime data
+data/scraped_corpus/
+data/uploads/
+*.log
+
+# os
+.DS_Store
+Thumbs.db
