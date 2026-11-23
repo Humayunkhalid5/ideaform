@@ -1,48 +1,53 @@
 # Ideaform
 
-Turn a rough idea into evidence-backed evaluation and a buildable blueprint: six analysis dimensions, cited research, and generated PRD/architecture/roadmap.
+Turn a rough idea into evidence-backed evaluation and a buildable blueprint: six analysis
+dimensions, cited research, and generated PRD/architecture/roadmap.
 
-All reasoning runs on **local models** (Ollama). **Tavily** is the only paid external API and is used solely to discover URLs; page content is fetched by our own scraper.
+All reasoning goes through one **Groq** provider interface: fast tier for classification
+and extraction, strong tier for evaluation and blueprint generation. **Tavily** is the only
+paid search API and is used solely to discover URLs; page content is fetched by our own scraper.
 
-## Phase 0: foundation
+## Services
 
 | Service | Port | What it is |
 | --- | --- | --- |
-| `api` | 8000 | FastAPI app (`/docs`, `/health`, `/health/ready`) |
-| `worker` | — | Celery worker on Redis |
-| `web` | 3000 | Next.js app |
+| `api` | 8000 | FastAPI app (`/docs`, `/health`, `/health/ready`, `/auth`, `/projects`, `/runs`) |
+| `worker` | — | Celery worker on Redis (extraction tasks) |
+| `web` | 3000 | Next.js app (`/login`, `/dashboard`, `/projects/new`) |
 | `db` | 5432 | PostgreSQL 16 + pgvector |
 | `redis` | 6379 | Broker and cache |
-| `ollama` | 11434 | Local model runtime |
 
 ## Run
 
 ```bash
-cp .env.example .env          # then set TAVILY_API_KEY
+cp .env.example .env          # then set GROQ_API_KEY (and TAVILY_API_KEY when researching)
 docker compose up -d --build  # start everything
-bash scripts/pull_models.sh   # pull the fast + strong local models
+docker compose exec api alembic upgrade head
 curl -fsS localhost:8000/health/ready
 ```
 
-Requirements: Docker with the Compose plugin. The models need roughly 6–8 GB of RAM for the 7B model at Q4.
+Open http://localhost:3000 and register an account.
 
 ## Checks
 
 ```bash
 make health          # liveness + readiness
-make migrate         # apply migrations (baseline is empty until Phase 1 models)
+make migrate         # apply migrations
 make test            # pytest inside the api container
 ```
 
-`/health/ready` returns 503 unless Postgres, Redis, and the Ollama `/api/tags` endpoint all answer. It reports wiring, not installed models — run `make models` for that.
+`/health/ready` returns 503 unless Postgres, Redis andthe configured LLM provider all
+answer. It checks wiring, not model quality.
 
 ## Layout
 
 ```
-backend/app/       FastAPI app: config, db, api, worker
-backend/migrations Alembic (baseline only; 16 tables land in Phase 1)
-frontend/app/      Next.js app router
-scripts/           model pull and future ingestion scripts
+backend/app/        FastAPI app: config, db, models, schemas, api, services, worker
+backend/migrations  Alembic; 0001 creates all 16 tables
+frontend/app/       Next.js app router (login, dashboard, project flow)
+data/               sample ideas, knowledge seeds, eval fixtures, scraped corpus
+docs/               the five blueprint documents
+scripts/            ingestion and maintenance scripts
 ```
 
 ##   Design docs
@@ -52,3 +57,15 @@ scripts/           model pull and future ingestion scripts
 
 
 
+## Configuration
+
+All settings come from `.env` (git-ignored) via `backend/app/config.py`; `.env.example`
+lists every variable. `GROQ_API_KEY` is read from the environment only and is never
+logged, returned, or committed.
+
+## Design docs
+
+`docs/SRS.md`, `docs/architecture.md`, `docs/database_design.md`,
+`docs/implementation_plan.md`, `docs/AI_DESIGN.md`.
+
+Contribution rules are in `CONTRIBUTING.md`.

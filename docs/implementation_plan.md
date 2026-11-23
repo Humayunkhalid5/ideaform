@@ -63,13 +63,13 @@ Git workflow: `main` (stable) and `dev`; feature branches `feature/<name>`; pull
 - Finalise project name and scope with the instructor; submit the proposal.
 - Finalise the five blueprint documents.
 - Create the GitHub repo, branches, and folder structure.
-- Write `docker-compose.yml` (db with pgvector, redis, api, worker, web, ollama) and `.env.example`.
-- Install and benchmark local models (quantised 3B for extraction, 7–8B for evaluation); record tokens/second and RAM on the demo machine.
-- Get one `TAVILY_API_KEY` for live discovery; set a monthly spend cap and confirm no AI-provider key exists.
+- Write `docker-compose.yml` (db with pgvector, redis, api, worker, web) and `.env.example`.
+- Benchmark the Groq models (`openai/gpt-oss-20b` and `openai/gpt-oss-120b`): record latency and token cost for one classification, one extraction, and one evaluation.
+- Get one `GROQ_API_KEY` for the hosted LLM and one `TAVILY_API_KEY` for live discovery; set spending limits on both and keep both keys in `.env` only.
 - Survey scraping targets per category: robots.txt, terms, rate limits, static vs JS-rendered, and which platforms are legally usable.
 - Collect 10 sample ideas (3 business, 3 software, 3 technology, 1 vague) for testing.
 
-**Done when:** `docker compose up` starts all services (including the local model runtime) with only `TAVILY_API_KEY` configured, the API health endpoint returns OK, and one Tavily-discovered page round-trips into `research_sources` with licence metadata.
+**Done when:** `docker compose up` starts all services with `GROQ_API_KEY` and `TAVILY_API_KEY` in `.env`, the API health endpoint returns OK, and one Tavily-discovered page round-trips into `research_sources` with licence metadata.
 
 ---
 
@@ -81,7 +81,7 @@ Git workflow: `main` (stable) and `dev`; feature branches `feature/<name>`; pull
 | 1.2 | Auth: register, login, JWT, ownership checks | 1.1 | Backend |
 | 1.3 | Project CRUD and versions endpoints | 1.1, 1.2 | Backend |
 | 1.4 | Frontend: login, dashboard, "New Project" guided flow | 1.2 | Frontend |
-| 1.5 | Local LLM runtime client (Ollama + transformers fallback) with JSON-validated output (Pydantic) and one repair attempt | Phase 0 | AI |
+| 1.5 | Groq LLM client behind an `LLMProvider` interface, with JSON-validated output (Pydantic) and one repair attempt | Phase 0 | AI |
 | 1.6 | NLP: category classification and structured idea extraction | 1.5 | AI |
 | 1.7 | Requirement extraction and confirmation screen | 1.6, 1.4 | AI + Frontend |
 | 1.8 | Background job set-up (Celery) and run status endpoint | 1.1 | Backend |
@@ -107,7 +107,7 @@ Git workflow: `main` (stable) and `dev`; feature branches `feature/<name>`; pull
 | 2.8c | Tavily discovery client (caching, spend cap, fallback to cached results then seeds) plus query planning from the structured idea | 2.8 | AI |
 | 2.8d | Platform adapters (generic, Wikipedia, GitHub, docs sites, public forums/reviews) behind one interface | 2.8b | AI |
 | 2.8e | Scrape compliance tests: robots-blocked URLs never fetched; per-domain delay honoured | 2.8 | Backend |
-| 2.8f | Credential-free development: `.env` ship-check ensures no AI-provider key exists and Tavily is the only external secret | 2.8 | Backend |
+| 2.8f | Credential hygiene: `.env` ship-check ensures the Groq and Tavily keys stay environment-only, with no key in code, images or the browser | 2.8 | Backend |
 | 2.9 | Citation model: sources and dates attached to every passage | 2.8 | AI |
 | 2.10 | Research tab in UI: sources list with links | 2.9, 1.4 | Frontend |
 | 2.11 | Upload private documents into KB-C (optional) | 2.1 | Backend |
@@ -302,7 +302,7 @@ A task is done when:
 ## 11. Do Not Build Initially (reminder)
 
 - Autonomous coding and deployment
-- Any paid AI, search, or scraping API integration (local models and our own scraper only)
+- Any second AI provider integration (one provider interface, Groq) or third-party scraping API (our own scraper only)
 - Training your own LLM or separate models per agent
 - Crawling the entire internet
 - Promising accurate startup success predictions

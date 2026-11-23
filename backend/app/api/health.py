@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.db.session import get_db
+from app.services.llm import get_llm
 
 router = APIRouter(tags=["health"])
 settings = get_settings()
@@ -18,7 +19,7 @@ def health() -> dict[str, str]:
 
 @router.get("/health/ready")
 def readiness(db: Session = Depends(get_db)) -> dict[str, object]:
-    """Readiness: Postgres, Redis, and the local model runtime answer."""
+    """Readiness: Postgres, Redis, and the configured LLM provider answer."""
     checks: dict[str, object] = {}
 
     try:
@@ -34,14 +35,15 @@ def readiness(db: Session = Depends(get_db)) -> dict[str, object]:
         checks["redis"] = f"error: {exc}"
 
     try:
-        import httpx
-
-        resp = httpx.get(f"{settings.ollama_base_url}/api/tags", timeout=3)
-        checks["llm"] = "ok" if resp.status_code == 200 else f"error: {resp.status_code}"
+        provider = get_llm()
+        ok, detail = provider.health()
+        checks["llm"] = "ok" if ok else f"error: {detail}"
+        checks["llm_provider"] = provider.name
+        checks["llm_model_strong"] = provider.strong_model
     except Exception as exc:  # noqa: BLE001
         checks["llm"] = f"error: {exc}"
 
-    ok = all(v == "ok" for v in checks.values())
+    ok = all(checks.get(name) == "ok" for name in ("database", "redis", "llm"))
     if not ok:
         raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail=checks)
     return {"status": "ready", "checks": checks}

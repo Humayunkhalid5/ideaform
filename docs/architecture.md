@@ -80,8 +80,7 @@ flowchart LR
     API --> Redis[(Redis :6379)]
     Redis --> Worker[Celery worker container]
     Worker --> DB
-    Worker --> LLM[LLM runtime container - Ollama]
-    LLM --> Models[(Local model weights)]
+    Worker --> LLM[Groq LLM API - HTTPS]
     Worker --> Scraper[Scraper - httpx + Playwright]
     Worker --> Tavily[Tavily Search API - discovery]
     Scraper --> Web2[Public web pages, robots.txt checked]
@@ -95,22 +94,23 @@ flowchart LR
 | `worker` | Same as api | Celery tasks (research, agents, generation, export) |
 | `db` | `pgvector/pgvector:pg16` | PostgreSQL with vector extension |
 | `redis` | `redis:7` | Queue and cache |
-| `ollama` | `ollama/ollama` | Local model runtime (GPU optional); models pulled at setup, no API key |
 
-No container calls a paid API. The `worker` image bundles Chromium/Playwright for JS-rendered pages.
+The API and worker call the hosted Groq API over HTTPS with a key supplied by `.env`; the key never enters an image, the browser, or the repository. The `worker` image bundles Chromium/Playwright for JS-rendered pages.
 
 ### Configuration (environment variables)
 ```
 DATABASE_URL=postgresql+psycopg://user:pass@db:5432/ideaform
 REDIS_URL=redis://redis:6379/0
 
-# Local inference only - no provider keys anywhere
-LLM_BACKEND=ollama                    # ollama | transformers (in-process)
-OLLAMA_BASE_URL=http://ollama:11434
-LLM_MODEL_FAST=qwen2.5:3b-instruct    # extraction, drafts, query planning
-LLM_MODEL_STRONG=qwen2.5:7b-instruct  # evaluation, generation
+# LLM provider: hosted Groq API
+GROQ_API_KEY=...                      # .env only - never committed or logged
+GROQ_BASE_URL=https://api.groq.com/openai/v1
+LLM_MODEL_FAST=openai/gpt-oss-20b     # extraction, drafts, query planning
+LLM_MODEL_STRONG=openai/gpt-oss-120b  # evaluation, generation
 LLM_CONTEXT_WINDOW=8192
 LLM_REQUEST_TIMEOUT=180
+LLM_TEMPERATURE=0.2
+LLM_MAX_TOKENS=4096
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
 
@@ -152,7 +152,7 @@ backend/
       knowledge/             # ingestion, chunking, embeddings, hybrid search, rerank
       research/              # Tavily discovery client, crawl queue, source store, provenance
       scrapers/              # universal scraper, robots/rate-limit guard, platform adapters, text extraction
-      llm/                   # local runtime client (Ollama / transformers), prompt loader, JSON-validated calls
+      llm/                   # LLMProvider interface over the Groq API, JSON-validated calls
       evaluation/            # scoring, risk, improvement
       generation/            # PRD, diagrams, schema, API spec, roadmap
       export/                # markdown, pdf, zip
@@ -348,7 +348,7 @@ All endpoints except auth require a valid token and verify ownership of the proj
 | Six agents, not eight or ten | Less overlap, lower cost, simpler to explain and test |
 | NLP and RAG as shared services | Avoids duplicated logic; every agent uses the same retrieval |
 | Structured scoring instead of one success percentage | More honest and more useful |
-| Local LLM only (Ollama, in-process transformers fallback) | No paid APIs and no data leaving the machine; works offline; quality bounded by local hardware |
+| Hosted Groq behind one `LLMProvider` interface | Strong reasoning without owning GPU hardware; one place to change vendor, models, timeouts, and retries |
 | Tavily for URL discovery, own scraper for content | Discovery quality of a search API, full control over fetching, rate limits, and citation metadata; only one metered call path |
 | Celery workers for AI tasks | Long LLM runs must not block the API |
 | Docker for everything | Reproducible setup for the team and the demo |

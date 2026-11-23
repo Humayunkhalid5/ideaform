@@ -8,7 +8,7 @@ celery_app = Celery(
     "ideaform",
     broker=settings.redis_url,
     backend=settings.redis_url,
-    include=[],  # task modules get added in Phase 2
+    include=["app.worker.tasks"],
 )
 
 celery_app.conf.update(
@@ -18,6 +18,7 @@ celery_app.conf.update(
     task_time_limit=1800,
     task_soft_time_limit=1500,
     broker_connection_retry_on_startup=True,
+    task_default_queue="ideaform",
 )
 
 

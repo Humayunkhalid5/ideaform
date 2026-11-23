@@ -30,19 +30,6 @@ services:
       timeout: 3s
       retries: 20
 
-  ollama:
-    image: ollama/ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama:/root/.ollama
-    healthcheck:
-      test: ["CMD-SHELL", "ollama list > /dev/null 2>&1 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
-      start_period: 20s
-
   api:
     build:
       context: ./backend
@@ -51,7 +38,6 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-ideaform}:${POSTGRES_PASSWORD:-ideaform}@db:5432/${POSTGRES_DB:-ideaform}
       REDIS_URL: redis://redis:6379/0
-      OLLAMA_BASE_URL: http://ollama:11434
     ports:
       - "8000:8000"
     volumes:
@@ -71,7 +57,6 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-ideaform}:${POSTGRES_PASSWORD:-ideaform}@db:5432/${POSTGRES_DB:-ideaform}
       REDIS_URL: redis://redis:6379/0
-      OLLAMA_BASE_URL: http://ollama:11434
     volumes:
       - ./backend:/app
     command: celery -A app.worker.celery_app worker --loglevel=info --concurrency=2
@@ -100,4 +85,3 @@ services:
 volumes:
   pgdata:
   redisdata:
-  ollama:
