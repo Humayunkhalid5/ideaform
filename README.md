@@ -50,6 +50,13 @@ docs/               the five blueprint documents
 scripts/            ingestion and maintenance scripts
 ```
 
+##   Design docs
+
+`SRS.md`, `architecture.md`, `database_design.md`, `implementation_plan.md`, `AI_DESIGN.md`.
+
+
+
+
 ## Configuration
 
 All settings come from `.env` (git-ignored) via `backend/app/config.py`; `.env.example`

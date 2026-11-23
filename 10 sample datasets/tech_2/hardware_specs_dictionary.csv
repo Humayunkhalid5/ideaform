@@ -1,0 +1,30 @@
+field_name,spec_group,data_type,unit,description,benchmark_relevance
+slug,identity,string,slug identifier,"Unique, canonical lower-case hyphenated slug identifier for the humanoid robot (e.g., figure-03, tesla-optimus-gen-2, unitree-g1).",Primary key for dataset indexing and entity mapping.
+name,identity,string,text,Official commercial or research model name of the humanoid robot.,Model display and categorical labeling in charts.
+manufacturer,organization,string,text,"Corporate manufacturer or developer organization (e.g., Tesla, Figure AI, Unitree Robotics, Boston Dynamics, 1X Technologies).",Manufacturer-level grouping and competitive market share benchmarking.
+manufacturer_slug,organization,string,slug identifier,Normalized slug identifier for joining with manufacturers_summary table.,Foreign key link to manufacturers_summary table.
+design_country,organization,string,ISO-3166-1 alpha-2,"Country where the humanoid robot architecture and engineering was designed (US, CN, NO, CA, ES, JP).",Geopolitical and global robotics supply chain distribution.
+lifecycle_stage,commercial,string,categorical enum,"Current commercial readiness stage: MASS_PRODUCTION, GENERAL_AVAILABILITY, PREORDER, EARLY_ACCESS, PILOT_DEPLOYMENT, PROTOTYPE, R_AND_D.",Key classification target for technology maturity and time-to-market modeling.
+user_type,commercial,string,categorical enum,"Target end-user market tier: CONSUMER, COMMERCIAL, ENTERPRISE, RESEARCH.",Target market segmentation.
+locomotion_type,mobility,string,categorical enum,Locomotion architecture: BIPEDAL (legged walking) vs WHEELED_BASE (omni-directional wheeled torso hybrid).,Fundamental kinematic classification.
+primary_application,application,string,categorical enum,"Primary operational focus: INDUSTRIAL, LOGISTICS, HOUSEHOLD, HEALTHCARE, RESEARCH, GENERAL.",Application domain clustering.
+application_domains,application,string,semi-colon delimited list,Full list of secondary supported application domains and environment types.,Multi-label domain categorization.
+height_cm,body,float,centimeters (cm),Standing vertical height of the robot from sole to apex of the head.,Ergonomic comparison to human anthropometric 50th-percentile standards (~170 cm).
+mass_kg,body,float,kilograms (kg),Total operating curb weight including onboard battery packs and actuators.,"Crucial for inertia, energy consumption, and human-collaborative safety compliance."
+rated_payload_kg,load,float,kilograms (kg),Maximum sustained payload carrying and manipulation capacity in dual-arm or single-arm operation.,"Industrial utility metric: determining industrial task suitability (automotive parts, totes)."
+payload_to_weight_ratio,load,float,ratio (unitless),Ratio of rated payload capacity to total robot mass (rated_payload_kg / mass_kg).,Structural engineering efficiency score. Higher indicates advanced lightweight high-torque actuation.
+robot_bmi,body,float,kg/m²,Body Mass Index equivalent: mass_kg / ((height_cm/100)^2).,Structural density comparison against biological human BMI distributions.
+joint_count_total,joints,integer,degrees of freedom (DoF),"Total active motorized articulating joints throughout torso, neck, arms, legs, and waist.",Kinematic complexity and motion flexibility.
+hand_joint_count,hands,integer,degrees of freedom (DoF),Combined degrees of freedom across both dexterous robotic end-effectors / hands.,Direct indicator of fine motor manipulation vs simple parallel pinch gripping.
+battery_runtime_min,power,float,minutes,Standard operating runtime on a full battery charge under typical dynamic walking/manipulation load.,"Shift compatibility (e.g., target 240–480 mins for industrial work shifts)."
+walking_speed_mps,mobility,float,meters per second (m/s),Nominal continuous bipedal walking speed on level ground (1.4 m/s is average human walking speed).,Logistics throughput and cycle-time modeling.
+max_speed_mps,mobility,float,meters per second (m/s),Maximum sprint or peak dynamic displacement velocity under active balance control.,Dynamic stability envelope.
+estimated_range_km,mobility,float,kilometers (km),Theoretical single-charge operating traverse range calculated as walking_speed_mps * (battery_runtime_min * 60) / 1000.,Autonomous spatial mobility range.
+price_usd_onetime,commercial,float,USD ($),"Published MSRP, commercial pilot price, or consensus manufacturer estimate in USD.",Economic ROI and cost-parity calculation against human labor ($/hour amortized).
+price_status,commercial,string,categorical enum,"Pricing basis: LIST (official MSRP), REPORTED (verified client quote), COMMERCIAL_PILOT, or ESTIMATED.",Confidence weighting for financial modeling.
+autonomy_claim,autonomy,string,categorical enum,"Autonomous intelligence level: AUTONOMOUS (end-to-end vision-language-action policy), COLLABORATIVE, TELEOPERATED, HYBRID.",AI stack capability grading.
+key_components,compute_actuation,string,semi-colon delimited list,"Disclosed primary hardware modules: onboard compute (Jetson Thor, FSD), vision sensors (RGBD, LiDAR), and actuators (FSA, harmonic drive).",Supply chain component graph.
+has_tactile_sensing,perception,boolean,True / False,Flag indicating whether fingertips or palm are equipped with tactile pressure/haptic sensing arrays for closed-loop grasping.,Advanced dexterous manipulation capability.
+best_for,application,string,text,"Documented optimal industrial, medical, household, or research use-cases.",Task matching and qualitative NLP analysis.
+limitations,application,string,text,"Known technical constraints: thermal dissipation limits, uneven terrain stability, battery swap requirements.",Risk assessment and future R&D benchmarking.
+tagline,overview,string,text,Official product slogan or technical one-line summary.,Semantic summary.
