@@ -1,0 +1,28 @@
+manufacturer_slug,company_name,hq_country,hq_city,founded_year,employee_count,total_funding_usd,models_in_catalog,website_url
+1x-technologies,1X Technologies,NO,"Palo Alto, California",2014.0,200.0,100000000.0,1,https://www.1x.tech
+agibot,AgiBot,CN,Shanghai,2023.0,,,2,https://www.agibot.com
+agility-robotics,Agility Robotics,US,Salem,2015.0,500.0,,1,https://www.agilityrobotics.com
+astribot,Astribot,CN,Shenzhen,2022.0,,140000000.0,1,https://astribot.com
+booster-robotics,Booster Robotics,CN,Unknown,2023.0,,150000000.0,2,https://www.booster.tech
+casbot,CASBOT,CN,Beijing,,,,2,https://www.casbot.tech
+dobot-robotics,DOBOT Robotics,CN,Shenzhen,2015.0,500.0,,1,https://www.dobot-robots.com
+dexforce,DexForce,CN,深圳,2021.0,,,1,https://www.dexforce.com
+figure-ai,Figure AI,US,"Sunnyvale, CA",2022.0,,1000000000.0,2,https://www.figure.ai
+galbot,Galbot,CN,Beijing,2023.0,,800000000.0,2,https://www.galbot.com
+skl-robotics,SKL Robotics,GB,London,2024.0,200.0,,1,https://thehumanoid.ai
+weave-robotics,Weave Robotics,US,San Francisco,2024.0,,,1,https://www.weaverobotics.com
+limx-dynamics,LimX Dynamics,CN,Shenzhen,2022.0,,400000000.0,2,https://www.limxdynamics.com
+muks-robotics,Muks Robotics,IN,Pune,2023.0,,,1,https://muksrobotics.com
+pudu-robotics,Pudu Robotics,CN,Shenzhen,2016.0,,342000000.0,2,https://www.pudurobotics.com
+psibot,PsiBot,CN,Beijing,2024.0,,,1,https://www.psibot.ai
+rainbow-robotics,Rainbow Robotics,KR,Sejong-si,2011.0,200.0,299000000.0,1,https://rainbow-robotics.com
+fauna-robotics,Fauna Robotics,US,New York City,2024.0,,,1,https://faunarobotics.com
+workfar,WorkFar,US,Unknown,,,,1,https://www.workfar.com
+pal-robotics,PAL Robotics,ES,Barcelona,,,,1,https://pal-robotics.com
+tokyo-robotics,Tokyo Robotics,JP,Tokyo,2015.0,,,1,https://www.robotics.tokyo
+unitree-robotics,Unitree Robotics,CN,Hangzhou,2016.0,1000.0,200000000.0,4,https://www.unitree.com
+tesla,Tesla,US,"Austin, Texas",2003.0,140000.0,20000000000.0,1,https://www.tesla.com/AI
+boston-dynamics,Boston Dynamics (Hyundai),US,"Waltham, Massachusetts",1992.0,900.0,1100000000.0,1,https://bostondynamics.com/atlas
+apptronik,Apptronik,US,"Austin, Texas",2016.0,120.0,28000000.0,1,https://apptronik.com
+sanctuary-ai,Sanctuary AI,CA,"Vancouver, British Columbia",2018.0,110.0,140000000.0,1,https://sanctuary.ai
+fourier-intelligence,Fourier Intelligence,CN,Shanghai,2015.0,450.0,95000000.0,1,https://www.fftai.com
