@@ -13,12 +13,12 @@
 
 | Component | Technique | Tool / model |
 | --- | --- | --- |
-| Idea classification | Zero-shot / few-shot local LLM classification, optional embedding similarity | Local LLM (Ollama), Sentence Transformers |
-| Information extraction | Local LLM structured extraction + spaCy entities/noun chunks | spaCy, local LLM |
+| Idea classification | Zero-shot / few-shot LLM classification, optional embedding similarity | Groq `openai/gpt-oss-20b`, Sentence Transformers |
+| Information extraction | LLM structured extraction + spaCy entities/noun chunks | Groq `openai/gpt-oss-20b`, spaCy |
 | Embeddings | Sentence embeddings | `all-MiniLM-L6-v2` (384 dim) or similar, run on CPU |
 | Retrieval | Hybrid search: vector + keyword + metadata + reranking | pgvector, PostgreSQL FTS |
 | Reranking | Cross-encoder or LLM-based reranker | `cross-encoder/ms-marco-MiniLM-L-6-v2` (local, or LLM rerank) |
-| Reasoning and generation | Local instruct model with retrieved context | Ollama or in-process transformers (quantised 3B–8B) |
+| Reasoning and generation | Instruct model with retrieved context | Groq `openai/gpt-oss-120b` |
 | Live URL discovery | Search API for candidate sources | Tavily (the only paid API; discovery only) |
 | Web data acquisition | Self-hosted crawler + scraper + text extractor | httpx, Playwright, trafilatura/readability |
 | Orchestration | Graph-based agent workflow | LangGraph |
@@ -133,7 +133,7 @@ flowchart LR
 
 | Stage | Implementation |
 | --- | --- |
-| Query planning | Fast local model turns the `StructuredIdea` into 4–8 queries: competitors, alternatives, market size, pricing, regulation, trends |
+| Query planning | Fast-tier model turns the `StructuredIdea` into 4–8 queries: competitors, alternatives, market size, pricing, regulation, trends |
 | URL discovery | Tavily (`search_depth=basic`, 10 results/query, cached 7 days) for live research; curated seed domains, sitemaps, RSS feeds, and user-supplied URLs for the knowledge bases. Do **not** scrape search-engine result pages (against their terms). If Tavily fails or is out of quota, fall back to cached results, then seeds |
 | Permission guard | Fetch and cache `robots.txt` per domain, honour `Crawl-delay`, check terms allowlisting, skip auth-walled or paywalled pages |
 | Fetch | Async httpx, per-domain token bucket, 2 s default delay, size and content-type caps, 3 retries with backoff, identifying User-Agent with contact URL |
@@ -315,7 +315,7 @@ Rules:
 | **Technical Architect Agent** | Stack, database, APIs, architecture | Requirements, design | Retrieval (KB-B) | Stack choice with reasons, architecture, schema, API spec | Strong |
 | **Documentation Agent** | PRD, technical docs, roadmap, exports | All outputs | Templates | PRD, roadmap, final documents | Fast/Strong |
 
-"Model tier" means the local model setting (`LLM_MODEL_FAST` / `LLM_MODEL_STRONG`), not a hosted provider. Every agent sends its prompt plus evidence to the local runtime over HTTP (`LLM_BACKEND=ollama`) or in-process (`LLM_BACKEND=transformers`).
+"Model tier" means `LLM_MODEL_FAST` (`openai/gpt-oss-20b`) or `LLM_MODEL_STRONG` (`openai/gpt-oss-120b`). Every agent sends its prompt plus evidence through the `LLMProvider` interface, which calls the Groq chat-completions API over HTTPS. Agents never hold a key; only the provider module reads `GROQ_API_KEY` from the environment.
 
 ### 6.3 Research Agent procedure
 1. Generate 4 to 8 search queries (competitors, alternatives, market size, trends, regulations, pricing).
@@ -479,7 +479,7 @@ Record failure cases (wrong category, missed competitors, bad citations, invalid
 
 | Component | Name | Use | Licence / source |
 | --- | --- | --- | --- |
-| LLM | Local instruct model (e.g. Qwen2.5-7B-Instruct via Ollama) | Reasoning and generation | Model licence (e.g. Apache-2.0) |
+| LLM | OpenAI GPT-OSS models served by the Groq API (`openai/gpt-oss-20b`, `openai/gpt-oss-120b`) | Reasoning and generation | Apache-2.0 (model); Groq terms of service |
 | Embeddings | sentence-transformers all-MiniLM-L6-v2 | Semantic search | Apache-2.0 |
 | NLP | spaCy [model name] | Entities and noun chunks | MIT / model licence |
 | Orchestration | LangGraph | Agent workflow | MIT |

@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import health
+from app.api import auth, health, projects, runs
 from app.config import get_settings
 
 settings = get_settings()
@@ -12,8 +12,8 @@ logging.basicConfig(level=settings.log_level)
 
 app = FastAPI(
     title="Ideaform API",
-    version="0.1.0",
-    description="AI idea analysis platform: local models, self-hosted scraper, Tavily discovery.",
+    version="0.2.0",
+    description="AI idea analysis platform: provider-agnostic LLM, self-hosted scraper, Tavily discovery.",
 )
 
 app.add_middleware(
@@ -25,6 +25,9 @@ app.add_middleware(
 )
 
 app.include_router(health.router)
+app.include_router(auth.router)
+app.include_router(projects.router)
+app.include_router(runs.router)
 
 
 @app.get("/")

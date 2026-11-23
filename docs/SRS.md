@@ -36,7 +36,7 @@ Ideaform **will not** (first release):
 - predict the probability of startup success;
 - produce Figma-quality editable designs;
 - run complex financial simulations;
-- call any third-party **AI** API: all reasoning runs on local models. The single external service is Tavily, used only to discover URLs for live research; page content is fetched by our own scraper.
+- call any AI service other than the Groq API (the configured LLM provider). Tavily is the only search service, used only to discover URLs for live research; page content is fetched by our own scraper.
 
 ### 1.4 Definitions
 | Term | Meaning |
@@ -75,7 +75,7 @@ A web application with a Next.js frontend, a FastAPI backend, PostgreSQL + pgvec
 ### 2.3 Operating environment
 - Browser: latest Chrome, Edge, Firefox, Safari.
 - Server: Docker containers (Linux); developed on Windows/macOS/Linux with Docker Desktop.
-- External services: Tavily (URL discovery only, key required); a local model runtime (Ollama, or in-process transformers); public web pages reached by the scraper; free public data endpoints for the knowledge bases (SEC EDGAR, GLEIF, World Bank, Wikidata, Hacker News).
+- External services: the Groq LLM API (key required); Tavily (URL discovery only, key required); public web pages reached by the scraper; free public data endpoints for the knowledge bases (SEC EDGAR, GLEIF, World Bank, Wikidata, Hacker News).
 
 ### 2.4 Constraints
 - Lab time and team size limit the scope to Phases 1 to 4 (plus orchestration and export if time allows).
@@ -87,7 +87,7 @@ A web application with a Next.js frontend, a FastAPI backend, PostgreSQL + pgvec
 
 ### 2.5 Assumptions and dependencies
 - Users have a stable internet connection for scraping (a pre-scraped corpus is kept as backup for offline demos).
-- The local model runs within the demo machine's memory budget (cached sample runs are kept as backup).
+- Model calls stay within the per-run token budget; cached sample runs are kept as backup for demos without network.
 - A Tavily API key with enough quota for demos is available, and cached discovery results cover quota exhaustion.
 - Users provide ideas in English (first version).
 
@@ -135,7 +135,7 @@ Priority: **M** = Must (lab core), **S** = Should, **C** = Could (future).
 | FR-RES-7 | The system shall keep private project knowledge isolated from public knowledge and from other users. | M |
 | FR-RES-8 | The system shall respect robots.txt, site terms, and per-domain rate limits before every fetch, and shall record the permission decision. | M |
 | FR-RES-9 | The system shall record for every fetched page its URL, HTTP status, robots decision, fetch timestamp, and content hash. | M |
-| FR-RES-10 | The system shall run all reasoning on local models: no third-party AI API shall be called at run time, and Tavily shall be used only for URL discovery. | M |
+| FR-RES-10 | The system shall reach models only through one `LLMProvider` interface backed by the Groq API: fast-tier models for classification and extraction, strong-tier models for evaluation and generation. Tavily shall be used only for URL discovery. | M |
 | FR-RES-11 | The system shall build the shared knowledge bases from the curated source catalogue (SEC EDGAR, GLEIF, World Bank, OECD/Eurostat, Wikipedia/Wikidata, Hacker News, open case studies, Kaggle/Hugging Face datasets, government reports), recording each source's licence and attribution. | M |
 | FR-RES-12 | The system shall keep working when Tavily is unavailable or out of quota, falling back to cached discovery results and curated seed URLs. | S |
 
@@ -202,7 +202,7 @@ Idea comparison, what-if simulator, MVP scope generator, project knowledge chat,
 | NFR-7 | Usability | A new user shall be able to create a project and get a first report within 5 minutes using the guided workflow. |
 | NFR-8 | Maintainability | Modular engines, typed code (TypeScript, Python type hints), linting, README, and documented configuration. |
 | NFR-9 | Portability | The whole system shall start with one command (`docker compose up`). |
-| NFR-10 | Cost control | The system shall run AI inference at zero provider cost (local models, quantised settings, caching) and shall cap Tavily spending with per-user daily limits and a per-run search budget. |
+| NFR-10 | Cost control | The system shall bound model spending with fast/strong tiering, per-run token limits, and per-user daily limits, and shall cap Tavily spending with a per-run search budget. |
 | NFR-11 | Compliance | External sources are cited, not copied; licences of datasets and libraries are acknowledged. |
 | NFR-12 | Scalability (design) | The design shall allow replacing the LLM provider, search provider, or any engine without rewriting the others. |
 
@@ -242,7 +242,7 @@ Idea comparison, what-if simulator, MVP scope generator, project knowledge chat,
 ### 6.2 External interfaces
 | Interface | Purpose |
 | --- | --- |
-| Local LLM runtime (Ollama or in-process transformers) | Reasoning and generation, no network calls |
+| Groq LLM API | Reasoning and generation: classification, extraction, evaluation, blueprints |
 | Tavily Search API | URL discovery for live web research (the only paid API) |
 | Self-hosted scraper (httpx + Playwright) | Page fetching and passage extraction for discovered and curated URLs |
 | robots.txt and site terms | Crawl-permission decision before every fetch |
@@ -260,7 +260,7 @@ The lab prototype is accepted when:
 5. A PRD, architecture diagram, schema, API spec, and roadmap are generated and any one can be regenerated alone.
 6. At least Markdown and PDF export work.
 7. The system starts with `docker compose up` and passes the test plan in `AI_DESIGN.md` section 10.
-8. The system completes a full analysis with **no AI-provider key configured** — only `TAVILY_API_KEY` — using the local model, Tavily discovery, and the self-hosted scraper.
+8. The system completes a full analysis with the configured Groq LLM provider and `TAVILY_API_KEY` as the only search credential; page content comes from the self-hosted scraper. Both keys are read from `.env` only.
 
 ---
 
