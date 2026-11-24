@@ -50,6 +50,12 @@ docs/               the five blueprint documents
 scripts/            ingestion and maintenance scripts
 ```
 
+## Configuration
+
+All settings come from `.env` (git-ignored) via `backend/app/config.py`; `.env.example`
+lists every variable. `GROQ_API_KEY` is read from the environment only and is never
+logged, returned, or committed.
+
 ##   Design docs
 
 `SRS.md`, `architecture.md`, `database_design.md`, `implementation_plan.md`, `AI_DESIGN.md`.

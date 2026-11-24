@@ -25,3 +25,6 @@ data/uploads/
 .DS_Store
 Thumbs.db
 .tmp/
+
+# local agent config (may contain API keys)
+.agents/

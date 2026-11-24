@@ -1,3 +1,4 @@
+
 name: ideaform
 
 services:
@@ -18,7 +19,8 @@ services:
       retries: 20
 
   redis:
-    image: redis:7-alpine
+    image: redis:7
+    container_name: ideaform-redis
     command: ["redis-server", "--appendonly", "yes"]
     ports:
       - "6379:6379"
