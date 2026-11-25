@@ -4,14 +4,19 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    # repo-root .env first, then backend/.env (later files win)
+    model_config = SettingsConfigDict(env_file=("../.env", ".env"), extra="ignore")
 
     # core
+    environment: str = "development"  # development | test | production
     database_url: str = "postgresql+psycopg://ideaform:ideaform@db:5432/ideaform"
     redis_url: str = "redis://redis:6379/0"
     jwt_secret: str = "change-me-in-production"
     jwt_access_token_minutes: int = 60
     log_level: str = "INFO"
+    # true: run extraction jobs inside the API request instead of Celery
+    # (handy on Windows without Redis/a worker; the compose stack leaves it false)
+    jobs_inline: bool = False
 
     # llm provider: hosted Groq API
     groq_api_key: str | None = None
@@ -44,6 +49,29 @@ class Settings(BaseSettings):
 
     # limits
     daily_token_limit_per_user: int = 200_000
+    auth_rate_limit_attempts: int = 10  # per client IP per window, login and register
+    auth_rate_limit_window_seconds: int = 60
+
+
+INSECURE_JWT_SECRETS = {"", "change-me-in-production", "changeme", "secret"}
+MIN_JWT_SECRET_LENGTH = 32
+
+
+def check_jwt_secret(settings: Settings) -> None:
+    """Refuse to start with a placeholder or short JWT secret.
+
+    Only ``ENVIRONMENT=test`` is exempt, so the test suite can use a fixed key.
+    """
+    if settings.environment == "test":
+        return
+    secret = settings.jwt_secret or ""
+    if secret in INSECURE_JWT_SECRETS or len(secret) < MIN_JWT_SECRET_LENGTH:
+        raise RuntimeError(
+            "JWT_SECRET is missing, a placeholder, or shorter than "
+            f"{MIN_JWT_SECRET_LENGTH} characters. Generate one with "
+            '`python -c "import secrets; print(secrets.token_urlsafe(48))"` '
+            "and put it in .env."
+        )
 
 
 @lru_cache

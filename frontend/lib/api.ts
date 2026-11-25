@@ -4,6 +4,8 @@ import type {
   Requirement,
   Run,
   User,
+  VersionDetail,
+  VersionSummary,
 } from "./types";
 
 export const API_URL =
@@ -117,5 +119,22 @@ export const api = {
       method: "PATCH",
       body: JSON.stringify({ requirements }),
     }),
+  regenerateRequirements: (id: string) =>
+    request<{ run_id: string; status: string }>(`/projects/${id}/requirements/regenerate`, {
+      method: "POST",
+    }),
+  versions: (id: string) => request<VersionSummary[]>(`/projects/${id}/versions`),
+  version: (id: string, versionNo: number) =>
+    request<VersionDetail>(`/projects/${id}/versions/${versionNo}`),
+  createVersion: (
+    id: string,
+    payload: { idea_text: string; change_summary?: string; copy_requirements?: boolean },
+  ) =>
+    request<ProjectDetail>(`/projects/${id}/versions`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  restoreVersion: (id: string, versionNo: number) =>
+    request<ProjectDetail>(`/projects/${id}/versions/${versionNo}/restore`, { method: "POST" }),
   run: (id: string) => request<Run>(`/runs/${id}`),
 };

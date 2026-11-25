@@ -78,3 +78,28 @@ class ProjectOut(BaseModel):
 class ProjectDetail(ProjectOut):
     version: VersionOut | None = None
     requirements: list[RequirementOut] = Field(default_factory=list)
+
+
+class VersionCreate(BaseModel):
+    idea_text: str = Field(min_length=20, max_length=20_000)
+    change_summary: str | None = Field(default=None, max_length=1_000)
+    # carry the current version's requirements over (unconfirmed) instead of starting empty
+    copy_requirements: bool = False
+
+
+class VersionSummary(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    version_no: int
+    change_summary: str | None = None
+    parent_version_id: uuid.UUID | None = None
+    has_structure: bool = False
+    is_current: bool = False
+    created_at: datetime
+
+
+class VersionDetail(VersionOut):
+    parent_version_id: uuid.UUID | None = None
+    is_current: bool = False
+    requirements: list[RequirementOut] = Field(default_factory=list)

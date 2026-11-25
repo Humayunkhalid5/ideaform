@@ -1,15 +1,18 @@
-fastapi>=0.115,<0.116
-uvicorn[standard]>=0.32,<0.33
-pydantic>=2.9,<3
+# Tested on Python 3.11 (Docker image) and 3.14 (local Windows).
+fastapi>=0.115,<1
+uvicorn[standard]>=0.32,<1
+pydantic>=2.12,<3
 pydantic-settings>=2.6,<3
 email-validator>=2.2,<3
-sqlalchemy>=2.0,<2.1
+sqlalchemy>=2.0.40,<2.2
 psycopg[binary]>=3.2,<4
 alembic>=1.14,<2
-redis>=5.2,<6
+redis>=5.2,<9
 celery>=5.4,<6
 httpx>=0.27,<0.29
 python-jose[cryptography]>=3.3,<4
 passlib[bcrypt]>=1.7,<2
+# passlib reads bcrypt.__about__, which bcrypt 4.1+ removed
+bcrypt==4.0.1
 python-multipart>=0.0.12
-pytest>=8.3,<9
+pytest>=8.3,<10

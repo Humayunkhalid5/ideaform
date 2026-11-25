@@ -51,6 +51,22 @@ export interface ProjectVersion {
   created_at: string;
 }
 
+export interface VersionSummary {
+  id: string;
+  version_no: number;
+  change_summary: string | null;
+  parent_version_id: string | null;
+  has_structure: boolean;
+  is_current: boolean;
+  created_at: string;
+}
+
+export interface VersionDetail extends ProjectVersion {
+  parent_version_id: string | null;
+  is_current: boolean;
+  requirements: Requirement[];
+}
+
 export interface ProjectDetail extends Project {
   version: ProjectVersion | null;
   requirements: Requirement[];

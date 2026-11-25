@@ -28,11 +28,15 @@ def readiness(db: Session = Depends(get_db)) -> dict[str, object]:
     except Exception as exc:  # noqa: BLE001 - surfaced to the caller
         checks["database"] = f"error: {exc}"
 
-    try:
-        Redis.from_url(settings.redis_url, socket_timeout=2).ping()
+    if settings.jobs_inline:
         checks["redis"] = "ok"
-    except Exception as exc:  # noqa: BLE001
-        checks["redis"] = f"error: {exc}"
+        checks["jobs"] = "inline (JOBS_INLINE=true, Redis not required)"
+    else:
+        try:
+            Redis.from_url(settings.redis_url, socket_timeout=2).ping()
+            checks["redis"] = "ok"
+        except Exception as exc:  # noqa: BLE001
+            checks["redis"] = f"error: {exc}"
 
     try:
         provider = get_llm()
