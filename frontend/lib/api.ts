@@ -4,6 +4,12 @@ import type {
   Requirement,
   Run,
   User,
+  KnowledgeStats,
+  RunWithOutput,
+  ScrapeJob,
+  SearchResult,
+  Source,
+  SourceDetail,
   VersionDetail,
   VersionSummary,
 } from "./types";
@@ -53,8 +59,10 @@ function detailMessage(body: unknown, status: number): string {
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const token = getToken();
+  const isForm = typeof FormData !== "undefined" && init.body instanceof FormData;
   const headers: Record<string, string> = {
-    "Content-Type": "application/json",
+    // the browser sets the multipart boundary itself for FormData bodies
+    ...(isForm ? {} : { "Content-Type": "application/json" }),
     ...((init.headers as Record<string, string> | undefined) ?? {}),
   };
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -137,4 +145,36 @@ export const api = {
   restoreVersion: (id: string, versionNo: number) =>
     request<ProjectDetail>(`/projects/${id}/versions/${versionNo}/restore`, { method: "POST" }),
   run: (id: string) => request<Run>(`/runs/${id}`),
+  projectRuns: (id: string, agentName?: string) =>
+    request<RunWithOutput[]>(
+      `/runs/project/${id}${agentName ? `?agent_name=${encodeURIComponent(agentName)}` : ""}`,
+    ),
+  research: (id: string, payload: { queries?: string[]; urls?: string[] } = {}) =>
+    request<{ run_id: string; status: string }>(`/projects/${id}/research`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  sources: (id: string) => request<Source[]>(`/projects/${id}/sources`),
+  source: (id: string, sourceId: string) =>
+    request<SourceDetail>(`/projects/${id}/sources/${sourceId}`),
+  deleteSource: (id: string, sourceId: string) =>
+    request<void>(`/projects/${id}/sources/${sourceId}`, { method: "DELETE" }),
+  uploadDocument: (id: string, file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    return request<{ status: "created" | "duplicate"; source: Source }>(
+      `/projects/${id}/documents`,
+      { method: "POST", body: form },
+    );
+  },
+  search: (
+    id: string,
+    payload: { query: string; mode?: "hybrid" | "vector" | "keyword"; kbs?: string[]; k?: number },
+  ) =>
+    request<SearchResult>(`/projects/${id}/search`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  crawl: (id: string) => request<ScrapeJob[]>(`/projects/${id}/crawl?limit=1`),
+  knowledgeStats: () => request<KnowledgeStats>("/knowledge/stats"),
 };

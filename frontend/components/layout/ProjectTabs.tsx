@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const LOCKED = [
-  "Research",
   "Evaluation",
   "Blueprint",
   "Versions",
@@ -21,6 +20,7 @@ export function ProjectTabs({ projectId }: { projectId: string }) {
   const tabs = [
     { href: base, label: "Overview", exact: true },
     { href: `${base}/understand`, label: "Understanding", exact: false },
+    { href: `${base}/research`, label: "Research", exact: false },
   ];
 
   return (

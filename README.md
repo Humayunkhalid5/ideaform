@@ -67,7 +67,19 @@ Before Phase 2 retrieval, build it with `scripts/install_pgvector_windows.ps1` (
 | GET/POST | `/projects/{id}/versions` | List versions / add a new idea version (becomes current) |
 | GET | `/projects/{id}/versions/{n}` | One version with its structure and requirements |
 | POST | `/projects/{id}/versions/{n}/restore` | Make an earlier version current again |
-| GET | `/runs/{id}` | Background run status, model and token use |
+| GET | `/runs/{id}`, `/runs/project/{id}` | Run status, model, token use and output (one run / a project's runs) |
+
+### Phase 2: research and knowledge
+
+| Method | Path | What it does |
+| --- | --- | --- |
+| POST | `/projects/{id}/research` | Research Agent: plan 4-8 queries, Tavily discovery, crawl permitted pages into the project's KB-C. Optional body `{"queries": [...], "urls": [...]}` |
+| GET | `/projects/{id}/sources` | Project sources (research pages and uploads) with dates, licence and a passage preview |
+| GET/DELETE | `/projects/{id}/sources/{sid}` | One source with all its passages / remove it |
+| POST | `/projects/{id}/documents` | Upload PDF, DOCX, TXT or MD (max 10 MB) into KB-C |
+| POST | `/projects/{id}/search` | Hybrid retrieval (semantic + keyword, RRF, filters, rerank) over KB-A/B and this project's KB-C; `mode` = hybrid, vector or keyword |
+| GET | `/projects/{id}/crawl` | Crawl provenance: every URL with robots decision, HTTP status, hash |
+| GET | `/knowledge/stats` | Size of KB-A/B (and your KB-C), embedding column type, Tavily credits used today |
 
 `understand` and `regenerate` return 429 once the user's `daily_token_limit` (tokens
 used by their runs since 00:00 UTC) is spent.
@@ -88,6 +100,19 @@ The LLM is faked in tests, so no Groq key is used.
 `/health/ready` returns 503 unless Postgres, Redis (skipped when `JOBS_INLINE=true`)
 and the configured LLM provider all answer. It checks wiring, not model quality.
 
+## Knowledge base (Phase 2)
+
+```powershell
+backend\.venv\Scripts\python scripts\seed_kb\collect.py         # Wikipedia, World Bank, arXiv, HN, GitHub, docs, GLEIF, EDGAR
+backend\.venv\Scripts\python scripts\seed_kb\add_documents.py   # rag/ notes, data/knowledge_seed/documents/, the 10 datasets
+backend\.venv\Scripts\python scripts\seed_kb\ingest.py          # clean, dedupe, chunk 300/40, embed, store (idempotent)
+backend\.venv\Scripts\python scripts\eval_retrieval.py           # keyword vs vector vs hybrid on 40 labelled queries
+```
+
+Wikipedia and SEC EDGAR need a contact in the crawler User-Agent: set `SCRAPER_CONTACT`
+and `SEC_CONTACT_EMAIL` in `.env`. Models download from Hugging Face on first use
+(`HF_HOME` picks the cache folder). Design notes and results: `docs/phase2_intelligence.md`.
+
 ## Scripts and data
 
 | Script | Purpose |
@@ -99,6 +124,10 @@ and the configured LLM provider all answer. It checks wiring, not model quality.
 | `scripts/enable_pgvector.py` | Convert the embeddings fallback column to `vector(384)` |
 | `scripts/install_pgvector_windows.ps1` | Build pgvector from the official source for local Windows PostgreSQL |
 | `scripts/backup_db.ps1` | `pg_dump` the database into `backups/` |
+| `scripts/seed_kb/*.py` | Collect and ingest the shared knowledge bases (see above) |
+| `scripts/eval_retrieval.py` | Retrieval comparison on `data/eval/retrieval_queries.json` |
+| `scripts/research_sample_ideas.py` | Phase 2 gate: research all 10 sample ideas and check passages and links |
+| `scripts/blackbox_api_test.py` | HTTP-only test of every endpoint against a running API (uses Groq and Tavily) |
 
 Run the Python scripts from the repo root with `backend/.venv/Scripts/python`.
 
@@ -107,7 +136,8 @@ Run the Python scripts from the repo root with `backend/.venv/Scripts/python`.
 ```
 backend/app/        FastAPI app: config, db, models, schemas, api, services, worker
 backend/migrations  Alembic; 0001 creates all 16 tables
-backend/tests/      pytest suite (auth, ownership, projects, versions, quota, pipeline)
+backend/tests/      pytest suite (auth, ownership, projects, versions, quota, pipeline,
+                    ingestion, retrieval, isolation, scraper compliance, Tavily, secrets)
 frontend/app/       Next.js app router (login, dashboard, project flow)
 data/               sample ideas, dataset catalogue, eval labels, scraped corpus (ignored)
 docs/               the five blueprint documents

@@ -15,6 +15,7 @@ from app.models.project import (
 )
 from app.models.research import Embedding, ResearchChunk, ResearchSource
 from app.models.scrape import CrawlPage, ScrapeJob
+from app.models.search import SearchCache, SearchUsage
 from app.models.user import User
 
 __all__ = [
@@ -33,5 +34,7 @@ __all__ = [
     "ResearchChunk",
     "ResearchSource",
     "ScrapeJob",
+    "SearchCache",
+    "SearchUsage",
     "User",
 ]

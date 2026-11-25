@@ -34,6 +34,15 @@ EXTRA_DDL = (
 )
 
 
+# Tables owned by this revision. Later revisions add their own tables, so the
+# metadata-driven create_all below must not pick those up.
+INITIAL_TABLES = {
+    "users", "projects", "project_versions", "project_requirements", "project_feedback",
+    "research_sources", "research_chunks", "embeddings", "evaluations",
+    "evaluation_dimensions", "evaluation_evidence", "competitors", "agent_runs",
+    "project_artifacts", "scrape_jobs", "crawl_pages",
+}
+
 HNSW_INDEX = (
     "CREATE INDEX IF NOT EXISTS idx_embeddings_hnsw "
     "ON embeddings USING hnsw (embedding vector_cosine_ops)"
@@ -67,11 +76,12 @@ def upgrade() -> None:
     has_vector = _vector_available(bind)
 
     op.execute("CREATE EXTENSION IF NOT EXISTS pgcrypto")
+    tables = [t for name, t in Base.metadata.tables.items() if name in INITIAL_TABLES]
     if has_vector:
         op.execute("CREATE EXTENSION IF NOT EXISTS vector")
-        Base.metadata.create_all(bind=bind)
+        Base.metadata.create_all(bind=bind, tables=tables)
     else:
-        tables = [t for name, t in Base.metadata.tables.items() if name != "embeddings"]
+        tables = [t for t in tables if t.name != "embeddings"]
         Base.metadata.create_all(bind=bind, tables=tables)
         op.execute(EMBEDDINGS_FALLBACK_DDL)
 
@@ -85,4 +95,5 @@ def downgrade() -> None:
     from app.db.base import Base
     import app.models  # noqa: F401
 
-    Base.metadata.drop_all(bind=op.get_bind())
+    tables = [t for name, t in Base.metadata.tables.items() if name in INITIAL_TABLES]
+    Base.metadata.drop_all(bind=op.get_bind(), tables=tables)

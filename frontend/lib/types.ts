@@ -93,3 +93,103 @@ export interface Run {
   started_at: string | null;
   finished_at: string | null;
 }
+
+export type KnowledgeBase = "A" | "B" | "C";
+
+export interface Source {
+  id: string;
+  kb: KnowledgeBase;
+  title: string | null;
+  url: string | null;
+  publisher: string | null;
+  source_type: string | null;
+  published_at: string | null;
+  retrieved_at: string;
+  licence_note: string | null;
+  attribution: string | null;
+  restricted: boolean;
+  adapter: string | null;
+  category: string | null;
+  chunk_count: number;
+  preview: string | null;
+}
+
+export interface Passage {
+  chunk_id: string;
+  source_id: string;
+  kb: KnowledgeBase;
+  chunk_index: number;
+  content: string;
+  title: string | null;
+  url: string | null;
+  publisher: string | null;
+  source_type: string | null;
+  published_at: string | null;
+  retrieved_at: string | null;
+  licence_note: string | null;
+  score: number;
+  ranks: Record<string, number | boolean>;
+}
+
+export interface SourceDetail extends Source {
+  passages: Passage[];
+}
+
+export interface SearchResult {
+  query: string;
+  mode: "hybrid" | "vector" | "keyword";
+  passages: Passage[];
+  evidence_block: string;
+}
+
+export interface CrawlPage {
+  id: string;
+  url: string;
+  final_url: string | null;
+  domain: string;
+  http_status: number | null;
+  robots_allowed: boolean;
+  skip_reason: string | null;
+  fetch_ms: number | null;
+  discovery_source: string | null;
+  source_id: string | null;
+  error_message: string | null;
+  fetched_at: string;
+}
+
+export interface ScrapeJob {
+  id: string;
+  run_id: string | null;
+  status: string;
+  pages_requested: number | null;
+  pages_fetched: number | null;
+  pages_skipped_robots: number | null;
+  pages_rejected: number | null;
+  started_at: string | null;
+  finished_at: string | null;
+  pages: CrawlPage[];
+}
+
+export interface ResearchSummary {
+  queries: { query: string; intent: string; hits: number; origin: string }[];
+  pages_requested: number;
+  pages_fetched: number;
+  pages_stored: number;
+  pages_skipped_robots: number;
+  pages_rejected: number;
+  sources: number;
+  unanswered_questions: string[];
+  seconds: number;
+}
+
+export interface RunWithOutput extends Run {
+  output: ResearchSummary | Record<string, unknown> | null;
+}
+
+export interface KnowledgeStats {
+  kb: Record<KnowledgeBase, number>;
+  chunks: Record<KnowledgeBase, number>;
+  embedding_column: string;
+  tavily_credits_today: number;
+  tavily_daily_cap: number;
+}

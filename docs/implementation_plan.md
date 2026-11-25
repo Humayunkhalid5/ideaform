@@ -111,8 +111,13 @@ Git workflow: `main` (stable) and `dev`; feature branches `feature/<name>`; pull
 | 2.9 | Citation model: sources and dates attached to every passage | 2.8 | AI |
 | 2.10 | Research tab in UI: sources list with links | 2.9, 1.4 | Frontend |
 | 2.11 | Upload private documents into KB-C (optional) | 2.1 | Backend |
+| 2.12 | Knowledge seeding scripts `scripts/seed_kb/collect.py`, `add_documents.py`, `ingest.py` (about 150-300 documents: Wikipedia, World Bank, arXiv, Hacker News, GitHub, docs sites, architecture guides, GLEIF/EDGAR, team notes, sample datasets) | 2.3, 2.3b | AI |
+| 2.13 | Research Agent v1: 4-8 planned queries, Tavily discovery, permitted pages stored as KB-C with citations; endpoints `POST /projects/{id}/research`, `GET /projects/{id}/sources`, `POST /projects/{id}/documents`, `POST /projects/{id}/search` | 2.8c, 2.9 | AI + Backend |
+| 2.14 | Labelled retrieval set (40 queries) and comparison script (keyword / vector / hybrid / hybrid + rerank) | 2.6 | AI |
 
-**Done when:** for a sample idea, the system retrieves relevant passages with sources, and hybrid search beats vector-only on the labelled query set.
+*Phase 2 brief alignment (Week 4):* chunking is fixed at about 300 words with 40 words overlap; arXiv is added to the KB-B seed sources; content is fetched with trafilatura (no Firecrawl, since a second paid scraping API is out of scope). Full comparison: `docs/phase2_intelligence.md`.
+
+**Done when:** for each sample idea the system returns relevant passages with working source links, and hybrid search beats vector-only on the labelled query set.
 
 **Milestone M1 (end of Week 5): first end-to-end vertical slice** (idea, extraction, research, retrieval shown in UI).
 

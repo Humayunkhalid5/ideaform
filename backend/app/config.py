@@ -37,14 +37,42 @@ class Settings(BaseSettings):
     tavily_results_per_run: int = 40
     tavily_search_depth: str = "basic"
     tavily_cache_ttl_hours: int = 168
+    tavily_daily_credit_cap: int = 200  # hard stop on paid calls per UTC day
+    tavily_base_url: str = "https://api.tavily.com"
+
+    # knowledge engine (Phase 2)
+    embedding_backend: str = "sentence-transformers"  # sentence-transformers | hashing (tests)
+    hf_home: str | None = None  # where Hugging Face models are cached (default ~/.cache)
+    reranker_enabled: bool = True
+    chunk_words: int = 300
+    chunk_overlap_words: int = 40
+    retrieval_semantic_k: int = 30
+    retrieval_keyword_k: int = 30
+    retrieval_rerank_k: int = 20
+    retrieval_final_k: int = 8
+    retrieval_max_per_source: int = 3
+    research_min_queries: int = 4
+    research_max_queries: int = 8
+    research_max_seconds: int = 600
+    max_upload_bytes: int = 10_000_000
+    sec_contact_email: str | None = None  # SEC EDGAR requires a real contact in the User-Agent
 
     # scraper
-    scraper_user_agent: str = "IdeaformBot/1.0 (+mailto:you@example.com)"
+    scraper_user_agent: str = "IdeaformBot/1.0 (educational research crawler; respects robots.txt)"
     scraper_respect_robots: bool = True
     scraper_min_delay_seconds: float = 2.0
     scraper_max_pages_per_run: int = 40
     scraper_max_bytes_per_page: int = 2_000_000
-    scraper_playwright_enabled: bool = True
+    scraper_playwright_enabled: bool = True  # used only when playwright is installed
+    scraper_min_words: int = 120
+    # contact (email or URL) appended to the User-Agent; Wikimedia and SEC require one
+    scraper_contact: str | None = None
+
+    @property
+    def crawler_user_agent(self) -> str:
+        if self.scraper_contact and self.scraper_contact not in self.scraper_user_agent:
+            return f"{self.scraper_user_agent} contact: {self.scraper_contact}"
+        return self.scraper_user_agent
     scraper_timeout_seconds: int = 20
 
     # limits

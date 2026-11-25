@@ -1,0 +1,30 @@
+{
+  "_comment": "Curated fallback URLs used when Tavily is unavailable, out of quota or over the daily cap (FR-RES-12). Each is fetched through the normal robots/rate-limit guard.",
+  "business": [
+    {"url": "https://en.wikipedia.org/wiki/Business_model", "title": "Business model"},
+    {"url": "https://en.wikipedia.org/wiki/Market_analysis", "title": "Market analysis"},
+    {"url": "https://en.wikipedia.org/wiki/Competitive_analysis_(online_marketing)", "title": "Competitive analysis"},
+    {"url": "https://en.wikipedia.org/wiki/Subscription_business_model", "title": "Subscription business model"},
+    {"url": "https://en.wikipedia.org/wiki/Two-sided_market", "title": "Two-sided market"},
+    {"url": "https://en.wikipedia.org/wiki/Pricing_strategies", "title": "Pricing strategies"}
+  ],
+  "software": [
+    {"url": "https://en.wikipedia.org/wiki/Software_as_a_service", "title": "Software as a service"},
+    {"url": "https://en.wikipedia.org/wiki/Mobile_app", "title": "Mobile app"},
+    {"url": "https://en.wikipedia.org/wiki/Web_application", "title": "Web application"},
+    {"url": "https://en.wikipedia.org/wiki/Freemium", "title": "Freemium"},
+    {"url": "https://12factor.net/", "title": "The Twelve-Factor App"}
+  ],
+  "technology": [
+    {"url": "https://en.wikipedia.org/wiki/Internet_of_things", "title": "Internet of things"},
+    {"url": "https://en.wikipedia.org/wiki/Edge_computing", "title": "Edge computing"},
+    {"url": "https://en.wikipedia.org/wiki/Computer_vision", "title": "Computer vision"},
+    {"url": "https://en.wikipedia.org/wiki/Speech_recognition", "title": "Speech recognition"},
+    {"url": "https://en.wikipedia.org/wiki/LoRa", "title": "LoRa"}
+  ],
+  "general": [
+    {"url": "https://en.wikipedia.org/wiki/Startup_company", "title": "Startup company"},
+    {"url": "https://en.wikipedia.org/wiki/Minimum_viable_product", "title": "Minimum viable product"},
+    {"url": "https://en.wikipedia.org/wiki/Product-market_fit", "title": "Product-market fit"}
+  ]
+}

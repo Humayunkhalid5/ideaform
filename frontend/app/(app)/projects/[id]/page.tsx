@@ -26,8 +26,8 @@ import { HELP_LEVEL_LABEL, readStructured, REQUIREMENT_GROUPS } from "@/lib/idea
 import type { ProjectDetail } from "@/lib/types";
 
 const NEXT_PHASES = [
-  { phase: "Phase 2", title: "Evaluation", body: "Six scored dimensions with evidence and confidence." },
-  { phase: "Phase 3", title: "Research", body: "Competitors and market sources you can open and check." },
+  { phase: "Phase 2", title: "Research", body: "Market and technical sources you can open and check (live now)." },
+  { phase: "Phase 3", title: "Evaluation", body: "Six scored dimensions with evidence and confidence." },
   { phase: "Phase 4", title: "Blueprint", body: "PRD, architecture, schema, UI/UX and a roadmap." },
 ];
 
