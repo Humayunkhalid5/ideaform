@@ -10,6 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user
+from app.config import get_settings
 from app.db.session import get_db
 from app.models.agent import AgentRun
 from app.models.project import Project, ProjectRequirement, ProjectVersion
@@ -24,6 +25,7 @@ from app.schemas.project import (
     VersionOut,
 )
 from app.services.llm.base import LLMError
+from app.services.quota import ensure_within_quota
 
 logger = logging.getLogger(__name__)
 
@@ -156,9 +158,7 @@ def update_requirements(
     project: Project = Depends(get_owned_project),
     db: Session = Depends(get_db),
 ) -> list[ProjectRequirement]:
-    version = current_version(db, project)
-    if version is None:
-        raise HTTPException(status.HTTP_409_CONFLICT, "Project has no idea version yet.")
+    version = _version_or_409(db, project)
 
     rows = {row.id: row for row in _requirements(db, version)}
     missing = [patch.id for patch in payload.requirements if patch.id not in rows]
@@ -182,19 +182,18 @@ def update_requirements(
     return _requirements(db, version)
 
 
-@router.post("/{project_id}/understand", status_code=status.HTTP_202_ACCEPTED)
-def understand_project(
-    project: Project = Depends(get_owned_project), db: Session = Depends(get_db)
+def _dispatch(
+    db: Session,
+    project: Project,
+    version: ProjectVersion,
+    agent_name: str,
+    task_name: str,
 ) -> dict[str, str]:
-    """Queue category classification + structured extraction for the current version."""
-    version = current_version(db, project)
-    if version is None:
-        raise HTTPException(status.HTTP_409_CONFLICT, "Project has no idea version yet.")
-
+    """Create an ``agent_runs`` row and queue it on Celery, or run it inline."""
     run = AgentRun(
         project_id=project.id,
         version_id=version.id,
-        agent_name="understanding",
+        agent_name=agent_name,
         status="queued",
         input_ref={"version_id": str(version.id)},
     )
@@ -203,21 +202,54 @@ def understand_project(
     db.commit()
     db.refresh(run)
 
+    if not get_settings().jobs_inline:
+        try:
+            from app.worker import tasks
+
+            getattr(tasks, task_name).delay(str(project.id), str(run.id))
+            return {"run_id": str(run.id), "status": "queued"}
+        except Exception:  # broker unavailable: run here so the endpoint still works
+            logger.warning("celery unavailable, running %s inline for %s", agent_name, project.id)
+
+    from app.services.nlp import pipeline
+
+    runner = {
+        "understand_idea": pipeline.run_understanding,
+        "regenerate_requirements": pipeline.run_requirements,
+    }[task_name]
     try:
-        from app.worker.tasks import understand_idea
-
-        understand_idea.delay(str(project.id), str(run.id))
-        return {"run_id": str(run.id), "status": "queued"}
-    except Exception:  # broker unavailable: run here so the endpoint still works
-        logger.warning("celery unavailable, running extraction inline for %s", project.id)
-
-    try:
-        from app.services.nlp.pipeline import run_understanding
-
-        run_understanding(db, project.id, run.id)
+        runner(db, project.id, run.id)
     except LLMError as exc:
-        raise HTTPException(
-            status.HTTP_502_BAD_GATEWAY, f"Extraction failed: {exc}"
-        ) from exc
-
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, f"Extraction failed: {exc}") from exc
     return {"run_id": str(run.id), "status": "succeeded"}
+
+
+def _version_or_409(db: Session, project: Project) -> ProjectVersion:
+    version = current_version(db, project)
+    if version is None:
+        raise HTTPException(status.HTTP_409_CONFLICT, "Project has no idea version yet.")
+    return version
+
+
+@router.post("/{project_id}/understand", status_code=status.HTTP_202_ACCEPTED)
+def understand_project(
+    project: Project = Depends(get_owned_project),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> dict[str, str]:
+    """Queue category classification + structured extraction for the current version."""
+    version = _version_or_409(db, project)
+    ensure_within_quota(db, current_user)
+    return _dispatch(db, project, version, "understanding", "understand_idea")
+
+
+@router.post("/{project_id}/requirements/regenerate", status_code=status.HTTP_202_ACCEPTED)
+def regenerate_requirements(
+    project: Project = Depends(get_owned_project),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> dict[str, str]:
+    """Re-extract requirements for the current version, keeping user-edited or confirmed rows."""
+    version = _version_or_409(db, project)
+    ensure_within_quota(db, current_user)
+    return _dispatch(db, project, version, "requirements", "regenerate_requirements")

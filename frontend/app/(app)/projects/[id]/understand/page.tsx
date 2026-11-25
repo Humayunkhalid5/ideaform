@@ -33,6 +33,7 @@ export default function UnderstandPage() {
   const [savingId, setSavingId] = useState<string | null>(null);
   const [bulkBusy, setBulkBusy] = useState(false);
   const [rerunning, setRerunning] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
 
   const load = useCallback(async () => {
     setError(null);
@@ -117,6 +118,25 @@ export default function UnderstandPage() {
       setRerunning(false);
     }
   }
+
+  async function regenerate() {
+    setRegenerating(true);
+    setError(null);
+    try {
+      const run = await api.regenerateRequirements(id);
+      if (run.status === "queued") {
+        router.push(`/projects/${id}/run?run=${run.run_id}`);
+        return;
+      }
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not regenerate requirements.");
+    } finally {
+      setRegenerating(false);
+    }
+  }
+
+  const busy = rerunning || regenerating;
 
   if (!project) {
     return error ? <ErrorNotice message={error} onRetry={load} /> : <PageSkeleton cards={2} />;
@@ -314,11 +334,25 @@ export default function UnderstandPage() {
               {confirmed} of {requirements.length} requirements confirmed
             </p>
             <p className="text-[11px] text-muted">
-              Re-running extraction replaces this version’s structure and requirements.
+              Regenerating keeps confirmed and edited requirements; re-running replaces everything.
             </p>
           </div>
         </div>
-        <Button onClick={rerun} disabled={rerunning} size="md">
+        <div className="flex flex-wrap items-center gap-2">
+        <Button
+          variant="secondary"
+          onClick={regenerate}
+          disabled={busy || requirements.length === 0}
+          size="md"
+        >
+          {regenerating ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Wand2 className="size-4" />
+          )}
+          {regenerating ? "Regenerating…" : "Regenerate requirements"}
+        </Button>
+        <Button onClick={rerun} disabled={busy} size="md">
           {rerunning ? (
             <>
               <Loader2 className="size-4 animate-spin" /> Reading your idea…
@@ -329,6 +363,7 @@ export default function UnderstandPage() {
             </>
           )}
         </Button>
+        </div>
       </div>
     </div>
   );

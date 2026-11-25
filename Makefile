@@ -1,4 +1,4 @@
-.PHONY: up down logs migrate revision test health
+.PHONY: up down logs migrate revision test test-local health
 
 up:
 	docker compose up -d --build
@@ -21,3 +21,6 @@ test:
 health:
 	curl -fsS http://localhost:8000/health
 	curl -fsS http://localhost:8000/health/ready
+
+test-local:
+	cd backend && .venv/Scripts/python -m pytest
