@@ -15,7 +15,12 @@ import os
 os.environ["ENVIRONMENT"] = "test"
 os.environ["JOBS_INLINE"] = "true"
 os.environ["JWT_SECRET"] = "test-secret-not-for-production"
-os.environ.setdefault("GROQ_API_KEY", "")
+os.environ["GROQ_API_KEY"] = ""  # never call the real LLM from tests
+os.environ["TAVILY_API_KEY"] = ""  # never call the real search API from tests
+os.environ["EMBEDDING_BACKEND"] = "hashing"  # no model download in tests
+os.environ["RERANKER_ENABLED"] = "false"
+os.environ["SCRAPER_MIN_DELAY_SECONDS"] = "0"
+os.environ["SCRAPER_PLAYWRIGHT_ENABLED"] = "false"
 
 from tests.dotenv_values import load_test_database_url  # noqa: E402
 

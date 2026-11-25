@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth, health, projects, runs, versions
+from app.api import auth, health, projects, research, runs, versions
 from app.config import check_jwt_secret, get_settings
 
 settings = get_settings()
@@ -32,6 +32,7 @@ app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(versions.router)
+app.include_router(research.router)
 app.include_router(runs.router)
 
 

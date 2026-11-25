@@ -188,14 +188,16 @@ def _dispatch(
     version: ProjectVersion,
     agent_name: str,
     task_name: str,
+    options: dict | None = None,
 ) -> dict[str, str]:
     """Create an ``agent_runs`` row and queue it on Celery, or run it inline."""
+    options = options or {}
     run = AgentRun(
         project_id=project.id,
         version_id=version.id,
         agent_name=agent_name,
         status="queued",
-        input_ref={"version_id": str(version.id)},
+        input_ref={"version_id": str(version.id), **options},
     )
     db.add(run)
     project.status = "analysing"
@@ -206,21 +208,28 @@ def _dispatch(
         try:
             from app.worker import tasks
 
-            getattr(tasks, task_name).delay(str(project.id), str(run.id))
+            getattr(tasks, task_name).delay(str(project.id), str(run.id), **options)
             return {"run_id": str(run.id), "status": "queued"}
         except Exception:  # broker unavailable: run here so the endpoint still works
             logger.warning("celery unavailable, running %s inline for %s", agent_name, project.id)
 
     from app.services.nlp import pipeline
+    from app.services.research.agent import run_research
 
     runner = {
         "understand_idea": pipeline.run_understanding,
         "regenerate_requirements": pipeline.run_requirements,
+        "research_project": run_research,
     }[task_name]
     try:
-        runner(db, project.id, run.id)
+        runner(db, project.id, run.id, **options)
     except LLMError as exc:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, f"Extraction failed: {exc}") from exc
+    except Exception as exc:  # noqa: BLE001 - run row already records the failure
+        logger.exception("%s failed for %s", agent_name, project.id)
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, f"{agent_name.capitalize()} failed: {exc}"
+        ) from exc
     return {"run_id": str(run.id), "status": "succeeded"}
 
 

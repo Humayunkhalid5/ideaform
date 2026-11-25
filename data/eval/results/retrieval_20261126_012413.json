@@ -1,0 +1,1124 @@
+{
+  "meta": {
+    "queries": 40,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "semantic_k": 30,
+    "keyword_k": 30,
+    "max_per_source": 3
+  },
+  "summary": {
+    "keyword": {
+      "p@5": 0.315,
+      "r@10": 0.688,
+      "mrr": 0.629,
+      "ndcg@10": 0.462
+    },
+    "vector": {
+      "p@5": 0.5,
+      "r@10": 0.941,
+      "mrr": 0.919,
+      "ndcg@10": 0.726
+    },
+    "hybrid": {
+      "p@5": 0.46,
+      "r@10": 0.913,
+      "mrr": 0.948,
+      "ndcg@10": 0.695
+    },
+    "hybrid+rerank": {
+      "p@5": 0.495,
+      "r@10": 0.925,
+      "mrr": 0.963,
+      "ndcg@10": 0.72
+    }
+  },
+  "ms_per_query": {
+    "keyword": 28.73910999915097,
+    "vector": 742.6406500002486,
+    "hybrid": 162.17922250070842,
+    "hybrid+rerank": 2773.379677499179
+  },
+  "per_query": {
+    "q01": {
+      "query": "how should a web API sign in users with expiring bearer tokens",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg@10": 0.5008655546918773
+      },
+      "vector": {
+        "p@5": 1.0,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9292442392789195
+      },
+      "hybrid": {
+        "p@5": 0.8,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8280156310666192
+      },
+      "hybrid+rerank": {
+        "p@5": 0.8,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8307234529095261
+      }
+    },
+    "q02": {
+      "query": "OAuth2 password flow JWT hashing FastAPI",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q03": {
+      "query": "PostgreSQL full text search tsvector tsquery",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.6978817289434457
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.7328286204777911
+      }
+    },
+    "q04": {
+      "query": "matching documents to a natural language question inside the database without a separate search engine",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.644824486427155
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.5616927747727312
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.644824486427155
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.644824486427155
+      }
+    },
+    "q05": {
+      "query": "store configuration in environment variables not in code",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.6049306994552042
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7653606369886217
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7039180890341347
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7653606369886217
+      }
+    },
+    "q06": {
+      "query": "letting a browser page call an API on another domain",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8529278650606567
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9469024295259745
+      }
+    },
+    "q07": {
+      "query": "Cache-Control max-age ETag revalidation",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q08": {
+      "query": "split one big application into independently deployable services",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 0.25,
+        "mrr": 1.0,
+        "ndcg@10": 0.4697557950008693
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 0.5,
+        "mrr": 0.25,
+        "ndcg@10": 0.4673791184803734
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 0.375,
+        "mrr": 1.0,
+        "ndcg@10": 0.6464018466408363
+      },
+      "hybrid+rerank": {
+        "p@5": 1.0,
+        "r@10": 0.375,
+        "mrr": 1.0,
+        "ndcg@10": 0.7151857987862356
+      }
+    },
+    "q09": {
+      "query": "each microservice keeps its own private database",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9325210919548239
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9674679834891693
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9325210919548239
+      }
+    },
+    "q10": {
+      "query": "single entry point that routes client requests to backend services",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.6364391809889587
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9010126104210695
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8070380459557518
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8451850618939637
+      }
+    },
+    "q11": {
+      "query": "separate the read model from the write model",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9674679834891693
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q12": {
+      "query": "handle transient failures by trying the request again with backoff",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@10": 0.5642221110316635
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q13": {
+      "query": "REST resource naming, versioning and pagination guidelines",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q14": {
+      "query": "run work after returning the HTTP response",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 0.5,
+        "mrr": 0.5,
+        "ndcg@10": 0.1909208661789347
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@10": 0.15130120674940675
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.3026024134988135
+      }
+    },
+    "q15": {
+      "query": "distributed task queue with workers and a message broker",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.2960819109658652
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.2960819109658652
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q16": {
+      "query": "restrict which rows a database user can see",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.6797310500037655
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9060254355346823
+      }
+    },
+    "q17": {
+      "query": "vector similarity search inside Postgres with HNSW",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q18": {
+      "query": "open source speech recognition model trained on large weakly supervised audio",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 0.25,
+        "ndcg@10": 0.38364913903790027
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9674679834891693
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q19": {
+      "query": "real-time object detection model for counting people in camera feeds",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.3026024134988135
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7183750273402226
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.675319789382049
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.6967728672917265
+      }
+    },
+    "q20": {
+      "query": "LoRaWAN network server for IoT sensors",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7039180890341347
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9325210919548239
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9674679834891693
+      }
+    },
+    "q21": {
+      "query": "booking appointments and calendar scheduling open source",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7988614740430418
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7653606369886217
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8854598815714874
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.6978817289434457
+      }
+    },
+    "q22": {
+      "query": "electronic medical records and practice management for clinics",
+      "keyword": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.6105858728157117
+      },
+      "vector": {
+        "p@5": 1.0,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8922108454754891
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8411523906828934
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8201749498438573
+      }
+    },
+    "q23": {
+      "query": "track how much time I spend in each application automatically",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.2,
+        "ndcg@10": 0.18154179253735267
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8385465274895063
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8529278650606567
+      }
+    },
+    "q24": {
+      "query": "browser add-on that can block websites",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7653606369886217
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.6364391809889587
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7039180890341347
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7653606369886217
+      }
+    },
+    "q25": {
+      "query": "how should I price my SaaS product per seat or by usage",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.2857142857142857,
+        "mrr": 0.1111111111111111,
+        "ndcg@10": 0.12987501165334076
+      },
+      "vector": {
+        "p@5": 1.0,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.933745776545611
+      },
+      "hybrid": {
+        "p@5": 0.8,
+        "r@10": 0.8571428571428571,
+        "mrr": 1.0,
+        "ndcg@10": 0.7065836017263628
+      },
+      "hybrid+rerank": {
+        "p@5": 1.0,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.8006937664098819
+      }
+    },
+    "q26": {
+      "query": "what to do after getting the first paying customer",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg@10": 0.3833427799846345
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 0.6666666666666666,
+        "mrr": 0.25,
+        "ndcg@10": 0.1849535222114937
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg@10": 0.3833427799846345
+      }
+    },
+    "q27": {
+      "query": "predicting whether a startup will succeed with machine learning",
+      "keyword": {
+        "p@5": 0.8,
+        "r@10": 0.8,
+        "mrr": 1.0,
+        "ndcg@10": 0.5637884576902256
+      },
+      "vector": {
+        "p@5": 0.8,
+        "r@10": 0.8,
+        "mrr": 1.0,
+        "ndcg@10": 0.5637884576902256
+      },
+      "hybrid": {
+        "p@5": 0.8,
+        "r@10": 0.8,
+        "mrr": 1.0,
+        "ndcg@10": 0.5637884576902256
+      },
+      "hybrid+rerank": {
+        "p@5": 0.8,
+        "r@10": 0.8,
+        "mrr": 1.0,
+        "ndcg@10": 0.5637884576902256
+      }
+    },
+    "q28": {
+      "query": "two-sided marketplace economics and matching buyers with sellers",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@10": 0.3024762969187364
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.36704861348969203
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.5008655546918773
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.3404538694014282
+      }
+    },
+    "q29": {
+      "query": "share of people using the internet in Pakistan",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q30": {
+      "query": "mobile phone subscriptions per 100 people",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q31": {
+      "query": "how many young people are unemployed",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@10": 0.23463936301137822
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q32": {
+      "query": "funding amounts for Indian startups by industry and city",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@10": 0.23463936301137822
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q33": {
+      "query": "student discounts on software subscriptions",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.2960819109658652
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q34": {
+      "query": "how to validate an idea before building it",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.5,
+        "mrr": 0.1,
+        "ndcg@10": 0.08747171410140821
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.7456919575934261
+      },
+      "hybrid": {
+        "p@5": 0.6,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.6105858728157117
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 0.5,
+        "mrr": 1.0,
+        "ndcg@10": 0.6238470455881189
+      }
+    },
+    "q35": {
+      "query": "compare competitors on pricing, target customers and differentiation",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q36": {
+      "query": "functional versus non-functional requirements",
+      "keyword": {
+        "p@5": 0.0,
+        "r@10": 0.0,
+        "mrr": 0.0,
+        "ndcg@10": 0.0
+      },
+      "vector": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.9217868789962071
+      },
+      "hybrid+rerank": {
+        "p@5": 0.6,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 1.0
+      }
+    },
+    "q37": {
+      "query": "risks that make startups fail",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg@10": 0.3525683241217281
+      },
+      "vector": {
+        "p@5": 0.8,
+        "r@10": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg@10": 0.6701421017823512
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 0.3333333333333333,
+        "mrr": 1.0,
+        "ndcg@10": 0.3833427799846345
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg@10": 0.42332408484280876
+      }
+    },
+    "q38": {
+      "query": "legal entity identifier record for Airbnb",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q39": {
+      "query": "evaluate a retrieval augmented generation pipeline automatically",
+      "keyword": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 0.5,
+        "ndcg@10": 0.2960819109658652
+      },
+      "vector": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      },
+      "hybrid+rerank": {
+        "p@5": 0.2,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.46927872602275644
+      }
+    },
+    "q40": {
+      "query": "combining BM25 lexical ranking with dense retrieval",
+      "keyword": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.4935232796777482
+      },
+      "vector": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.4935232796777482
+      },
+      "hybrid": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.4935232796777482
+      },
+      "hybrid+rerank": {
+        "p@5": 0.4,
+        "r@10": 1.0,
+        "mrr": 1.0,
+        "ndcg@10": 0.4935232796777482
+      }
+    }
+  }
+}

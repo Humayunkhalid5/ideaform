@@ -1,0 +1,346 @@
+{
+  "_about": "Labelled retrieval set (AI_DESIGN 10.1). Each query lists the sources judged relevant by the team, matched by URL substring. Paraphrased queries test semantic recall; jargon queries test keyword recall. Used by scripts/eval_retrieval.py. Wikipedia articles were added to the relevant sets after the Wikipedia seed was loaded (2026-11-26).",
+  "queries": [
+    {
+      "id": "q01",
+      "query": "how should a web API sign in users with expiring bearer tokens",
+      "relevant": [
+        "fastapi.tiangolo.com/tutorial/security/oauth2-jwt",
+        "developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Authentication",
+        "nextjs.org/docs/app/guides/authentication",
+        "en.wikipedia.org/wiki/JSON_Web_Token",
+        "en.wikipedia.org/wiki/OAuth"
+      ]
+    },
+    {
+      "id": "q02",
+      "query": "OAuth2 password flow JWT hashing FastAPI",
+      "relevant": [
+        "fastapi.tiangolo.com/tutorial/security/oauth2-jwt",
+        "en.wikipedia.org/wiki/JSON_Web_Token",
+        "en.wikipedia.org/wiki/OAuth"
+      ]
+    },
+    {
+      "id": "q03",
+      "query": "PostgreSQL full text search tsvector tsquery",
+      "relevant": [
+        "postgresql.org/docs/current/textsearch-intro"
+      ]
+    },
+    {
+      "id": "q04",
+      "query": "matching documents to a natural language question inside the database without a separate search engine",
+      "relevant": [
+        "postgresql.org/docs/current/textsearch-intro",
+        "postgresql.org/docs/current/indexes-types"
+      ]
+    },
+    {
+      "id": "q05",
+      "query": "store configuration in environment variables not in code",
+      "relevant": [
+        "12factor.net/config",
+        "en.wikipedia.org/wiki/Twelve-Factor_App_methodology"
+      ]
+    },
+    {
+      "id": "q06",
+      "query": "letting a browser page call an API on another domain",
+      "relevant": [
+        "developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS"
+      ]
+    },
+    {
+      "id": "q07",
+      "query": "Cache-Control max-age ETag revalidation",
+      "relevant": [
+        "developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"
+      ]
+    },
+    {
+      "id": "q08",
+      "query": "split one big application into independently deployable services",
+      "relevant": [
+        "microservices.io/patterns/microservices",
+        "microservices.io/patterns/monolithic",
+        "arxiv.org/abs/2201.07226",
+        "arxiv.org/abs/1908.04101",
+        "arxiv.org/abs/2204.02342",
+        "arxiv.org/abs/1810.10855",
+        "learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles",
+        "rag/05_software_architecture_choices",
+        "en.wikipedia.org/wiki/Microservices",
+        "en.wikipedia.org/wiki/Service-oriented_architecture"
+      ]
+    },
+    {
+      "id": "q09",
+      "query": "each microservice keeps its own private database",
+      "relevant": [
+        "microservices.io/patterns/data/database-per-service"
+      ]
+    },
+    {
+      "id": "q10",
+      "query": "single entry point that routes client requests to backend services",
+      "relevant": [
+        "microservices.io/patterns/apigateway"
+      ]
+    },
+    {
+      "id": "q11",
+      "query": "separate the read model from the write model",
+      "relevant": [
+        "learn.microsoft.com/en-us/azure/architecture/patterns/cqrs"
+      ]
+    },
+    {
+      "id": "q12",
+      "query": "handle transient failures by trying the request again with backoff",
+      "relevant": [
+        "learn.microsoft.com/en-us/azure/architecture/patterns/retry"
+      ]
+    },
+    {
+      "id": "q13",
+      "query": "REST resource naming, versioning and pagination guidelines",
+      "relevant": [
+        "learn.microsoft.com/en-us/azure/architecture/best-practices/api-design",
+        "en.wikipedia.org/wiki/REST"
+      ]
+    },
+    {
+      "id": "q14",
+      "query": "run work after returning the HTTP response",
+      "relevant": [
+        "fastapi.tiangolo.com/tutorial/background-tasks",
+        "docs.celeryq.dev"
+      ]
+    },
+    {
+      "id": "q15",
+      "query": "distributed task queue with workers and a message broker",
+      "relevant": [
+        "docs.celeryq.dev"
+      ]
+    },
+    {
+      "id": "q16",
+      "query": "restrict which rows a database user can see",
+      "relevant": [
+        "postgresql.org/docs/current/ddl-rowsecurity",
+        "en.wikipedia.org/wiki/Role-based_access_control"
+      ]
+    },
+    {
+      "id": "q17",
+      "query": "vector similarity search inside Postgres with HNSW",
+      "relevant": [
+        "github.com/pgvector/pgvector"
+      ]
+    },
+    {
+      "id": "q18",
+      "query": "open source speech recognition model trained on large weakly supervised audio",
+      "relevant": [
+        "github.com/openai/whisper",
+        "en.wikipedia.org/wiki/Speech_recognition"
+      ]
+    },
+    {
+      "id": "q19",
+      "query": "real-time object detection model for counting people in camera feeds",
+      "relevant": [
+        "github.com/ultralytics/ultralytics",
+        "arxiv.org/abs/2205.13020",
+        "en.wikipedia.org/wiki/Object_detection",
+        "en.wikipedia.org/wiki/People_counter"
+      ]
+    },
+    {
+      "id": "q20",
+      "query": "LoRaWAN network server for IoT sensors",
+      "relevant": [
+        "github.com/TheThingsNetwork/lorawan-stack",
+        "en.wikipedia.org/wiki/LoRa"
+      ]
+    },
+    {
+      "id": "q21",
+      "query": "booking appointments and calendar scheduling open source",
+      "relevant": [
+        "github.com/calcom",
+        "en.wikipedia.org/wiki/Appointment_scheduling_software"
+      ]
+    },
+    {
+      "id": "q22",
+      "query": "electronic medical records and practice management for clinics",
+      "relevant": [
+        "github.com/openemr/openemr",
+        "news.ycombinator.com/item?id=43280836",
+        "en.wikipedia.org/wiki/Electronic_health_record"
+      ]
+    },
+    {
+      "id": "q23",
+      "query": "track how much time I spend in each application automatically",
+      "relevant": [
+        "github.com/ActivityWatch/activitywatch",
+        "en.wikipedia.org/wiki/Time_tracking_software"
+      ]
+    },
+    {
+      "id": "q24",
+      "query": "browser add-on that can block websites",
+      "relevant": [
+        "developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions",
+        "en.wikipedia.org/wiki/Browser_extension"
+      ]
+    },
+    {
+      "id": "q25",
+      "query": "how should I price my SaaS product per seat or by usage",
+      "relevant": [
+        "news.ycombinator.com/item?id=6826450",
+        "news.ycombinator.com/item?id=41512111",
+        "news.ycombinator.com/item?id=7008763",
+        "news.ycombinator.com/item?id=2064827",
+        "news.ycombinator.com/item?id=24672395",
+        "news.ycombinator.com/item?id=36736795",
+        "rag/03_business_model_patterns",
+        "en.wikipedia.org/wiki/Pricing_strategy",
+        "en.wikipedia.org/wiki/Freemium",
+        "en.wikipedia.org/wiki/Subscription_business_model"
+      ]
+    },
+    {
+      "id": "q26",
+      "query": "what to do after getting the first paying customer",
+      "relevant": [
+        "news.ycombinator.com/item?id=27248108",
+        "news.ycombinator.com/item?id=28949255",
+        "news.ycombinator.com/item?id=11580259"
+      ]
+    },
+    {
+      "id": "q27",
+      "query": "predicting whether a startup will succeed with machine learning",
+      "relevant": [
+        "arxiv.org/abs/2409.03668",
+        "arxiv.org/abs/2601.16568",
+        "arxiv.org/abs/2405.19456",
+        "arxiv.org/abs/2309.15552",
+        "10 sample datasets/startup"
+      ]
+    },
+    {
+      "id": "q28",
+      "query": "two-sided marketplace economics and matching buyers with sellers",
+      "relevant": [
+        "arxiv.org/abs/2407.14895",
+        "arxiv.org/abs/2607.00280",
+        "arxiv.org/abs/2208.07064",
+        "en.wikipedia.org/wiki/Two-sided_market",
+        "en.wikipedia.org/wiki/Network_effect",
+        "en.wikipedia.org/wiki/Platform_economy"
+      ]
+    },
+    {
+      "id": "q29",
+      "query": "share of people using the internet in Pakistan",
+      "relevant": [
+        "data.worldbank.org/indicator/IT.NET.USER.ZS"
+      ]
+    },
+    {
+      "id": "q30",
+      "query": "mobile phone subscriptions per 100 people",
+      "relevant": [
+        "data.worldbank.org/indicator/IT.CEL.SETS.P2"
+      ]
+    },
+    {
+      "id": "q31",
+      "query": "how many young people are unemployed",
+      "relevant": [
+        "data.worldbank.org/indicator/SL.UEM.1524.ZS"
+      ]
+    },
+    {
+      "id": "q32",
+      "query": "funding amounts for Indian startups by industry and city",
+      "relevant": [
+        "10 sample datasets/startup funding_sass"
+      ]
+    },
+    {
+      "id": "q33",
+      "query": "student discounts on software subscriptions",
+      "relevant": [
+        "10 sample datasets/student discount"
+      ]
+    },
+    {
+      "id": "q34",
+      "query": "how to validate an idea before building it",
+      "relevant": [
+        "rag/01_idea_validation_framework",
+        "rag/04_mvp_scoping_guide",
+        "en.wikipedia.org/wiki/Lean_startup",
+        "en.wikipedia.org/wiki/Minimum_viable_product",
+        "en.wikipedia.org/wiki/Customer_development"
+      ]
+    },
+    {
+      "id": "q35",
+      "query": "compare competitors on pricing, target customers and differentiation",
+      "relevant": [
+        "rag/02_competitor_analysis_guide",
+        "en.wikipedia.org/wiki/Competitive_advantage",
+        "en.wikipedia.org/wiki/Porter%27s_five_forces_analysis",
+        "en.wikipedia.org/wiki/SWOT_analysis"
+      ]
+    },
+    {
+      "id": "q36",
+      "query": "functional versus non-functional requirements",
+      "relevant": [
+        "rag/06_requirements_engineering_basics"
+      ]
+    },
+    {
+      "id": "q37",
+      "query": "risks that make startups fail",
+      "relevant": [
+        "rag/07_startup_risk_checklist",
+        "news.ycombinator.com/item?id=37679838",
+        "news.ycombinator.com/item?id=12102489",
+        "en.wikipedia.org/wiki/Startup_company"
+      ]
+    },
+    {
+      "id": "q38",
+      "query": "legal entity identifier record for Airbnb",
+      "relevant": [
+        "549300HMUDNO0RY56D37"
+      ]
+    },
+    {
+      "id": "q39",
+      "query": "evaluate a retrieval augmented generation pipeline automatically",
+      "relevant": [
+        "arxiv.org/abs/2309.15217"
+      ]
+    },
+    {
+      "id": "q40",
+      "query": "combining BM25 lexical ranking with dense retrieval",
+      "relevant": [
+        "arxiv.org/abs/2210.05512",
+        "arxiv.org/abs/2108.06279"
+      ]
+    }
+  ]
+}

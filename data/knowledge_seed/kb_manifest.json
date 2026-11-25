@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-11-25T20:57:14+00:00",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "files": {
+    "wikipedia": {
+      "created": 84,
+      "chunks": 1345
+    }
+  },
+  "knowledge_bases": {
+    "A": {
+      "sources": 118,
+      "chunks": 820
+    },
+    "B": {
+      "sources": 125,
+      "chunks": 1290
+    }
+  },
+  "sources_by_type": {
+    "dataset": 10,
+    "wikipedia": 84,
+    "github": 21,
+    "docs": 28,
+    "arxiv": 39,
+    "note": 7,
+    "worldbank": 12,
+    "hackernews": 36,
+    "gleif": 6
+  }
+}
