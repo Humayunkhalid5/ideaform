@@ -9,6 +9,7 @@ __pycache__/
 node_modules/
 .next/
 out/
+*.tsbuildinfo
 
 # env & secrets
 .env
@@ -23,3 +24,7 @@ data/uploads/
 # os
 .DS_Store
 Thumbs.db
+.tmp/
+
+# local agent config (may contain API keys)
+.agents/

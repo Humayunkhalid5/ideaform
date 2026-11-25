@@ -13,13 +13,15 @@ class Settings(BaseSettings):
     jwt_access_token_minutes: int = 60
     log_level: str = "INFO"
 
-    # local inference
-    llm_backend: str = "ollama"
-    ollama_base_url: str = "http://ollama:11434"
-    llm_model_fast: str = "qwen2.5:3b-instruct"
-    llm_model_strong: str = "qwen2.5:7b-instruct"
+    # llm provider: hosted Groq API
+    groq_api_key: str | None = None
+    groq_base_url: str = "https://api.groq.com/openai/v1"
+    llm_model_fast: str = "openai/gpt-oss-20b"
+    llm_model_strong: str = "openai/gpt-oss-120b"
     llm_context_window: int = 8192
     llm_request_timeout: int = 180
+    llm_temperature: float = 0.2
+    llm_max_tokens: int = 4096
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 

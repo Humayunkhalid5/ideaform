@@ -1,4 +1,4 @@
-.PHONY: up down logs models migrate revision test health
+.PHONY: up down logs migrate revision test health
 
 up:
 	docker compose up -d --build
@@ -8,9 +8,6 @@ down:
 
 logs:
 	docker compose logs -f api worker
-
-models:
-	bash scripts/pull_models.sh
 
 migrate:
 	docker compose exec api alembic upgrade head
