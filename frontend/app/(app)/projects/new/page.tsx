@@ -588,7 +588,7 @@ export default function NewProjectPage() {
               <span className="flex items-center gap-1 text-[12px] font-semibold text-ink">
                 <Sparkles className="size-3.5 text-primary" /> What runs next
               </span>
-              <span className="font-mono text-[11px] text-muted">Phase 1</span>
+              <span className="font-mono text-[11px] text-muted">Understanding</span>
             </div>
             <p className="mt-1.5 text-[12px] leading-snug text-muted">
               Creating the project stores version 1 of your text, then the understanding engine

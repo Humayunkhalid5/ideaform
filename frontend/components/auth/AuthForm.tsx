@@ -9,7 +9,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { api, setToken } from "@/lib/api";
-import { APP_NAME, TAGLINE } from "@/lib/constants";
+import { APP_NAME, BRAND_LINE, PRODUCT_STATUS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type Mode = "login" | "register";
@@ -55,40 +55,35 @@ export function AuthForm({ mode }: { mode: Mode }) {
   return (
     <main className="grid min-h-screen lg:grid-cols-[1fr_1fr]">
       {/* ---------------- Brand panel ---------------- */}
-      <section className="relative hidden flex-col justify-between overflow-hidden border-r border-line bg-primary p-10 text-white lg:flex">
-        <div className="pointer-events-none absolute inset-0 opacity-30 if-grid" aria-hidden="true" />
+      <section className="if-brand-stage relative hidden flex-col justify-between overflow-hidden border-r border-line p-10 lg:flex">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.08] if-grid" aria-hidden="true" />
         <div className="relative z-10">
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <span className="grid size-[30px] place-items-center rounded-[9px] bg-white/15">
-              <span className="size-3 rounded-[3px] bg-white" />
-            </span>
-            <span className="text-[16px] font-semibold tracking-[-0.02em]">{APP_NAME}</span>
-          </Link>
+          <Logo href="/" className="text-white" size="size-10" />
         </div>
 
         <div className="relative z-10 mx-auto flex w-full max-w-md flex-col gap-7">
           <div className="flex flex-col gap-3">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11.5px] text-white/80">
-              <span className="size-1.5 rounded-full bg-emerald-300" />
-              Phase 1 live
+              <span className="size-1.5 rounded-full bg-brand-teal" />
+              {PRODUCT_STATUS}
             </span>
-            <h2 className="text-[32px] font-semibold leading-[1.15] tracking-[-0.02em]">
+            <h2 className="text-[32px] font-semibold leading-[1.15] tracking-[-0.025em]">
               A rough idea, turned into something precise.
             </h2>
             <p className="max-w-sm text-[14px] leading-relaxed text-white/70">
-              {APP_NAME} reads what you actually wrote and turns it into structure: goals,
-              features, gaps and requirements you can argue with.
+              {APP_NAME} reads what you actually wrote, researches it and scores it on six
+              dimensions, with every claim pointing at its source.
             </p>
           </div>
 
           <ul className="flex flex-col gap-3">
             {[
               "Structure extracted from your own words",
-              "Gaps surfaced instead of invented",
+              "Scores backed by cited evidence",
               "Every project private to your account",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2.5 text-[13px] text-white/85">
-                <span className="grid size-5 place-items-center rounded-full bg-white/15">
+                <span className="grid size-5 place-items-center rounded-full bg-white/10 text-brand-teal">
                   <Check className="size-3" />
                 </span>
                 {item}
@@ -115,7 +110,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
         </div>
 
         <p className="relative z-10 text-[12px] text-white/50">
-          {TAGLINE} · understanding engine
+          {BRAND_LINE}
         </p>
       </section>
 

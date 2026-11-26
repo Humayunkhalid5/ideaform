@@ -1,5 +1,11 @@
 # IdeaForm: UI Build Guide for Freebuff
 
+> **Superseded for visuals by [`DESIGN.md`](DESIGN.md).** The built app uses Inter, the
+> hexagon-bulb icon (`components/brand/Logo.tsx`), indigo primary with copper/teal brand colours,
+> 12px cards and CSS-only motion. Where this guide says otherwise (Sora, crystal brand object,
+> cyan accent, 16px cards, framer-motion, shadcn), follow `DESIGN.md`. Keep using this guide for
+> product intent, screen contents, score/claim semantics and accessibility.
+
 > **For the coding agent:** This file is a **self-contained spec for building the whole IdeaForm frontend** in code. You do **not** need Stitch or any design tool. Build the UI directly from this guide. If `design/stitch/` contains exported screens, treat them as optional visual references only. For the longer design rationale and per-screen Stitch prompts, see `docs/STITCH_UI_BRIEF.md`. For backend contracts, see `docs/architecture.md` section 8.
 >
 > **Product name: IdeaForm.** Use it everywhere; keep it in one constant: `export const APP_NAME = "IdeaForm"`. Tagline: *From Idea to Implementation.*

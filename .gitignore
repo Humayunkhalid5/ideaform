@@ -31,3 +31,6 @@ Thumbs.db
 
 # local database dumps
 backups/
+
+# local dev database (scripts/dev_db.ps1)
+.pgdata/

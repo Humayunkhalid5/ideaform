@@ -233,7 +233,7 @@ export default function DashboardPage() {
             <>
               <span className="font-mono text-[12px] font-medium text-success">
                 <TrendingUp className="mr-0.5 inline size-3.5" />
-                Phase 1 output
+                Extracted and versioned
               </span>
               <span className="ml-auto text-[12px] text-muted">
                 {counts.all === 0 ? "No ideas yet" : "Versioned records"}
@@ -377,7 +377,7 @@ export default function DashboardPage() {
             return (
               <article
                 key={project.id}
-                className="group flex flex-col justify-between rounded-xl border border-line bg-surface p-5 shadow-sm transition-shadow hover:shadow-e2"
+                className="group flex flex-col justify-between rounded-xl border border-line bg-surface p-5 shadow-sm transition-[transform,box-shadow,border-color] duration-150 ease-out hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-e2"
               >
                 <div>
                   <div className="mb-3 flex items-start justify-between gap-2">

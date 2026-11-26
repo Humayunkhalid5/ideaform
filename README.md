@@ -30,8 +30,26 @@ Open http://localhost:3000 and register an account.
 
 ## Run locally (Windows, no Docker)
 
-Uses a local PostgreSQL service and runs extraction jobs inside the API request
+Uses a local PostgreSQL and runs extraction jobs inside the API request
 (`JOBS_INLINE=true`), so Redis and the Celery worker are not needed.
+
+**One command.** With PostgreSQL installed under `C:\Program Files\PostgreSQL` (any
+version), set these in `.env` and run the script. It creates `.venv`, installs packages,
+starts a private IdeaForm database in `.pgdata\` on port 5434 (your own PostgreSQL server
+is not touched), applies migrations, and opens the API and web app in two windows.
+
+```
+DATABASE_URL=postgresql+psycopg://ideaform:ideaform@localhost:5434/ideaform
+JOBS_INLINE=true
+JWT_SECRET=<python -c "import secrets; print(secrets.token_urlsafe(48))">
+GROQ_API_KEY=<your key>
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run_local.ps1
+```
+
+Stop the database with `scripts\run_local.ps1 -Stop`. By hand instead:
 
 ```powershell
 copy .env.example .env   # then set DATABASE_URL to your local DB, JWT_SECRET, GROQ_API_KEY, JOBS_INLINE=true

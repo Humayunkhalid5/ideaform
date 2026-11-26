@@ -24,7 +24,7 @@ export function PipelineTimeline({
                 className={cn(
                   "grid size-8 shrink-0 place-items-center rounded-full border text-[11px] font-semibold transition",
                   done && "border-if-success/40 bg-if-success/10 text-if-success",
-                  active && "border-transparent bg-primary text-white shadow-[0_0_0_4px_rgba(79,70,229,0.14)]",
+                  active && "border-transparent bg-primary text-white shadow-[var(--if-ring)]",
                   isFailed && "border-if-danger/40 bg-if-danger/10 text-if-danger",
                   !done && !active && !isFailed && "border-if-border bg-if-surface text-if-muted",
                 )}

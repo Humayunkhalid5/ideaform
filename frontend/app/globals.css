@@ -45,6 +45,13 @@
   --if-shadow-2: 0 8px 24px -14px rgba(15, 23, 42, 0.22);
   --if-shadow-3: 0 24px 48px -24px rgba(15, 23, 42, 0.28);
   --if-ring: 0 0 0 4px rgba(79, 70, 229, 0.12);
+
+  /* brand mark: copper to teal line art on navy */
+  --if-brand-copper: #c88a6a;
+  --if-brand-teal: #6fa8a3;
+  --if-brand-navy: #14213d;
+
+  --if-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .dark {
@@ -83,6 +90,10 @@
   --if-shadow-2: 0 8px 24px -14px rgba(0, 0, 0, 0.6);
   --if-shadow-3: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
   --if-ring: 0 0 0 4px rgba(129, 140, 248, 0.18);
+
+  --if-brand-copper: #e0a383;
+  --if-brand-teal: #86c3bd;
+  --if-brand-navy: #0b1020;
 }
 
 @theme inline {
@@ -106,6 +117,10 @@
   --color-danger-soft: var(--if-danger-soft);
   --color-info: var(--if-info);
   --color-info-soft: var(--if-info-soft);
+  --color-brand-copper: var(--if-brand-copper);
+  --color-brand-teal: var(--if-brand-teal);
+  --color-brand-navy: var(--if-brand-navy);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
   --color-if-bg: var(--if-bg);
   --color-if-surface: var(--if-surface);
@@ -243,6 +258,14 @@
     linear-gradient(to right, color-mix(in srgb, var(--if-line) 70%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in srgb, var(--if-line) 70%, transparent) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+/* navy brand panel with copper / teal light (brand sheet "laser mode"); white text on it */
+.if-brand-stage {
+  background:
+    radial-gradient(60% 50% at 18% 12%, color-mix(in srgb, var(--if-brand-copper) 26%, transparent), transparent 70%),
+    radial-gradient(55% 50% at 88% 92%, color-mix(in srgb, var(--if-brand-teal) 24%, transparent), transparent 70%),
+    #0f1a33;
+  color: #fff;
 }
 .if-mesh {
   background:

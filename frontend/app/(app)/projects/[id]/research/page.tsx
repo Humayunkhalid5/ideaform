@@ -672,7 +672,7 @@ export default function ResearchPage() {
             <div>
               <p className="text-[13px] font-medium text-ink">Competitor analysis table</p>
               <p className="text-[12.5px] text-muted">
-                Arrives with Phase 3 (evaluation): competitors are extracted from these sources with links.
+                Competitors are extracted from these sources on the Evaluation tab, each with its link.
               </p>
             </div>
           </Card>

@@ -1,11 +1,13 @@
 import { Compass } from "lucide-react";
 import Link from "next/link";
 
+import { Logo } from "@/components/brand/Logo";
 import { buttonStyles } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
-    <main className="grid min-h-screen place-items-center bg-canvas px-5 py-16">
+    <main className="relative grid min-h-screen place-items-center bg-canvas px-5 py-16">
+      <Logo href="/" className="absolute left-5 top-5 sm:left-8" size="size-10" />
       <div className="flex max-w-md flex-col items-center gap-5 text-center">
         <span className="grid size-12 place-items-center rounded-xl bg-primary-soft text-primary">
           <Compass className="size-6" />

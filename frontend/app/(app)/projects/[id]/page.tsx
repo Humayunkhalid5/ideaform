@@ -88,8 +88,7 @@ export default function ProjectOverviewPage() {
       <div className="flex items-start gap-2 rounded-xl border border-primary/20 bg-primary-soft/60 px-4 py-3 text-[12.5px] text-ink">
         <Info className="mt-0.5 size-4 shrink-0 text-primary" />
         <p>
-          {DISCLAIMER} Phase 1 shows the extracted structure only — scores and blueprints arrive in
-          later phases.
+          {DISCLAIMER} Blueprints and generated documents arrive in the next phase.
         </p>
       </div>
 

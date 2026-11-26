@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { BrandMark, Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { api, clearToken, getToken } from "@/lib/api";
-import { APP_NAME } from "@/lib/constants";
+import { PRODUCT_STATUS, PRODUCT_STATUS_DETAIL } from "@/lib/constants";
 import type { User } from "@/lib/types";
 import { cn, initials } from "@/lib/utils";
 
@@ -78,7 +78,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="grid min-h-screen place-items-center bg-canvas">
         <div className="flex flex-col items-center gap-3">
-          <BrandMark className="size-9 animate-pulse" />
+          <BrandMark className="size-10 animate-pulse text-ink" animated={false} />
           <p className="text-[13px] text-muted">Preparing your workspace…</p>
         </div>
       </div>
@@ -148,11 +148,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="rounded-xl border border-line bg-surface-soft p-3">
             <p className="flex items-center gap-1.5 text-[11.5px] font-semibold text-primary">
               <span className="size-1.5 rounded-full bg-success" />
-              Phase 1 live
+              {PRODUCT_STATUS}
             </p>
-            <p className="mt-1 text-[11.5px] leading-snug text-muted">
-              {APP_NAME} extracts structure, gaps and requirements from your idea.
-            </p>
+            <p className="mt-1 text-[11.5px] leading-snug text-muted">{PRODUCT_STATUS_DETAIL}</p>
           </div>
 
           <div className="flex items-center gap-2.5 rounded-xl border border-line p-2">
@@ -180,7 +178,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="lg:pl-[248px]">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-surface/90 px-4 backdrop-blur-md sm:px-6">
           <div className="lg:hidden">
-            <Logo href="/dashboard" showName={false} />
+            <Logo href="/dashboard" size="size-8" />
           </div>
           <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5">
             {crumbs.map((crumb, index) => (
@@ -210,7 +208,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <main
           id="content"
-          className="mx-auto w-full max-w-[1220px] px-4 pb-28 pt-6 sm:px-6 lg:px-8 lg:pb-12 lg:pt-7"
+          className="mx-auto w-full max-w-[1220px] animate-rise px-4 pb-28 pt-6 sm:px-6 lg:px-8 lg:pb-12 lg:pt-7"
         >
           {children}
         </main>

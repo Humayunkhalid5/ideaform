@@ -1,0 +1,423 @@
+/* ---------------------------------------------------------------
+   Landing: scroll-driven 3D typography (components/landing/*)
+   JS writes --fly --fade --reveal --chrome --a --p --mx --my;
+   every rule below only reads them through transform / opacity.
+   --------------------------------------------------------------- */
+.hero-scene {
+  --fly: 0;
+  --fade: 1;
+  --reveal: 0;
+  --chrome: 1;
+  --p: 0;
+  --mx: 0;
+  --my: 0;
+  position: relative;
+  height: 280vh;
+}
+.hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  perspective: 1000px;
+  perspective-origin: 50% 46%;
+  display: grid;
+  place-items: center;
+  background: var(--if-canvas);
+}
+.hero-light {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(
+      42% 38% at calc(30% + var(--mx) * 4%) calc(34% + var(--my) * 4%),
+      color-mix(in srgb, var(--if-brand-copper) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 40% at calc(72% + var(--mx) * 3%) calc(64% + var(--my) * 3%),
+      color-mix(in srgb, var(--if-brand-teal) 20%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(70% 60% at 50% 110%, color-mix(in srgb, var(--if-brand-navy) 10%, transparent), transparent 70%);
+  transform: scale(calc(1 + var(--p) * 0.35));
+  will-change: transform;
+}
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--if-line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--if-line) 55%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(60% 55% at 50% 50%, #000 20%, transparent 80%);
+  transform: translateZ(calc(var(--fly) * 260px));
+}
+
+.hero-type {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  width: 100%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.055em;
+  font-size: min(18.2vw, 44vh);
+  text-align: center;
+}
+.hero-tilt {
+  display: grid;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--my) * -7deg)) rotateY(calc(var(--mx) * 9deg));
+  transition: transform 0.6s var(--if-ease);
+}
+.hero-word {
+  grid-area: 1 / 1;
+  display: flex;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+.hero-half {
+  display: flex;
+  transform-style: preserve-3d;
+}
+.hero-letter {
+  --z: 0px;
+  --d: calc(var(--i) - 3.5); /* distance from the middle of the word */
+  display: inline-block;
+  padding: 0 0.02em;
+  transform: translate3d(
+      calc(var(--d) * var(--fly) * 26vw),
+      calc(var(--d) * var(--d) * var(--fly) * -1.4vh),
+      calc(var(--fly) * 880px + var(--z))
+    )
+    rotateY(calc(var(--d) * var(--fly) * -14deg)) rotateX(calc(var(--fly) * 12deg));
+  opacity: var(--fade);
+  will-change: transform, opacity;
+}
+.hero-letter-in {
+  display: inline-block;
+  background-image: linear-gradient(
+    100deg,
+    var(--if-ink) 0%,
+    var(--if-ink) 38%,
+    color-mix(in srgb, var(--if-ink) 45%, var(--if-brand-copper)) 62%,
+    color-mix(in srgb, var(--if-ink) 50%, var(--if-brand-teal)) 100%
+  );
+  background-size: 800% 100%;
+  background-position: calc(var(--i) * 100% / 7 + var(--mx) * 6%) 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: letter-in 0.9s var(--if-ease) both;
+  animation-delay: calc(var(--i) * 55ms + 80ms);
+}
+/* a copper ghost behind the name: parallax against it shows the depth */
+.hero-word--depth .hero-letter {
+  --z: -70px;
+  opacity: calc(var(--fade) * 0.9);
+}
+.hero-word--depth .hero-letter-in {
+  background-image: none;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--if-brand-copper) 55%, transparent);
+}
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em) rotateX(-70deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+  text-align: center;
+  opacity: var(--reveal);
+  transform: translateZ(calc((1 - var(--reveal)) * -420px));
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.hero-scene[data-revealed] .hero-reveal {
+  pointer-events: auto;
+}
+.hero-chrome {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  margin: 0 auto;
+  display: flex;
+  max-width: 1180px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0 1.25rem 2rem;
+  opacity: var(--chrome);
+  transform: translateY(calc((1 - var(--chrome)) * 24px));
+}
+.hero-chrome > * {
+  animation: rise 0.7s var(--if-ease) 0.7s both;
+}
+.hero-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--if-muted);
+}
+.hero-scroll-line {
+  position: relative;
+  width: 1px;
+  height: 38px;
+  overflow: hidden;
+  background: var(--if-line);
+}
+.hero-scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--if-ink);
+  animation: scroll-cue 1.8s var(--if-ease) infinite;
+}
+@keyframes scroll-cue {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@media (max-width: 639px) {
+  .hero-scene {
+    height: 240vh;
+  }
+  .hero-word {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.06em;
+  }
+  .hero-type {
+    font-size: min(33vw, 26vh);
+  }
+  /* on a narrow screen each half spreads from its own middle */
+  .hero-half:first-child .hero-letter {
+    --d: calc(var(--i) - 1.5);
+  }
+  .hero-half:last-child .hero-letter {
+    --d: calc(var(--i) - 5.5);
+  }
+  .hero-chrome > p {
+    display: none;
+  }
+}
+
+/* ---- stages drum ---- */
+.stages-scene {
+  --a: 0;
+  --p: 0;
+  position: relative;
+  height: 420vh;
+  border-top: 1px solid var(--if-line);
+}
+.stages-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(50% 45% at 50% 52%, color-mix(in srgb, var(--if-primary) 7%, transparent), transparent 70%),
+    var(--if-canvas);
+}
+.stages-drum-wrap {
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+}
+.stages-drum {
+  --step: 36deg;
+  position: relative;
+  width: 100%;
+  height: 1em;
+  font-size: min(13vw, 17vh);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  transform-style: preserve-3d;
+  transform: translateZ(-1.7em) rotateX(calc(var(--a) * var(--step)));
+}
+.drum-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--if-ink);
+  backface-visibility: hidden;
+  transform: rotateX(calc(var(--k) * var(--step) * -1)) translateZ(1.7em);
+}
+.stages-copy {
+  position: relative;
+  min-height: 9.5rem;
+}
+.stage-copy {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: flex;
+  width: min(100%, 560px);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, 10px);
+  transition:
+    opacity 0.35s var(--if-ease),
+    transform 0.35s var(--if-ease);
+}
+.stages-scene[data-active="0"] .stage-copy[data-k="0"],
+.stages-scene[data-active="1"] .stage-copy[data-k="1"],
+.stages-scene[data-active="2"] .stage-copy[data-k="2"],
+.stages-scene[data-active="3"] .stage-copy[data-k="3"],
+.stages-scene[data-active="4"] .stage-copy[data-k="4"] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.stages-rail {
+  position: relative;
+  width: 2px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--if-line);
+}
+.stages-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--if-brand-copper), var(--if-brand-teal));
+  transform: scaleY(var(--p));
+  transform-origin: top;
+}
+
+/* ---- one-time section reveal and pointer tilt ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--if-ease) var(--reveal-delay, 0ms),
+    transform 0.8s var(--if-ease) var(--reveal-delay, 0ms);
+}
+.reveal[data-shown] {
+  opacity: 1;
+  transform: none;
+}
+.tilt-zone {
+  --mx: 0;
+  --my: 0;
+  perspective: 1200px;
+}
+.tilt-surface {
+  transform: rotateX(calc(var(--my) * -6deg)) rotateY(calc(var(--mx) * 8deg));
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--if-ease);
+}
+.grow-x {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s var(--if-ease) 0.3s;
+}
+.reveal[data-shown] .grow-x {
+  transform: scaleX(var(--v, 1));
+}
+
+/* outlined word that fills with the brand gradient on hover */
+.outline-word {
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--if-ink) 22%, transparent);
+  color: transparent;
+  background-image: linear-gradient(100deg, var(--if-brand-copper), var(--if-brand-teal));
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  transition:
+    background-size 0.9s var(--if-ease),
+    -webkit-text-stroke-color 0.4s ease;
+}
+.outline-word:hover {
+  background-size: 100% 100%;
+  -webkit-text-stroke-color: transparent;
+}
+
+/* ---- reduced motion: everything in its finished, static place ---- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scene,
+  .stages-scene {
+    height: auto;
+  }
+  .hero-stage {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4rem;
+    padding: 7rem 0 9rem;
+  }
+  .hero-reveal {
+    position: relative;
+    order: 2;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .hero-word--depth {
+    display: none;
+  }
+  .stages-stage {
+    position: relative;
+    height: auto;
+  }
+  .stages-drum-wrap {
+    display: none;
+  }
+  .stages-copy {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .stage-copy {
+    position: static;
+    opacity: 1;
+    transform: none;
+    align-items: flex-start;
+    text-align: left;
+    width: auto;
+  }
+  .reveal,
+  .grow-x,
+  .reveal[data-shown] .grow-x {
+    opacity: 1;
+    transform: scaleX(var(--v, 1));
+  }
+  .reveal {
+    transform: none;
+  }
+}
