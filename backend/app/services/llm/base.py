@@ -80,6 +80,7 @@ class LLMProvider(ABC):
         temperature: float | None = None,
         max_tokens: int | None = None,
         json_mode: bool = False,
+        reasoning_effort: str | None = None,
     ) -> LLMResult:
         """Return one completion. Raises ``LLMError`` on failure."""
 

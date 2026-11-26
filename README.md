@@ -81,7 +81,19 @@ Before Phase 2 retrieval, build it with `scripts/install_pgvector_windows.ps1` (
 | GET | `/projects/{id}/crawl` | Crawl provenance: every URL with robots decision, HTTP status, hash |
 | GET | `/knowledge/stats` | Size of KB-A/B (and your KB-C), embedding column type, Tavily credits used today |
 
-`understand` and `regenerate` return 429 once the user's `daily_token_limit` (tokens
+### Phase 3: evaluation and improvement loop
+
+| Method | Path | What it does |
+| --- | --- | --- |
+| POST | `/projects/{id}/evaluate` | Evaluation Agent: six scored dimensions with cited evidence, claim labels and confidence; risks, Devil's Advocate, improvements, alternatives, competitors, business model |
+| GET | `/projects/{id}/evaluations?version=` | Evaluations of a version (default current), newest first |
+| POST | `/projects/{id}/improve` | Accept / reject / edit suggestions, build the next idea version, re-evaluate it against the previous evaluation |
+| GET | `/projects/{id}/compare?a=&b=` | Per-dimension score change with a stated reason, risks and requirements changed, idea text diff |
+
+Design notes and verification: `docs/phase3_evaluation.md`. Without a database,
+`scripts/phase3_offline_demo.py` runs the evaluate → improve → compare loop against Groq.
+
+`understand`, `regenerate`, `evaluate` and `improve` return 429 once the user's `daily_token_limit` (tokens
 used by their runs since 00:00 UTC) is spent.
 
 ## Checks

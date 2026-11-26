@@ -1,4 +1,7 @@
 import type {
+  Comparison,
+  Decision,
+  Evaluation,
   Project,
   ProjectDetail,
   Requirement,
@@ -177,4 +180,24 @@ export const api = {
     }),
   crawl: (id: string) => request<ScrapeJob[]>(`/projects/${id}/crawl?limit=1`),
   knowledgeStats: () => request<KnowledgeStats>("/knowledge/stats"),
+  evaluate: (id: string) =>
+    request<{ run_id: string; status: string }>(`/projects/${id}/evaluate`, { method: "POST" }),
+  evaluations: (id: string, versionNo?: number) =>
+    request<Evaluation[]>(
+      `/projects/${id}/evaluations${versionNo ? `?version=${versionNo}` : ""}`,
+    ),
+  improve: (
+    id: string,
+    payload: {
+      evaluation_id?: string;
+      decisions: { improvement_id: string; decision: Decision; edited_text?: string }[];
+      note?: string;
+    },
+  ) =>
+    request<{ run_id: string; status: string }>(`/projects/${id}/improve`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  compare: (id: string, a: number, b: number) =>
+    request<Comparison>(`/projects/${id}/compare?a=${a}&b=${b}`),
 };

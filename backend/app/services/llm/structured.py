@@ -45,6 +45,7 @@ def generate_json(
     tier: LLMTier = LLMTier.STRONG,
     temperature: float | None = None,
     max_tokens: int | None = None,
+    reasoning_effort: str | None = None,
 ) -> tuple[SchemaT, LLMResult]:
     """Return validated output plus the winning call, repairing once on failure."""
     schema_hint = json.dumps(schema.model_json_schema(), separators=(",", ":"))
@@ -55,8 +56,9 @@ def generate_json(
         )
     ]
 
+    extra = {"reasoning_effort": reasoning_effort} if reasoning_effort else {}
     result = provider.complete(
-        prompt, tier=tier, temperature=temperature, max_tokens=max_tokens, json_mode=True
+        prompt, tier=tier, temperature=temperature, max_tokens=max_tokens, json_mode=True, **extra
     )
     try:
         return _parse(result.text, schema), result
@@ -71,7 +73,7 @@ def generate_json(
         ),
     ]
     retried = provider.complete(
-        repair, tier=tier, temperature=0.0, max_tokens=max_tokens, json_mode=True
+        repair, tier=tier, temperature=0.0, max_tokens=max_tokens, json_mode=True, **extra
     )
     try:
         return _parse(retried.text, schema), retried

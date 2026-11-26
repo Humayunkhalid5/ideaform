@@ -49,6 +49,19 @@ class Evaluation(UUIDPrimaryKey, Base):
         ),
     )
     run_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True))
+    # Phase 3 (migration 0003)
+    overall_score: Mapped[int | None] = mapped_column(Integer)
+    critique: Mapped[dict | None] = mapped_column(JSONB)  # hidden assumptions, must be true
+    alternatives: Mapped[list | None] = mapped_column(JSONB)
+    business_model: Mapped[dict | None] = mapped_column(JSONB)
+    # numbered evidence catalogue the model saw: [{id: "E1", chunk_id, source_id, url, ...}]
+    evidence: Mapped[list | None] = mapped_column(JSONB)
+    notices: Mapped[list | None] = mapped_column(JSONB)  # validation and low-evidence notes
+    baseline_evaluation_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("evaluations.id", ondelete="SET NULL")
+    )
+    model_name: Mapped[str | None] = mapped_column(Text)
+    prompt_version: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
@@ -86,6 +99,11 @@ class EvaluationDimension(UUIDPrimaryKey, Base):
     explanation: Mapped[str] = mapped_column(Text, nullable=False)
     assumptions: Mapped[list | None] = mapped_column(JSONB)
     recommendations: Mapped[list | None] = mapped_column(JSONB)
+    # Phase 3 (migration 0003)
+    claims: Mapped[list | None] = mapped_column(JSONB)  # [{text, label, evidence_ids}]
+    evidence_ids: Mapped[list | None] = mapped_column(JSONB)  # ["E1", "E4"]
+    previous_score: Mapped[int | None] = mapped_column(Integer)
+    change_reason: Mapped[str | None] = mapped_column(Text)
 
     evaluation = relationship("Evaluation", back_populates="dimensions")
     evidence = relationship(
@@ -134,3 +152,9 @@ class Competitor(UUIDPrimaryKey, Base):
     source_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("research_sources.id", ondelete="SET NULL")
     )
+    # Phase 3 (migration 0003)
+    evaluation_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("evaluations.id", ondelete="CASCADE")
+    )
+    source_url: Mapped[str | None] = mapped_column(Text)
+    evidence_ids: Mapped[list | None] = mapped_column(JSONB)

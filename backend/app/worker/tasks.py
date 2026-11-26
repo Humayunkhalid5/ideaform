@@ -80,3 +80,49 @@ def research_project(
         raise
     finally:
         db.close()
+
+
+@celery_app.task(name="ideaform.evaluate_project", bind=True, max_retries=1)
+def evaluate_project(self, project_id: str, run_id: str | None = None) -> dict:
+    """Evaluation Agent: six dimensions, critique, competitors, business model."""
+    from app.services.evaluation.agent import run_evaluation
+
+    db = SessionLocal()
+    try:
+        return run_evaluation(db, uuid.UUID(project_id), uuid.UUID(run_id) if run_id else None)
+    except Exception as exc:
+        logger.exception("evaluate_project failed for %s", project_id)
+        if self.request.retries < self.max_retries:
+            raise self.retry(exc=exc, countdown=60)
+        raise
+    finally:
+        db.close()
+
+
+@celery_app.task(name="ideaform.improve_project", bind=True, max_retries=0)
+def improve_project(
+    self,
+    project_id: str,
+    run_id: str | None = None,
+    evaluation_id: str | None = None,
+    changes: list[dict] | None = None,
+    note: str | None = None,
+) -> dict:
+    """Improvement loop: rewrite the idea, create the next version, re-evaluate it.
+
+    Not retried: a retry would create a second version.
+    """
+    from app.services.evaluation.improve import run_improvement
+
+    db = SessionLocal()
+    try:
+        return run_improvement(
+            db,
+            uuid.UUID(project_id),
+            uuid.UUID(run_id) if run_id else None,
+            evaluation_id=evaluation_id,
+            changes=changes or [],
+            note=note,
+        )
+    finally:
+        db.close()

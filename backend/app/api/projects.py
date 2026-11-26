@@ -213,6 +213,8 @@ def _dispatch(
         except Exception:  # broker unavailable: run here so the endpoint still works
             logger.warning("celery unavailable, running %s inline for %s", agent_name, project.id)
 
+    from app.services.evaluation.agent import run_evaluation
+    from app.services.evaluation.improve import run_improvement
     from app.services.nlp import pipeline
     from app.services.research.agent import run_research
 
@@ -220,11 +222,14 @@ def _dispatch(
         "understand_idea": pipeline.run_understanding,
         "regenerate_requirements": pipeline.run_requirements,
         "research_project": run_research,
+        "evaluate_project": run_evaluation,
+        "improve_project": run_improvement,
     }[task_name]
+    stage = "Extraction" if agent_name in ("understanding", "requirements") else agent_name.capitalize()
     try:
         runner(db, project.id, run.id, **options)
     except LLMError as exc:
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, f"Extraction failed: {exc}") from exc
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, f"{stage} failed: {exc}") from exc
     except Exception as exc:  # noqa: BLE001 - run row already records the failure
         logger.exception("%s failed for %s", agent_name, project.id)
         raise HTTPException(

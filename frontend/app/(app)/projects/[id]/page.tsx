@@ -26,9 +26,9 @@ import { HELP_LEVEL_LABEL, readStructured, REQUIREMENT_GROUPS } from "@/lib/idea
 import type { ProjectDetail } from "@/lib/types";
 
 const NEXT_PHASES = [
-  { phase: "Phase 2", title: "Research", body: "Market and technical sources you can open and check (live now)." },
-  { phase: "Phase 3", title: "Evaluation", body: "Six scored dimensions with evidence and confidence." },
-  { phase: "Phase 4", title: "Blueprint", body: "PRD, architecture, schema, UI/UX and a roadmap." },
+  { phase: "Phase 2", title: "Research", body: "Market and technical sources you can open and check.", path: "research" },
+  { phase: "Phase 3", title: "Evaluation", body: "Six scored dimensions with evidence, risks, competitors and an improvement loop.", path: "evaluation" },
+  { phase: "Phase 4", title: "Blueprint", body: "PRD, architecture, schema, UI/UX and a roadmap.", path: null },
 ];
 
 export default function ProjectOverviewPage() {
@@ -253,18 +253,42 @@ export default function ProjectOverviewPage() {
           <span className="font-mono text-[11px] text-muted">Understanding is phase 1</span>
         </div>
         <div className="grid gap-3 md:grid-cols-3">
-          {NEXT_PHASES.map((phase) => (
-            <div key={phase.title} className="flex items-start gap-3 rounded-xl border border-line bg-surface p-4">
-              <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-surface-soft text-muted">
-                <Lock className="size-4" />
-              </span>
-              <div className="flex flex-col gap-1">
-                <p className="t-label text-muted">{phase.phase}</p>
-                <p className="text-[13px] font-medium text-ink">{phase.title}</p>
-                <p className="text-[11.5px] leading-snug text-muted">{phase.body}</p>
+          {NEXT_PHASES.map((phase) => {
+            const body = (
+              <>
+                <span
+                  className={
+                    phase.path
+                      ? "grid size-9 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary"
+                      : "grid size-9 shrink-0 place-items-center rounded-lg bg-surface-soft text-muted"
+                  }
+                >
+                  {phase.path ? <ArrowUpRight className="size-4" /> : <Lock className="size-4" />}
+                </span>
+                <div className="flex flex-col gap-1">
+                  <p className="t-label text-muted">
+                    {phase.phase}
+                    {phase.path ? " · live" : ""}
+                  </p>
+                  <p className="text-[13px] font-medium text-ink">{phase.title}</p>
+                  <p className="text-[11.5px] leading-snug text-muted">{phase.body}</p>
+                </div>
+              </>
+            );
+            return phase.path ? (
+              <Link
+                key={phase.title}
+                href={`/projects/${id}/${phase.path}`}
+                className="flex items-start gap-3 rounded-xl border border-line bg-surface p-4 transition-colors hover:border-primary/40"
+              >
+                {body}
+              </Link>
+            ) : (
+              <div key={phase.title} className="flex items-start gap-3 rounded-xl border border-line bg-surface p-4">
+                {body}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <Link
           href={`/projects/${id}/understand`}

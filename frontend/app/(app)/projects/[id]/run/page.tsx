@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageSkeleton } from "@/components/ui/skeleton";
 import { api } from "@/lib/api";
-import type { Run } from "@/lib/types";
+import type { Run, RunWithOutput } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -80,12 +80,21 @@ function RunView() {
 
   const finished = run?.status === "succeeded";
   useEffect(() => {
-    if (!finished) return;
+    if (!finished || !run) return;
+    const output = (run as RunWithOutput).output as { compare?: { a: number; b: number } } | null;
+    const target =
+      run.agent_name === "evaluation"
+        ? `/projects/${projectId}/evaluation`
+        : run.agent_name === "improvement" && output?.compare
+          ? `/projects/${projectId}/compare?a=${output.compare.a}&b=${output.compare.b}`
+          : run.agent_name === "research"
+            ? `/projects/${projectId}/research`
+            : `/projects/${projectId}/understand`;
     const timer = setTimeout(() => {
-      router.replace(`/projects/${projectId}/understand`);
+      router.replace(target);
     }, 1400);
     return () => clearTimeout(timer);
-  }, [finished, projectId, router]);
+  }, [finished, run, projectId, router]);
 
   const progress = progressFor(run);
   const step = currentStep(run);
@@ -98,7 +107,7 @@ function RunView() {
     const reached = run?.status === "succeeded" ? 99 : step;
     const lines = [
       `${stamp}  run ${run ? run.id.slice(0, 8) : "--------"} accepted`,
-      `${stamp}  agent=understanding  provider=groq`,
+      `${stamp}  agent=${run?.agent_name ?? "understanding"}  provider=groq`,
     ];
     if (reached >= 1) lines.push(`${stamp}  classifying category`);
     if (reached >= 2) lines.push(`${stamp}  extracting structure and requirements`);

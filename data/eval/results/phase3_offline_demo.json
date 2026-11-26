@@ -1,0 +1,794 @@
+{
+  "idea_v1": "A mobile app that helps university students find affordable tutors nearby and book sessions in-app.",
+  "idea_v2": "A mobile app that helps university students find affordable tutors nearby and book sessions in\u2011app, now incorporating a market validation step that involves a pilot study with two to three universities to assess students' willingness to pay and identify preferred features before full development, and a clear differentiation strategy that highlights campus partnership discounts and a verified student\u2011tutor verification process within the app description.",
+  "accepted": [
+    {
+      "title": "Add explicit market validation step",
+      "change": "Include a pilot study with 2\u20113 universities to test willingness to pay and preferred features before full development."
+    },
+    {
+      "title": "Define a clear differentiation strategy",
+      "change": "Emphasize campus partnership discounts and a verified student\u2011tutor verification process in the app description."
+    }
+  ],
+  "evaluation_v1": {
+    "summary": "The idea leverages a marketplace model that can generate revenue via commissions, but lacks concrete evidence on market demand. Execution and resource needs are moderate, with simple architecture possible but payment and regulatory integration adding complexity.",
+    "dimensions": [
+      {
+        "dimension": "technical_feasibility",
+        "score": 70,
+        "confidence": "medium",
+        "explanation": "Guidance on software architecture shows a monolithic approach is simple for small teams and early products, which fits a mobile app with search, booking, and payment features. Requirements engineering basics stress the importance of clear functional specs, which are outlined in the idea.",
+        "evidence_ids": [
+          "E1",
+          "E4"
+        ],
+        "claims": [
+          {
+            "text": "A monolithic mobile app can be built quickly by a small team.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Functional requirements such as search, location filtering, and payment are standard and implementable.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E4"
+            ]
+          }
+        ],
+        "assumptions": [
+          "Availability of developers with mobile and payment integration experience.",
+          "Regulatory compliance for payment processing is manageable."
+        ],
+        "recommendations": [
+          "Start with a minimal MVP focusing on search and booking.",
+          "Use a proven payment SDK to reduce integration risk."
+        ],
+        "change_reason": null
+      },
+      {
+        "dimension": "market_opportunity",
+        "score": 45,
+        "confidence": "low",
+        "explanation": "No specific evidence is provided about demand for university\u2011student tutoring apps, and the only guidance is generic idea\u2011validation steps that note market risk must be assessed. Therefore the market size is uncertain.",
+        "evidence_ids": [
+          "E2",
+          "E6"
+        ],
+        "claims": [
+          {
+            "text": "Market risk includes customers not having a strong enough problem to pay.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E6"
+            ]
+          }
+        ],
+        "assumptions": [
+          "University students are willing to pay for nearby tutors.",
+          "There is a sufficient number of tutors seeking platform exposure."
+        ],
+        "recommendations": [
+          "Conduct surveys or interviews with target students to validate willingness to pay.",
+          "Pilot the app at a single university to gauge traction."
+        ],
+        "change_reason": null
+      },
+      {
+        "dimension": "competition",
+        "score": 40,
+        "confidence": "low",
+        "explanation": "The competitor analysis guide defines direct and indirect competitors but provides no concrete examples for tutoring platforms, leaving the competitive landscape unclear. Without evidence, the threat level cannot be accurately judged.",
+        "evidence_ids": [
+          "E3",
+          "E5"
+        ],
+        "claims": [
+          {
+            "text": "Existing competitors often prove demand for similar services.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E5"
+            ]
+          }
+        ],
+        "assumptions": [
+          "There are existing tutoring marketplaces serving university students.",
+          "The proposed app can differentiate via location\u2011based filtering and pricing."
+        ],
+        "recommendations": [
+          "Map existing tutoring platforms and assess their features.",
+          "Identify gaps (e.g., price transparency) to create a unique value proposition."
+        ],
+        "change_reason": null
+      },
+      {
+        "dimension": "business_model",
+        "score": 68,
+        "confidence": "medium",
+        "explanation": "Marketplace platforms typically earn revenue by taking a commission on transactions, which aligns with the app's tutor booking function [E7]. However, there is no specific evidence on tutor\u2011student market size or willingness to pay, so the revenue potential remains uncertain.",
+        "evidence_ids": [
+          "E7"
+        ],
+        "claims": [
+          {
+            "text": "A commission-based marketplace model can be applied to tutor bookings.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E7"
+            ]
+          },
+          {
+            "text": "The app could generate sustainable revenue if transaction volume is sufficient.",
+            "label": "assumption",
+            "evidence_ids": []
+          }
+        ],
+        "assumptions": [
+          "Sufficient demand from university students for paid tutoring services.",
+          "Tutors are willing to pay a commission on each booked session."
+        ],
+        "recommendations": [
+          "Validate market demand and price sensitivity with a pilot in a single university.",
+          "Define a clear commission rate that balances platform sustainability and tutor attractiveness."
+        ],
+        "change_reason": null
+      },
+      {
+        "dimension": "resource_requirements",
+        "score": 72,
+        "confidence": "medium",
+        "explanation": "For early-stage products, a monolithic architecture is recommended for small teams, reducing infrastructure complexity [E1]. The app will still need payment processing, location services, and basic authentication, which are standard third\u2011party integrations.",
+        "evidence_ids": [
+          "E1"
+        ],
+        "claims": [
+          {
+            "text": "A monolithic codebase is suitable for the initial development of the tutoring app.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Standard third\u2011party services can provide payment, geolocation, and authentication.",
+            "label": "assumption",
+            "evidence_ids": []
+          }
+        ],
+        "assumptions": [
+          "Access to affordable third\u2011party APIs for payments and maps.",
+          "A small development team (2\u20114 engineers) can deliver the MVP."
+        ],
+        "recommendations": [
+          "Start with a monolith to launch quickly and keep costs low.",
+          "Leverage existing SDKs for payment and location to avoid building from scratch."
+        ],
+        "change_reason": null
+      },
+      {
+        "dimension": "execution_complexity",
+        "score": 55,
+        "confidence": "medium",
+        "explanation": "Integrating payment processing and handling personal data introduces regulatory considerations such as GDPR, increasing complexity [E10]. While the core app is straightforward, compliance and secure handling of student information add notable hurdles.",
+        "evidence_ids": [
+          "E10"
+        ],
+        "claims": [
+          {
+            "text": "Payment integration and data\u2011protection compliance raise execution difficulty.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E10"
+            ]
+          },
+          {
+            "text": "Building the core tutor search and booking features is technically feasible for a small team.",
+            "label": "assumption",
+            "evidence_ids": []
+          }
+        ],
+        "assumptions": [
+          "The team can obtain necessary legal advice for education\u2011related data handling.",
+          "Payment providers offer APIs that meet compliance requirements."
+        ],
+        "recommendations": [
+          "Engage a legal advisor early to address GDPR and education\u2011sector regulations.",
+          "Implement a minimal viable compliance framework before scaling."
+        ],
+        "change_reason": null
+      }
+    ],
+    "critique": {
+      "risks": [
+        {
+          "title": "Insufficient market demand",
+          "description": "University students may not be willing to pay for tutoring services or may already use existing platforms, leading to low user acquisition.",
+          "severity": "high",
+          "likelihood": "medium",
+          "mitigation": "Conduct targeted surveys and pilot programs to validate demand before full launch.",
+          "dimension": "market_opportunity",
+          "evidence_ids": [
+            "E6"
+          ]
+        },
+        {
+          "title": "Strong competition from established tutoring platforms",
+          "description": "Existing services (e.g., Chegg, Wyzant) already connect students with tutors and have brand recognition, making it hard to attract users.",
+          "severity": "high",
+          "likelihood": "high",
+          "mitigation": "Differentiate with hyper-local matching, university-specific pricing, and integration with campus services.",
+          "dimension": "competition",
+          "evidence_ids": [
+            "E3",
+            "E5"
+          ]
+        },
+        {
+          "title": "Regulatory and compliance complexity",
+          "description": "Handling payment data and personal information of minors may trigger GDPR and other privacy regulations, increasing development and legal overhead.",
+          "severity": "medium",
+          "likelihood": "medium",
+          "mitigation": "Engage legal counsel early and implement privacy\u2011by\u2011design principles.",
+          "dimension": "execution_complexity",
+          "evidence_ids": [
+            "E10"
+          ]
+        },
+        {
+          "title": "Payment processing integration challenges",
+          "description": "Integrating secure payment gateways and managing transaction fees can be technically demanding for a small team.",
+          "severity": "medium",
+          "likelihood": "medium",
+          "mitigation": "Use vetted third\u2011party payment SDKs and start with a single payment provider.",
+          "dimension": "technical_feasibility",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "title": "Tutor quality and rating system absence",
+          "description": "Without a robust rating and verification system, users may encounter low\u2011quality tutors, harming reputation.",
+          "severity": "medium",
+          "likelihood": "medium",
+          "mitigation": "Implement mandatory profile verification and a post\u2011session rating mechanism from launch.",
+          "dimension": "resource_requirements",
+          "evidence_ids": [
+            "E6"
+          ]
+        }
+      ],
+      "devils_advocate": "The idea faces a high likelihood of failure because the market for university tutoring apps is already saturated with well\u2011funded players offering similar services, and there is no concrete evidence that students will prefer a new, location\u2011based solution over existing platforms. Moreover, the regulatory burden of handling payments and personal data adds execution complexity that a small team may struggle to meet, potentially delaying launch and inflating costs.",
+      "hidden_assumptions": [
+        "University students prefer in\u2011app booking over existing web\u2011based tutoring services.",
+        "A sufficient number of qualified tutors are available and willing to join the platform without upfront incentives.",
+        "Location\u2011based filtering provides a meaningful advantage in a largely digital tutoring market.",
+        "Payment processing can be integrated smoothly with minimal compliance hurdles."
+      ],
+      "must_be_true": [
+        "There is a sizable unmet demand for affordable, locally\u2011sourced tutoring among university students.",
+        "The platform can attract enough high\u2011quality tutors to ensure reliable service.",
+        "Regulatory compliance (GDPR, payment security) can be achieved within budget and timeline.",
+        "The differentiation (local focus, university pricing) is compelling enough to draw users from established competitors."
+      ],
+      "improvements": [
+        {
+          "title": "Add explicit market validation step",
+          "rationale": "Address the weak market opportunity score by gathering real demand data.",
+          "change": "Include a pilot study with 2\u20113 universities to test willingness to pay and preferred features before full development.",
+          "expected_effect": "Reduces market risk and informs product\u2011market fit.",
+          "dimension_affected": "market_opportunity",
+          "evidence_ids": [
+            "E6"
+          ]
+        },
+        {
+          "title": "Define a clear differentiation strategy",
+          "rationale": "Mitigate competition risk by articulating unique value propositions.",
+          "change": "Emphasize campus partnership discounts and a verified student\u2011tutor verification process in the app description.",
+          "expected_effect": "Improves competitive positioning and user acquisition.",
+          "dimension_affected": "competition",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "title": "Plan for GDPR\u2011compliant data handling",
+          "rationale": "Lower execution complexity related to privacy regulations.",
+          "change": "Adopt a privacy\u2011by\u2011design framework and appoint a data protection officer from project start.",
+          "expected_effect": "Reduces legal risk and speeds up compliance.",
+          "dimension_affected": "execution_complexity",
+          "evidence_ids": [
+            "E10"
+          ]
+        },
+        {
+          "title": "Leverage monolithic architecture for MVP",
+          "rationale": "Aligns with technical feasibility evidence and keeps resource needs low.",
+          "change": "Build the initial MVP as a single monolithic app using a proven mobile framework.",
+          "expected_effect": "Accelerates development and reduces infrastructure costs.",
+          "dimension_affected": "technical_feasibility",
+          "evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "alternatives": [
+        "Focus on a niche subject area (e.g., math tutoring) to reduce competition.",
+        "Partner with university tutoring centers to provide a white\u2011label version of the app."
+      ]
+    },
+    "competitors": [],
+    "business_model": {
+      "customer_segments": [
+        "University students seeking affordable tutoring",
+        "Local tutors looking for students"
+      ],
+      "value_proposition": "A mobile platform that matches university students with nearby affordable tutors and enables seamless in\u2011app booking and payment.",
+      "channels": [
+        "App stores (iOS/Android)",
+        "University social media groups",
+        "Campus events and flyers"
+      ],
+      "revenue_streams": [
+        "Commission on each tutoring session booked",
+        "Premium subscription for tutors (enhanced visibility)"
+      ],
+      "cost_structure": [
+        "App development and maintenance",
+        "Payment processing fees",
+        "Marketing to campuses",
+        "Customer support"
+      ],
+      "pricing_options": [
+        {
+          "name": "Transaction commission",
+          "model": "Marketplace",
+          "price_point": "15% of session fee (estimate)",
+          "rationale": "Typical marketplace take rate; aligns incentives for platform and tutors"
+        },
+        {
+          "name": "Tutor premium plan",
+          "model": "Subscription",
+          "price_point": "$19.99 per month (estimate)",
+          "rationale": "Provides tutors with featured listings and analytics; based on common SaaS pricing for professionals"
+        }
+      ],
+      "key_metrics": [
+        "Number of booked sessions per month",
+        "Average commission revenue per session",
+        "Tutor acquisition cost (CAC)",
+        "Student retention rate"
+      ],
+      "assumptions": [
+        "Students are willing to pay for convenient, local tutoring",
+        "Tutors will accept a 15% commission for platform access",
+        "Subscription price is affordable for tutors and yields sufficient revenue"
+      ],
+      "evidence_ids": [
+        "E7",
+        "E6"
+      ]
+    },
+    "validation_notes": [],
+    "evidence": [
+      {
+        "id": "E1",
+        "chunk_id": "c4be661a-32b4-574c-95e0-62a08251c562",
+        "source_id": "52d800af-d6b2-52b7-bfd2-5db797afb892",
+        "kb": "A",
+        "title": "05 software architecture choices",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "--- title: Software architecture decision guide kb: B category: architecture licence: Original team notes (general guidance; verify against official documentation) --- # Software architecture decision guide ## Monolith or microservices - **Monolith:** one deployable application. Simple to build, test, and deploy. Best for small teams and early products. - **Microservices:** many small services communicating over a network. Allow independent scali"
+      },
+      {
+        "id": "E2",
+        "chunk_id": "d88f3ed5-68e5-592d-b0bb-43e16f9c5332",
+        "source_id": "22dd793d-1db7-58ff-9e51-d891afad25ac",
+        "kb": "A",
+        "title": "01 idea validation framework",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "--- title: Idea validation framework kb: A category: validation licence: Original team notes (general guidance, not evidence about a specific market) --- # Idea validation framework Validating an idea means finding evidence for or against it before spending large amounts of time or money. A useful evaluation looks at six dimensions: technical feasibility, market opportunity, competition, business model, resource requirements, and execution comple"
+      },
+      {
+        "id": "E3",
+        "chunk_id": "77582ec6-d411-57be-a0f0-6d26c532abbb",
+        "source_id": "356d2f02-0f65-5e4f-959b-a101a1e7385f",
+        "kb": "A",
+        "title": "02 competitor analysis guide",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "--- title: Competitor analysis guide kb: A category: competition licence: Original team notes (general guidance, not evidence about a specific market) --- # Competitor analysis guide ## Purpose Competitor analysis shows how the market is already served, what customers expect, where products are weak, and how a new idea could differ. ## Types of competitors - **Direct:** same customer, same problem, similar solution. - **Indirect:** same problem, "
+      },
+      {
+        "id": "E4",
+        "chunk_id": "875b7827-4f31-5ec3-832d-4d60afe628c0",
+        "source_id": "3a37bb2e-24c3-5d98-b0ba-fee5253fcf3e",
+        "kb": "A",
+        "title": "06 requirements engineering basics",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "--- title: Requirements engineering basics kb: B category: requirements licence: Original team notes (general guidance) --- # Requirements engineering basics ## Why requirements matter Unclear or changing requirements are a leading cause of software project problems. Good requirements are shared, testable, and prioritised. ## Types - **Functional requirements:** what the system does (\"The system shall let a user reset a password\"). - **Non-functi"
+      },
+      {
+        "id": "E5",
+        "chunk_id": "ac5c026d-7c63-5c74-afcf-b79bbec1ba46",
+        "source_id": "22dd793d-1db7-58ff-9e51-d891afad25ac",
+        "kb": "A",
+        "title": "01 idea validation framework",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "a top-down claim such as \"1% of a huge market\". ## Step 4: Check competition Direct competitors solve the same problem the same way. Indirect competitors solve it differently, including doing nothing or using spreadsheets. Existing competitors often prove demand. The question is whether there is a segment they serve poorly and whether the idea can be meaningfully different. ## Step 5: Check feasibility and resources Can the core feature be built "
+      },
+      {
+        "id": "E6",
+        "chunk_id": "12be08ac-0b01-55c7-b795-71e847b62e37",
+        "source_id": "37c15706-3858-5f6a-95ea-348c8f13002e",
+        "kb": "A",
+        "title": "07 startup risk checklist",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "--- title: Startup and software project risk checklist kb: A category: risk licence: Original team notes (general guidance, not evidence about a specific market) --- # Startup and software project risk checklist Use this list to find risks, rate each by likelihood and impact, and plan a response (avoid, reduce, transfer, or accept). ## Market risks - Customers do not have the problem strongly enough to pay. - The target segment is too small or ha"
+      },
+      {
+        "id": "E7",
+        "chunk_id": "1258a04a-7a29-50cf-bd47-b8d96ecf1213",
+        "source_id": "8f4779bc-a9db-594c-b858-d72570739fb5",
+        "kb": "A",
+        "title": "03 business model patterns",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "--- title: Business model patterns and unit economics kb: A category: business models licence: Original team notes (general guidance, not evidence about a specific market) --- # Business model patterns and unit economics ## Common revenue models - **Subscription (SaaS):** customers pay a recurring fee. Predictable revenue; success depends on retention. - **Marketplace (commission):** the platform connects buyers and sellers and takes a percentage"
+      },
+      {
+        "id": "E8",
+        "chunk_id": "cdcb1607-ab5e-5248-913d-b6c8952c8ecb",
+        "source_id": "8f4779bc-a9db-594c-b858-d72570739fb5",
+        "kb": "A",
+        "title": "03 business model patterns",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "time needed to earn back CAC from gross profit. A commonly used rule of thumb is that LTV should be well above CAC, but the right ratio depends on the business and stage. ## Two-sided marketplaces Strategies for the cold start: begin in one narrow location or category, supply the scarcer side first, offer a manual or concierge service at the start, and focus on repeat transactions to avoid users leaving the platform to transact directly. ## Prici"
+      },
+      {
+        "id": "E9",
+        "chunk_id": "63b54e88-63f5-51d2-86d7-6a446666e1eb",
+        "source_id": "bd12c8ce-b290-5939-8889-543786e6184e",
+        "kb": "A",
+        "title": "04 mvp scoping guide",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "the scenes. - **Single-feature product:** one feature done well. - **Prototype or clickable mock-up:** tests usability and understanding. ## Common mistakes - Building many features before talking to users. - Treating all requests as equally important. - Measuring vanity metrics (page views) instead of behaviour (repeat use, payment). - Having no clear end date or decision rule for the test. ## For software projects Pick a small technology stack "
+      },
+      {
+        "id": "E10",
+        "chunk_id": "3c6b7c9e-21e5-5b97-86bf-9b37ae0c718f",
+        "source_id": "37c15706-3858-5f6a-95ea-348c8f13002e",
+        "kb": "A",
+        "title": "07 startup risk checklist",
+        "url": null,
+        "publisher": "Ideaform curated notes (rag/)",
+        "published_at": "2026-11-26",
+        "snippet": "in the loop, minimise personal data. ## Legal and regulatory risks - Data-protection rules (for example GDPR and local laws). - Licensing, intellectual property, or industry regulation (finance, health, education). - Terms of service of platforms and APIs. Mitigation: check rules early, record data sources and licences, seek professional advice for high-stakes cases. ## Financial risks - Costs higher than expected; revenue slower than planned. - "
+      }
+    ]
+  },
+  "evaluation_v2": {
+    "summary": "The tutor\u2011matching app remains viable as a marketplace with modest revenue potential, modest resource needs for a small team, and moderate execution complexity due to payment and data regulations.",
+    "dimensions": [
+      {
+        "dimension": "technical_feasibility",
+        "score": 70,
+        "confidence": "medium",
+        "explanation": "Guidance on software architecture recommends a monolithic approach for small teams, which suits a mobile tutoring app, and requirements engineering stresses clear functional specs, supporting feasibility. No new technical constraints were added.",
+        "evidence_ids": [
+          "E6",
+          "E8"
+        ],
+        "claims": [
+          {
+            "text": "A monolithic architecture is suitable for early mobile apps with search, booking, and payment features.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E6"
+            ]
+          },
+          {
+            "text": "Clear functional requirements are essential to avoid project problems.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E8"
+            ]
+          }
+        ],
+        "assumptions": [
+          "The development team has the necessary mobile development skills.",
+          "Payment integration can be achieved with existing SDKs."
+        ],
+        "recommendations": [
+          "Adopt a monolithic architecture for the MVP.",
+          "Define detailed functional requirements before coding."
+        ],
+        "change_reason": "Score unchanged; the added pilot study does not affect technical feasibility."
+      },
+      {
+        "dimension": "market_opportunity",
+        "score": 50,
+        "confidence": "low",
+        "explanation": "Evidence only provides generic market risk guidance and no specific data on demand for university tutoring apps; the pilot study concept is mentioned but lacks concrete results, leaving market size uncertain.",
+        "evidence_ids": [
+          "E5",
+          "E2"
+        ],
+        "claims": [
+          {
+            "text": "Customers may not have a strong enough problem to pay for tutoring services.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E5"
+            ]
+          },
+          {
+            "text": "Idea validation frameworks recommend assessing market demand before full development.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E2"
+            ]
+          }
+        ],
+        "assumptions": [
+          "University students are willing to pay for affordable tutoring.",
+          "Pilot study will show sufficient willingness to pay."
+        ],
+        "recommendations": [
+          "Conduct the pilot study with clear metrics on willingness to pay.",
+          "Gather quantitative data on tutoring spend among target users."
+        ],
+        "change_reason": "Score increased slightly from 45 to 50 due to the explicit plan for a pilot study, though no evidence confirms demand."
+      },
+      {
+        "dimension": "competition",
+        "score": 40,
+        "confidence": "low",
+        "explanation": "The competitor analysis guide defines direct and indirect competitors but provides no specific examples for tutoring platforms, leaving the competitive landscape ambiguous. The idea's differentiation (campus discounts, verification) is not validated against existing players.",
+        "evidence_ids": [
+          "E3",
+          "E4"
+        ],
+        "claims": [
+          {
+            "text": "Competitor analysis frameworks categorize competitors but lack concrete tutoring app examples.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Assessing differentiation requires evidence of existing solutions, which is missing.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E4"
+            ]
+          }
+        ],
+        "assumptions": [
+          "Existing tutoring platforms do not offer campus partnership discounts.",
+          "Verification processes are not widely implemented."
+        ],
+        "recommendations": [
+          "Map existing tutoring services and their features.",
+          "Validate the uniqueness of campus discounts and verification."
+        ],
+        "change_reason": "Score unchanged; the new differentiation strategy is not supported by evidence."
+      },
+      {
+        "dimension": "business_model",
+        "score": 68,
+        "confidence": "medium",
+        "explanation": "Marketplace commissions are a common revenue model for platforms connecting buyers and sellers, as described in the business model patterns document [E7]. No specific evidence on tutor\u2011student market size or willingness to pay is provided, so the revenue outlook remains uncertain.",
+        "evidence_ids": [
+          "E7"
+        ],
+        "claims": [
+          {
+            "text": "The app can generate revenue by taking a commission on each tutoring session booked.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E7"
+            ]
+          },
+          {
+            "text": "There is no direct evidence of sufficient market size or willingness to pay among university students for tutoring services.",
+            "label": "assumption",
+            "evidence_ids": []
+          }
+        ],
+        "assumptions": [
+          "Tutor demand and price sensitivity are adequate to sustain a commission model."
+        ],
+        "recommendations": [
+          "Conduct targeted surveys during the pilot to quantify willingness to pay.",
+          "Consider tiered commission rates or subscription options to diversify revenue."
+        ],
+        "change_reason": "Score unchanged; the idea adds a pilot study but no new evidence on revenue potential was provided."
+      },
+      {
+        "dimension": "resource_requirements",
+        "score": 72,
+        "confidence": "medium",
+        "explanation": "A monolithic architecture is recommended for small early\u2011stage products, reducing infrastructure complexity for a limited team [E6]. Standard third\u2011party services (payment, location, authentication) are typical and manageable.",
+        "evidence_ids": [
+          "E6"
+        ],
+        "claims": [
+          {
+            "text": "A small team can build the app using a monolithic architecture, simplifying development and deployment.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E6"
+            ]
+          },
+          {
+            "text": "Payment integration and location services will require third\u2011party APIs, which are standard for mobile apps.",
+            "label": "assumption",
+            "evidence_ids": []
+          }
+        ],
+        "assumptions": [
+          "Access to reliable payment gateway APIs and location services is available at reasonable cost."
+        ],
+        "recommendations": [
+          "Define a minimal viable tech stack (e.g., React Native + Firebase) for rapid prototyping.",
+          "Allocate budget for API usage fees and basic compliance tooling."
+        ],
+        "change_reason": "Score unchanged; the added pilot does not affect core resource needs."
+      },
+      {
+        "dimension": "execution_complexity",
+        "score": 55,
+        "confidence": "medium",
+        "explanation": "Integrating payment processing and handling personal data introduces GDPR and other regulatory considerations, increasing project complexity [E9]. The core booking functionality is straightforward, but compliance adds notable hurdles.",
+        "evidence_ids": [
+          "E9"
+        ],
+        "claims": [
+          {
+            "text": "Payment processing integration and GDPR compliance raise execution complexity.",
+            "label": "verified_fact",
+            "evidence_ids": [
+              "E9"
+            ]
+          },
+          {
+            "text": "The pilot study with a few universities adds coordination effort but does not fundamentally change technical complexity.",
+            "label": "assumption",
+            "evidence_ids": []
+          }
+        ],
+        "assumptions": [
+          "University partners will allow data sharing needed for the pilot."
+        ],
+        "recommendations": [
+          "Engage legal counsel early to address data\u2011protection requirements.",
+          "Start with a manual or concierge onboarding process to mitigate cold\u2011start issues."
+        ],
+        "change_reason": "Score unchanged; the pilot adds validation steps but does not alter the underlying regulatory and integration challenges."
+      }
+    ],
+    "validation_notes": []
+  },
+  "comparison": {
+    "a": 1,
+    "b": 2,
+    "evaluation_a": "7bfccc81-f598-4a99-a459-b852998e1306",
+    "evaluation_b": "3f1d31b5-7bdb-4c35-b10f-60be505ca597",
+    "overall_a": 58,
+    "overall_b": 59,
+    "overall_delta": 1,
+    "summary": "v2 scores 59 overall against 58 for v1 (+1). Biggest gain: Market opportunity (+5).",
+    "dimensions": [
+      {
+        "dimension": "technical_feasibility",
+        "label": "Technical feasibility",
+        "score_a": 70,
+        "score_b": 70,
+        "delta": 0,
+        "confidence_a": "medium",
+        "confidence_b": "medium",
+        "reason": "Score unchanged; the added pilot study does not affect technical feasibility."
+      },
+      {
+        "dimension": "market_opportunity",
+        "label": "Market opportunity",
+        "score_a": 45,
+        "score_b": 50,
+        "delta": 5,
+        "confidence_a": "low",
+        "confidence_b": "low",
+        "reason": "Score increased slightly from 45 to 50 due to the explicit plan for a pilot study, though no evidence confirms demand."
+      },
+      {
+        "dimension": "competition",
+        "label": "Competition",
+        "score_a": 40,
+        "score_b": 40,
+        "delta": 0,
+        "confidence_a": "low",
+        "confidence_b": "low",
+        "reason": "Score unchanged; the new differentiation strategy is not supported by evidence."
+      },
+      {
+        "dimension": "business_model",
+        "label": "Business model",
+        "score_a": 68,
+        "score_b": 68,
+        "delta": 0,
+        "confidence_a": "medium",
+        "confidence_b": "medium",
+        "reason": "Score unchanged; the idea adds a pilot study but no new evidence on revenue potential was provided."
+      },
+      {
+        "dimension": "resource_requirements",
+        "label": "Resource requirements",
+        "score_a": 72,
+        "score_b": 72,
+        "delta": 0,
+        "confidence_a": "medium",
+        "confidence_b": "medium",
+        "reason": "Score unchanged; the added pilot does not affect core resource needs."
+      },
+      {
+        "dimension": "execution_complexity",
+        "label": "Execution complexity",
+        "score_a": 55,
+        "score_b": 55,
+        "delta": 0,
+        "confidence_a": "medium",
+        "confidence_b": "medium",
+        "reason": "Score unchanged; the pilot adds validation steps but does not alter the underlying regulatory and integration challenges."
+      }
+    ],
+    "risks_added": [
+      "Strong competition from existing platforms: Established tutoring services and generic marketplace apps may already satisfy the target need.",
+      "Execution complexity around payment and data privacy: Integrating payment processing and handling personal data (GDPR) adds regulatory and technical challenges.",
+      "Resource constraints for pilot and development: Limited team size may struggle to build the app, run pilots, and manage campus partnerships simultaneously."
+    ],
+    "risks_removed": [
+      "Strong competition from established tutoring platforms: Existing services (e.g., Chegg, Wyzant) already connect students with tutors and have brand recognition, making it hard to attract users.",
+      "Regulatory and compliance complexity: Handling payment data and personal information of minors may trigger GDPR and other privacy regulations, increasing development and legal overhead.",
+      "Payment processing integration challenges: Integrating secure payment gateways and managing transaction fees can be technically demanding for a small team.",
+      "Tutor quality and rating system absence: Without a robust rating and verification system, users may encounter low\u2011quality tutors, harming reputation."
+    ],
+    "requirements_added": [],
+    "requirements_removed": [],
+    "idea_diff": [
+      {
+        "op": "removed",
+        "text": "A mobile app that helps university students find affordable tutors nearby and book sessions in-app."
+      },
+      {
+        "op": "added",
+        "text": "A mobile app that helps university students find affordable tutors nearby and book sessions in\u2011app, now incorporating a market validation step that involves a pilot study with two to three universities to assess students' willingness to pay and identify preferred features before full development, and a clear differentiation strategy that highlights campus partnership discounts and a verified student\u2011tutor verification process within the app description."
+      }
+    ],
+    "change_summary": null
+  },
+  "tokens": {
+    "v1": 12225,
+    "v2": 13094
+  }
+}

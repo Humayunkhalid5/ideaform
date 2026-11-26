@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth, health, projects, research, runs, versions
+from app.api import auth, evaluation, health, projects, research, runs, versions
 from app.config import check_jwt_secret, get_settings
 
 settings = get_settings()
@@ -13,7 +13,7 @@ check_jwt_secret(settings)
 
 app = FastAPI(
     title="Ideaform API",
-    version="0.2.0",
+    version="0.3.0",
     description="AI idea analysis platform: provider-agnostic LLM, self-hosted scraper, Tavily discovery.",
 )
 
@@ -33,6 +33,7 @@ app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(versions.router)
 app.include_router(research.router)
+app.include_router(evaluation.router)
 app.include_router(runs.router)
 
 

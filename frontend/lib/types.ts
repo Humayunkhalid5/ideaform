@@ -193,3 +193,145 @@ export interface KnowledgeStats {
   tavily_credits_today: number;
   tavily_daily_cap: number;
 }
+
+// ------------------------------------------------------------------ Phase 3: evaluation
+
+export interface Claim {
+  text: string;
+  label: ClaimLabel;
+  evidence_ids: string[];
+}
+
+export interface EvidenceRef {
+  id: string;
+  chunk_id: string;
+  source_id: string;
+  kb: KnowledgeBase;
+  title: string | null;
+  url: string | null;
+  publisher: string | null;
+  published_at: string | null;
+  snippet: string;
+}
+
+export interface DimensionScore {
+  dimension: DimensionKey;
+  label: string;
+  score: number;
+  confidence: Confidence;
+  explanation: string;
+  evidence_ids: string[];
+  claims: Claim[];
+  assumptions: string[];
+  recommendations: string[];
+  change_reason: string | null;
+  previous_score: number | null;
+}
+
+export type Level = "low" | "medium" | "high";
+
+export interface EvaluationRisk {
+  id: string;
+  title: string;
+  description: string;
+  severity: Level;
+  likelihood: Level;
+  mitigation: string;
+  dimension: DimensionKey | null;
+  evidence_ids: string[];
+}
+
+export type Decision = "accepted" | "rejected" | "edited";
+
+export interface ImprovementSuggestion {
+  id: string;
+  title: string;
+  rationale: string;
+  change: string;
+  expected_effect: string;
+  dimension_affected: DimensionKey | null;
+  dimension_label: string;
+  evidence_ids: string[];
+  decision: Decision | null;
+  edited_text?: string;
+}
+
+export interface CompetitorRow {
+  id: string;
+  name: string;
+  website: string | null;
+  description: string | null;
+  target_customers: string | null;
+  pricing: string | null;
+  strengths: string[] | null;
+  weaknesses: string[] | null;
+  differentiation_opportunity: string | null;
+  source_url: string | null;
+  evidence_ids: string[] | null;
+}
+
+export interface BusinessModel {
+  customer_segments: string[];
+  value_proposition: string;
+  channels: string[];
+  revenue_streams: string[];
+  cost_structure: string[];
+  pricing_options: { name: string; model: string; price_point: string; rationale: string }[];
+  key_metrics: string[];
+  assumptions: string[];
+  evidence_ids: string[];
+}
+
+export interface Evaluation {
+  id: string;
+  version_id: string;
+  version_no: number;
+  created_at: string;
+  summary: string | null;
+  overall_score: number | null;
+  disclaimer: string | null;
+  dimensions: DimensionScore[];
+  risks: EvaluationRisk[];
+  devils_advocate: string | null;
+  critique: { hidden_assumptions?: string[]; must_be_true?: string[] };
+  improvements: ImprovementSuggestion[];
+  alternatives: string[];
+  business_model: BusinessModel | null;
+  competitors: CompetitorRow[];
+  evidence: EvidenceRef[];
+  notices: string[];
+  baseline_evaluation_id: string | null;
+  run_id: string | null;
+  model_name: string | null;
+  prompt_version: string | null;
+}
+
+export interface DimensionDiff {
+  dimension: DimensionKey;
+  label: string;
+  score_a: number | null;
+  score_b: number | null;
+  delta: number | null;
+  confidence_a: Confidence | null;
+  confidence_b: Confidence | null;
+  reason: string;
+}
+
+export interface Comparison {
+  project_id: string;
+  a: number;
+  b: number;
+  evaluation_a: string;
+  evaluation_b: string;
+  overall_a: number | null;
+  overall_b: number | null;
+  overall_delta: number | null;
+  summary: string;
+  dimensions: DimensionDiff[];
+  risks_added: string[];
+  risks_removed: string[];
+  requirements_added: string[];
+  requirements_removed: string[];
+  idea_diff: { op: "equal" | "added" | "removed"; text: string }[];
+  change_summary: string | null;
+}
