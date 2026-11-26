@@ -57,7 +57,7 @@ export function BrandMark({ className, animated = true }: { className?: string; 
         className={cn(animated && "transition-opacity duration-500 ease-out-soft group-hover:opacity-0")}
       >
         {PATHS.map((d) => (
-          <path key={d} d={d} />
+          <path key={d} d={d} pathLength={1} />
         ))}
       </g>
       {/* hover state: the brand gradient draws itself along the line */}

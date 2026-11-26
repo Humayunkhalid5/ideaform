@@ -1,12 +1,9 @@
 "use client";
 
 import {
-  BookOpen,
   LayoutDashboard,
-  Lock,
   LogOut,
   Plus,
-  Settings,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,18 +13,12 @@ import { BrandMark, Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { api, ApiError, clearToken, getToken } from "@/lib/api";
-import { PRODUCT_STATUS, PRODUCT_STATUS_DETAIL } from "@/lib/constants";
 import type { User } from "@/lib/types";
 import { cn, initials } from "@/lib/utils";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/projects/new", label: "New project", icon: Plus },
-];
-
-const LATER = [
-  { href: "/knowledge", label: "Knowledge sources", icon: BookOpen },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 const SEGMENTS: { match: RegExp; crumbs: string[] }[] = [
@@ -98,7 +89,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3">
-            <BrandMark className="size-10 animate-pulse text-ink" animated={false} />
+            <BrandMark className="if-mark-draw size-12 text-ink" animated={false} />
             <p className="text-[13px] text-muted">Preparing your workspace…</p>
           </div>
         )}
@@ -111,6 +102,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-canvas">
+      <div className="if-ambient" aria-hidden="true">
+        <div className="if-ambient-grid" />
+      </div>
       <a
         href="#content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:text-[13px] focus:shadow-e2"
@@ -122,9 +116,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[248px] flex-col border-r border-line bg-surface lg:flex">
         <div className="flex h-14 items-center gap-2 border-b border-line px-4">
           <Logo href="/dashboard" />
-          <span className="ml-auto rounded-md bg-surface-soft px-1.5 py-0.5 font-mono text-[10px] text-muted">
-            v1
-          </span>
         </div>
 
         <nav className="flex flex-col gap-1 px-3 py-4" aria-label="Main">
@@ -150,30 +141,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             );
           })}
 
-          <p className="t-label px-2 pb-1 pt-5 text-muted">Later phases</p>
-          {LATER.map((item) => (
-            <span
-              key={item.href}
-              aria-disabled="true"
-              title="Not available in this build"
-              className="flex h-9 cursor-not-allowed items-center gap-2.5 rounded-lg px-2.5 text-[13.5px] text-muted/60"
-            >
-              <item.icon className="size-4" />
-              {item.label}
-              <Lock className="ml-auto size-3" />
-            </span>
-          ))}
         </nav>
 
         <div className="mt-auto flex flex-col gap-3 px-3 pb-4">
-          <div className="rounded-xl border border-line bg-surface-soft p-3">
-            <p className="flex items-center gap-1.5 text-[11.5px] font-semibold text-primary">
-              <span className="size-1.5 rounded-full bg-success" />
-              {PRODUCT_STATUS}
-            </p>
-            <p className="mt-1 text-[11.5px] leading-snug text-muted">{PRODUCT_STATUS_DETAIL}</p>
-          </div>
-
           <div className="flex items-center gap-2.5 rounded-xl border border-line p-2">
             <span className="grid size-8 shrink-0 place-items-center rounded-full bg-primary-soft text-[11.5px] font-semibold text-primary">
               {initials(user.full_name || user.email)}
@@ -196,7 +166,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* ---------------- Content ---------------- */}
-      <div className="lg:pl-[248px]">
+      <div className="relative z-10 lg:pl-[248px]">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-surface/90 px-4 backdrop-blur-md sm:px-6">
           <div className="lg:hidden">
             <Logo href="/dashboard" size="size-8" />

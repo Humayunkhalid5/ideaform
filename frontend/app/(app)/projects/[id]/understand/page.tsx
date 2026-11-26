@@ -152,7 +152,7 @@ export default function UnderstandPage() {
           <p className="t-label text-primary">Extracted requirements</p>
           <h2 className="t-section mt-0.5 text-ink">Here is how IdeaForm understood your idea</h2>
           <p className="t-body mt-0.5 text-muted">
-            Everything below comes from your own words. Confirm what is true before later phases use it.
+            Everything below comes from your own words. Confirm what is true before the analysis builds on it.
           </p>
         </div>
         <div className="flex items-center gap-2">

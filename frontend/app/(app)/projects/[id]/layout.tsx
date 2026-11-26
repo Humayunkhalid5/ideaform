@@ -79,7 +79,9 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
                 updated {formatRelative(project.updated_at)}
               </span>
             </div>
-            <h1 className="truncate t-section text-ink">{project.title}</h1>
+            <h1 className="truncate text-[clamp(1.75rem,3vw,2.4rem)] font-semibold leading-[1.08] tracking-[-0.035em]">
+              <span key={project.title} className="if-heading max-w-full truncate align-bottom">{project.title}</span>
+            </h1>
             <p className="text-[12.5px] text-muted">
               Depth · {HELP_LEVEL_LABEL[project.help_level]}
             </p>

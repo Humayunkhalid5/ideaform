@@ -1,16 +1,17 @@
 "use client";
 
-import { Lock } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-const LOCKED: string[] = [];
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 export function ProjectTabs({ projectId }: { projectId: string }) {
   const pathname = usePathname();
   const base = `/projects/${projectId}`;
+  const listRef = useRef<HTMLDivElement>(null);
   const tabs = [
     { href: base, label: "Overview", exact: true },
     { href: `${base}/understand`, label: "Understanding", exact: false },
@@ -22,15 +23,32 @@ export function ProjectTabs({ projectId }: { projectId: string }) {
     { href: `${base}/versions`, label: "Versions", exact: false },
     { href: `${base}/export`, label: "Export", exact: false },
   ];
+  const activeHref = tabs.find((t) => (t.exact ? pathname === t.href : pathname.startsWith(t.href)))?.href;
+
+  // one indicator that slides to the active tab (transform only)
+  useIsoLayoutEffect(() => {
+    const list = listRef.current;
+    const active = list?.querySelector<HTMLElement>('[aria-selected="true"]');
+    if (!list || !active) return;
+    const place = () => {
+      list.style.setProperty("--tab-x", `${active.offsetLeft + 8}px`);
+      list.style.setProperty("--tab-w", String((active.offsetWidth - 16) / 100));
+    };
+    place();
+    active.scrollIntoView({ block: "nearest", inline: "nearest" });
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [activeHref]);
 
   return (
     <div
-      className="no-scrollbar -mb-px flex items-center gap-1 overflow-x-auto border-b border-line"
+      ref={listRef}
+      className="no-scrollbar relative -mb-px flex items-center gap-1 overflow-x-auto border-b border-line"
       role="tablist"
       aria-label="Project sections"
     >
       {tabs.map((tab) => {
-        const active = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href);
+        const active = tab.href === activeHref;
         return (
           <Link
             key={tab.href}
@@ -38,32 +56,15 @@ export function ProjectTabs({ projectId }: { projectId: string }) {
             role="tab"
             aria-selected={active}
             className={cn(
-              "relative inline-flex h-11 items-center gap-1.5 whitespace-nowrap px-3 text-[13.5px] font-medium transition-colors",
+              "relative inline-flex h-11 items-center gap-1.5 whitespace-nowrap px-3 text-[13.5px] font-medium transition-colors duration-200",
               active ? "text-primary" : "text-muted hover:text-ink",
             )}
           >
             {tab.label}
-            <span
-              className={cn(
-                "absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-primary transition-opacity",
-                active ? "opacity-100" : "opacity-0",
-              )}
-            />
           </Link>
         );
       })}
-
-      {LOCKED.map((label) => (
-        <span
-          key={label}
-          aria-disabled="true"
-          title="Available in a later phase"
-          className="inline-flex h-11 cursor-not-allowed items-center gap-1.5 whitespace-nowrap px-3 text-[13.5px] text-muted/55"
-        >
-          {label}
-          <Lock className="size-3" />
-        </span>
-      ))}
+      <span className="if-tab-indicator" aria-hidden="true" />
     </div>
   );
 }

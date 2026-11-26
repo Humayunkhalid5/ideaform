@@ -89,10 +89,11 @@ Big marketing headings on the landing page use `clamp()` sizes with `tracking-[-
 | Tier | Pages | Allowed |
 | --- | --- | --- |
 | **Showcase** | landing `/`, sign-in/register brand panel | brand colours, lighting, 3D, scroll scenes, big type |
-| **Product** | dashboard, project overview, understanding, research, evaluation, compare, blueprint, documents | calm and flat; cards, tables, charts; motion only for feedback and state |
-| **Utility** | settings, export, 404, error | plainest; tokens and components only |
+| **Product** | dashboard, every project tab, new project, run, auth form | the shared motion system (§6): ambient brand light, cursor spotlight on cards, reveal on scroll, page and tab transitions, headline sheen; tilt only on clickable tiles |
+| **Utility** | 404, error | the motion system plus a large outlined display word |
 
-Gradients, glass, mesh and brand lighting never go behind tables or paragraphs of analysis.
+Brand light stays ambient (behind the whole app, very low contrast) or on a card's edge and under the
+cursor; it never sits as a strong gradient directly behind tables or paragraphs of analysis.
 
 ## 5. Layout and components
 
@@ -120,25 +121,33 @@ Gradients, glass, mesh and brand lighting never go behind tables or paragraphs o
 - Pages that call `useSearchParams` wrap their content in `<Suspense>`.
 - Two boxes deep at most. Prefer dividers and spacing to another bordered card.
 
-## 6. Motion
+## 6. Motion (one language on every page)
 
-Motion explains a change; it never decorates a still page.
+The whole product moves like the landing page (user decision). The motion system lives in
+`frontend/app/motion.css` and `components/motion/MotionFX.tsx` (mounted once in the root
+layout), so new pages get it by using the normal primitives.
 
-| Where | What |
+| Effect | How a page gets it |
 | --- | --- |
-| Everywhere | buttons press (`active:scale-[0.98]`, built into `buttonStyles`), colour transitions 150ms |
-| Clickable cards | `hover:-translate-y-0.5 hover:shadow-e2 hover:border-primary/25`, 150ms |
-| App content | one `animate-rise` on first load of `<main>` (in `AppShell`); never on tab change |
-| Loading | `PageSkeleton` / `animate-shimmer`, `animate-bar` for indeterminate progress |
-| Scores | `RadialGauge` count-up once |
-| Logo | the hover draw-in (§1) |
-| Landing only | scroll scenes (§7), one-time section `Reveal`, `TiltSurface` |
+| Ambient brand light (slow copper/teal drift + faint grid) | automatic in `AppShell` (`.if-ambient`) |
+| Cursor spotlight + brand edge on cards | automatic on `.if-card` / `Card`; add `data-fx` to a custom card element |
+| Reveal on entering the viewport (fade, rise, de-blur, staggered) | automatic on `.if-card` and `data-fx`; add `data-reveal` to other blocks |
+| 3D tilt toward the cursor | add `data-tilt` (plus `data-fx`) to **clickable tiles only**: project cards, stat tiles, stage cards, export formats. Never on tables, documents or forms |
+| Page transition | automatic: `app/(app)/template.tsx`; tab change: `projects/[id]/template.tsx` (the project header does not re-mount) |
+| Headline entrance + brand sheen | wrap the page title text in `<span className="if-heading">` (size `text-[clamp(1.75rem,3vw,2.4rem)]`) |
+| Sliding tab underline | built into `ProjectTabs` (`.if-tab-indicator`) |
+| Light sweep on primary buttons | built into `buttonStyles("primary")` (`.if-sheen`) |
+| Logo drawing itself while loading | `<BrandMark className="if-mark-draw" animated={false} />` |
+| Big outlined display word, letters rising | `.if-outline-display` with one `<span style={{"--i": i}}>` per letter (sign-in panel, 404) |
+| Press, colour, count-up, skeletons | `buttonStyles`, `RadialGauge`, `PageSkeleton` as before |
+| Landing only | scroll scenes (§7) |
 
-Rules: animate `transform`, `opacity`, colours and `stroke-dashoffset` only. 120–200ms for UI
-feedback, ~350ms for entrances, `ease-out-soft`, no bounce. No scroll reveals, parallax or tilt
-on Product pages. **Reduced motion:** the global rule in `globals.css` ends every animation in
-its final state; scroll scenes switch to a static layout in their own
-`@media (prefers-reduced-motion: reduce)` block. Nothing may stay hidden.
+Rules: animate `transform`, `opacity`, `filter`, colours and `stroke-dashoffset` only; easing
+`ease-out-soft` / `var(--if-ease)`; feedback 150–250ms, entrances 550–800ms; no bounce. Do not
+hand-write per-page keyframes: use the classes above so every page stays the same.
+**Reduced motion:** `MotionFX` does nothing, `motion.css` and the global rule in `globals.css`
+show everything in its final state, and scroll scenes switch to a static layout. Nothing may stay
+hidden, and nothing is hidden when JavaScript is off (the reveal only applies under `.fx-ready`).
 
 No animation library is installed. Do not add GSAP, Three.js or framer-motion/motion without
 asking the user first; the landing page proves CSS + one rAF is enough.
@@ -161,15 +170,14 @@ asking the user first; the landing page proves CSS + one rAF is enough.
 - No filler, no exclamation marks, no fake testimonials or invented metrics.
 - Scores always carry the disclaimer: `DISCLAIMER` / the `Disclaimer` component.
 
-## 9. When a phase ships (checklist)
+## 9. When a new feature ships (checklist)
 
-1. `frontend/lib/constants.ts`: update `PRODUCT_STATUS` and `PRODUCT_STATUS_DETAIL` (sidebar
-   card and sign-in panel read them).
-2. `ProjectTabs.tsx`: unlock the new tab(s).
-3. `projects/[id]/page.tsx`: set `path` on the phase card in `NEXT_PHASES`.
-4. `app/page.tsx`: update the `stages` status and the footer note.
-5. Search for stale text: `grep -rn "Phase [0-9]\|arrives\|later phase\|coming" frontend/app frontend/components`.
-6. Build the new screens from §4–§6 with the existing primitives; then walk §10.
+1. Never show build or release status in the UI (no "Phase N", "live", "beta", "coming soon",
+   "in development", version chips). The product simply has the feature or does not show it.
+2. `ProjectTabs.tsx`: add the tab; `projects/[id]/page.tsx`: add or update the stage card.
+3. `app/page.tsx`: make sure the landing copy is still true.
+4. Search for stale wording: `grep -rniE "phase|beta|coming soon|in development|live\b" frontend/app frontend/components`.
+5. Build the new screens from §4–§6 with the existing primitives; then walk §10.
 
 ## 10. Done means
 

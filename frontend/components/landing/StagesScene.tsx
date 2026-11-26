@@ -7,8 +7,6 @@ import { clamp01, easeInOutCubic, useScrollScene } from "./useScrollScene";
 export interface Stage {
   title: string;
   body: string;
-  status: string;
-  live: boolean;
 }
 
 const STEP_DEG = 36; // angle between faces of the drum
@@ -73,15 +71,6 @@ export function StagesScene({ stages }: { stages: Stage[] }) {
                 </span>
                 <h3 className="t-title text-ink">{stage.title}</h3>
                 <p className="max-w-[52ch] text-[14px] leading-relaxed text-muted">{stage.body}</p>
-                <span
-                  className={
-                    stage.live
-                      ? "w-fit rounded-full bg-success-soft px-2.5 py-0.5 text-[11px] font-medium text-success"
-                      : "w-fit rounded-full bg-surface-soft px-2.5 py-0.5 text-[11px] font-medium text-muted"
-                  }
-                >
-                  {stage.status}
-                </span>
               </li>
             ))}
           </ol>

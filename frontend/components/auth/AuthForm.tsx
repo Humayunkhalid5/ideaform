@@ -9,7 +9,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { api, setToken } from "@/lib/api";
-import { APP_NAME, BRAND_LINE, PRODUCT_STATUS } from "@/lib/constants";
+import { APP_NAME, BRAND_LINE, TAGLINE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type Mode = "login" | "register";
@@ -55,8 +55,19 @@ export function AuthForm({ mode }: { mode: Mode }) {
   return (
     <main className="grid min-h-screen lg:grid-cols-[1fr_1fr]">
       {/* ---------------- Brand panel ---------------- */}
-      <section className="if-brand-stage relative hidden flex-col justify-between overflow-hidden border-r border-line p-10 lg:flex">
+      <section data-fx className="if-brand-stage relative hidden flex-col justify-between overflow-hidden border-r border-line p-10 lg:flex">
         <div className="pointer-events-none absolute inset-0 opacity-[0.08] if-grid" aria-hidden="true" />
+        {/* the landing page's name, as a quiet outlined backdrop that rises in letter by letter */}
+        <p
+          aria-hidden="true"
+          className="if-outline-display pointer-events-none absolute -bottom-6 left-6 right-6 text-[min(11vw,170px)] [-webkit-text-stroke-color:rgba(255,255,255,0.09)]"
+        >
+          {APP_NAME.toUpperCase().split("").map((ch, i) => (
+            <span key={i} style={{ "--i": i } as React.CSSProperties}>
+              {ch}
+            </span>
+          ))}
+        </p>
         <div className="relative z-10">
           <Logo href="/" className="text-white" size="size-10" />
         </div>
@@ -65,7 +76,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
           <div className="flex flex-col gap-3">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11.5px] text-white/80">
               <span className="size-1.5 rounded-full bg-brand-teal" />
-              {PRODUCT_STATUS}
+              {BRAND_LINE}
             </span>
             <h2 className="text-[32px] font-semibold leading-[1.15] tracking-[-0.025em]">
               A rough idea, turned into something precise.
@@ -110,13 +121,13 @@ export function AuthForm({ mode }: { mode: Mode }) {
         </div>
 
         <p className="relative z-10 text-[12px] text-white/50">
-          {BRAND_LINE}
+          {TAGLINE}
         </p>
       </section>
 
       {/* ---------------- Form panel ---------------- */}
       <section className="flex flex-col justify-center bg-canvas px-5 py-10 sm:px-10">
-        <div className="mx-auto w-full max-w-[400px]">
+        <div data-reveal className="mx-auto w-full max-w-[400px]">
           <div className="mb-8 lg:hidden">
             <Logo href="/" />
           </div>
@@ -125,13 +136,13 @@ export function AuthForm({ mode }: { mode: Mode }) {
             <p className="t-label text-primary">
               {isLogin ? "Welcome back" : "Create your workspace"}
             </p>
-            <h1 className="t-section text-ink">
-              {isLogin ? `Sign in to ${APP_NAME}` : "Start understanding ideas"}
+            <h1 className="text-[clamp(1.75rem,3vw,2.4rem)] font-semibold leading-[1.08] tracking-[-0.035em]">
+              <span className="if-heading">{isLogin ? `Sign in to ${APP_NAME}` : "Start understanding ideas"}</span>
             </h1>
             <p className="t-body text-muted">
               {isLogin
                 ? "Pick up where your last idea left off."
-                : "Free while in development. No card, no noise."}
+                : "Your ideas stay private to your account."}
             </p>
           </div>
 

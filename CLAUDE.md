@@ -2,7 +2,7 @@
 
 - **UI work:** read `DESIGN.md` first and load the `ideaform-ui-taste` skill. Every page uses
   the same tokens, primitives, motion rules and the icon-only logo (`components/brand/Logo.tsx`).
-  When a phase ships, follow the checklist in `DESIGN.md` §9.
+  When a feature ships, follow the checklist in `DESIGN.md` §9; never show phase or release status in the UI.
 - **Plan and specs:** `docs/implementation_plan.md` (phases), `docs/architecture.md`,
   `docs/AI_DESIGN.md`, and the per-phase notes in `docs/phase*.md`.
 - **Run locally (Windows, no Docker):** `powershell -ExecutionPolicy Bypass -File scripts\run_local.ps1`

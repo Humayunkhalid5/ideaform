@@ -1,0 +1,328 @@
+/* ---------------------------------------------------------------
+   IdeaForm motion system: the landing page's language (brand light,
+   depth, staged reveals) applied to every app page.
+   Driven by components/motion/MotionFX.tsx, which sets
+   --px --py (pointer %, for light) and --mx --my (-1..1, for tilt) on
+   the hovered card, and data-shown when a card enters the viewport.
+   Everything ends in its final state under reduced motion.
+   --------------------------------------------------------------- */
+
+/* ---- ambient brand light behind the app (fixed, very slow drift) ---- */
+.if-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.if-ambient::before,
+.if-ambient::after {
+  content: "";
+  position: absolute;
+  width: 62vmax;
+  height: 62vmax;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.if-ambient::before {
+  top: -30vmax;
+  left: -12vmax;
+  background: radial-gradient(circle, color-mix(in srgb, var(--if-brand-copper) 22%, transparent), transparent 65%);
+  animation: ambient-a 38s ease-in-out infinite alternate;
+}
+.if-ambient::after {
+  right: -24vmax;
+  bottom: -34vmax;
+  background: radial-gradient(circle, color-mix(in srgb, var(--if-brand-teal) 20%, transparent), transparent 65%);
+  animation: ambient-b 44s ease-in-out infinite alternate;
+}
+.if-ambient-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--if-line) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--if-line) 60%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(70% 55% at 50% 0%, #000, transparent 75%);
+}
+@keyframes ambient-a {
+  to {
+    transform: translate(18vmax, 10vmax) scale(1.08);
+  }
+}
+@keyframes ambient-b {
+  to {
+    transform: translate(-16vmax, -12vmax) scale(1.12);
+  }
+}
+
+/* ---- cursor spotlight and brand edge on every card ---- */
+.if-card,
+[data-fx] {
+  --px: 50%;
+  --py: 50%;
+  --mx: 0;
+  --my: 0;
+  position: relative;
+  isolation: isolate;
+}
+.if-card::before,
+[data-fx]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--px) var(--py),
+    color-mix(in srgb, var(--if-brand-copper) 9%, transparent),
+    color-mix(in srgb, var(--if-brand-teal) 5%, transparent) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.35s var(--if-ease);
+}
+.if-card::after,
+[data-fx]::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  opacity: 0;
+  background: radial-gradient(
+    260px circle at var(--px) var(--py),
+    color-mix(in srgb, var(--if-brand-copper) 70%, transparent),
+    color-mix(in srgb, var(--if-brand-teal) 55%, transparent) 50%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 0.35s var(--if-ease);
+}
+.if-card[data-hot]::before,
+[data-fx][data-hot]::before,
+.if-card[data-hot]::after,
+[data-fx][data-hot]::after {
+  opacity: 1;
+}
+
+/* ---- 3D tilt on clickable tiles (opt in with data-tilt) ---- */
+[data-tilt] {
+  transform: perspective(900px) rotateX(calc(var(--my) * -4deg)) rotateY(calc(var(--mx) * 5deg))
+    translateY(calc(var(--hot, 0) * -2px));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.45s var(--if-ease),
+    box-shadow 0.3s var(--if-ease),
+    border-color 0.3s var(--if-ease);
+}
+[data-tilt][data-hot] {
+  --hot: 1;
+  box-shadow: var(--if-shadow-3);
+}
+
+/* ---- reveal on entering the viewport (staggered by MotionFX) ---- */
+.fx-ready .if-card:not([data-shown]),
+.fx-ready [data-fx]:not([data-shown]),
+.fx-ready [data-reveal]:not([data-shown]) {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  filter: blur(4px);
+}
+.fx-ready .if-card[data-shown],
+.fx-ready [data-fx][data-shown],
+.fx-ready [data-reveal][data-shown] {
+  animation: fx-in 0.7s var(--if-ease) both;
+  animation-delay: var(--fx-delay, 0ms);
+}
+@keyframes fx-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+/* tilted tiles keep their tilt transform after the entrance */
+.fx-ready [data-tilt][data-shown] {
+  animation-name: fx-in-tilt;
+}
+@keyframes fx-in-tilt {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* ---- page and tab transitions (app/(app)/template.tsx, projects/[id]/template.tsx) ---- */
+.if-page-in {
+  animation: page-in 0.55s var(--if-ease) both;
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ---- headings: rise in line by line, brand sheen like the landing type ---- */
+.if-heading {
+  display: inline-block;
+  background-image: linear-gradient(
+    100deg,
+    var(--if-ink) 0%,
+    var(--if-ink) 55%,
+    color-mix(in srgb, var(--if-ink) 45%, var(--if-brand-copper)) 78%,
+    color-mix(in srgb, var(--if-ink) 50%, var(--if-brand-teal)) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    heading-in 0.8s var(--if-ease) both,
+    heading-sheen 1.6s var(--if-ease) 0.35s both;
+}
+@keyframes heading-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em) rotateX(-35deg);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes heading-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}
+
+/* ---- sliding tab indicator (ProjectTabs) ---- */
+.if-tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 100px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--if-primary), color-mix(in srgb, var(--if-primary) 55%, var(--if-brand-teal)));
+  transform-origin: left;
+  transform: translateX(var(--tab-x, 0px)) scaleX(var(--tab-w, 0));
+  transition: transform 0.45s var(--if-ease);
+}
+
+/* ---- primary buttons: a light sweep on hover ---- */
+.if-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.if-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+.if-sheen:hover::after {
+  transform: translateX(120%);
+  transition: transform 0.9s var(--if-ease);
+}
+
+/* ---- logo drawing itself (loading screens) ---- */
+.if-mark-draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: mark-draw 2.2s var(--if-ease) infinite;
+}
+@keyframes mark-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  55%,
+  75% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+/* ---- big outlined word for standalone pages (404, auth) ---- */
+.if-outline-display {
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.82;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--if-ink) 14%, transparent);
+  user-select: none;
+}
+.if-outline-display span {
+  display: inline-block;
+  animation: letter-rise 0.9s var(--if-ease) both;
+  animation-delay: calc(var(--i, 0) * 55ms + 100ms);
+}
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.3em) rotateX(-70deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .if-ambient::before,
+  .if-ambient::after {
+    animation: none;
+  }
+  .fx-ready .if-card:not([data-shown]),
+  .fx-ready [data-fx]:not([data-shown]),
+  .fx-ready [data-reveal]:not([data-shown]) {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  [data-tilt] {
+    transform: none;
+  }
+  .if-heading {
+    color: var(--if-ink);
+    background: none;
+  }
+  .if-mark-draw path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}

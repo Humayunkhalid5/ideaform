@@ -94,7 +94,7 @@ function StatTile({
   footer: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <div data-fx data-tilt className="flex flex-col justify-between rounded-xl border border-line bg-surface p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
           <span className="t-label text-muted">{label}</span>
@@ -184,7 +184,7 @@ export default function DashboardPage() {
             <span>•</span>
             <span className="font-medium text-accent">Synced with {APP_NAME}</span>
           </div>
-          <h1 className="t-section text-ink">Your projects</h1>
+          <h1 className="text-[clamp(1.75rem,3vw,2.4rem)] font-semibold leading-[1.08] tracking-[-0.035em]"><span className="if-heading">Your projects</span></h1>
           <p className="t-body mt-0.5 text-muted">
             Manage and inspect the structure extracted from every idea in your workspace.
           </p>
@@ -248,9 +248,6 @@ export default function DashboardPage() {
           tone="bg-surface-soft text-accent"
           footer={
             <>
-              <span className="rounded bg-surface-soft px-1.5 py-0.5 font-mono text-[11px] font-medium text-accent">
-                Live
-              </span>
               <span className="font-mono text-[12px] font-medium text-accent">
                 {counts.analysing + counts.draft} active
               </span>
@@ -377,7 +374,7 @@ export default function DashboardPage() {
             return (
               <article
                 key={project.id}
-                className="group flex flex-col justify-between rounded-xl border border-line bg-surface p-5 shadow-sm transition-[transform,box-shadow,border-color] duration-150 ease-out hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-e2"
+                data-fx data-tilt className="group flex flex-col justify-between rounded-xl border border-line bg-surface p-5 shadow-sm transition-[transform,box-shadow,border-color] duration-150 ease-out hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-e2"
               >
                 <div>
                   <div className="mb-3 flex items-start justify-between gap-2">
@@ -482,7 +479,6 @@ export default function DashboardPage() {
           <Check className="size-3.5 text-success" />
           {DISCLAIMER}
         </span>
-        <span className="font-mono text-[11px]">Understanding engine · phase 1</span>
       </div>
     </div>
   );

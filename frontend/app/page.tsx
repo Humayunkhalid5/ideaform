@@ -15,32 +15,22 @@ const stages: Stage[] = [
   {
     title: "Describe",
     body: "Write the idea the way you would say it out loud. No template, no jargon.",
-    status: "Live",
-    live: true,
   },
   {
     title: "Understand",
     body: "Category, problem, users, features and typed requirements, taken from your own words. Gaps are flagged, never filled in.",
-    status: "Live",
-    live: true,
   },
   {
     title: "Research",
     body: "Market and competitor sources gathered, ranked and stored, so every later claim can point at a passage.",
-    status: "Live",
-    live: true,
   },
   {
     title: "Evaluate",
     body: "Six scored dimensions with evidence, confidence, risks and a devil's advocate. Accept an improvement and see exactly what moved.",
-    status: "Live",
-    live: true,
   },
   {
     title: "Blueprint",
     body: "PRD, UI/UX, architecture and ER diagrams, API specification and a roadmap. Regenerate or edit any section on its own.",
-    status: "Live",
-    live: true,
   },
 ];
 
@@ -218,8 +208,7 @@ export default function LandingPage() {
               Your idea deserves a real answer.
             </h2>
             <p className="mt-5 max-w-[44ch] t-body text-muted">
-              Describe it once. Get the structure, the evidence and the scores, free while {APP_NAME} is in
-              development.
+              Describe it once. Get the structure, the evidence, the scores and a blueprint you can build from.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link href="/register" className={buttonStyles("primary", "lg")}>

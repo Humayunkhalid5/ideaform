@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { MotionFX } from "@/components/motion/MotionFX";
 import { themeScript } from "@/components/ui/theme-toggle";
 import { APP_NAME, TAGLINE } from "@/lib/constants";
 
 import "./globals.css";
+import "./motion.css";
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <MotionFX />
+        {children}
+      </body>
     </html>
   );
 }

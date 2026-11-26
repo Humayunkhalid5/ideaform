@@ -206,7 +206,8 @@ export default function NewProjectPage() {
                       : "Review before extraction runs"}
               </span>
             </div>
-            <h1 className="t-section text-ink">
+            <h1 className="text-[clamp(1.75rem,3vw,2.4rem)] font-semibold leading-[1.08] tracking-[-0.035em]">
+              <span key={step} className="if-heading">
               {step === 0
                 ? "What do you want to build?"
                 : step === 1
@@ -214,6 +215,7 @@ export default function NewProjectPage() {
                   : step === 2
                     ? "What should IdeaForm help with?"
                     : "Review and start"}
+              </span>
             </h1>
             <p className="t-body mt-1 max-w-2xl text-muted">
               {step === 0
@@ -221,7 +223,7 @@ export default function NewProjectPage() {
                 : step === 1
                   ? "Write it the way you would say it out loud. IdeaForm only records what you state and lists the rest as missing information."
                   : step === 2
-                    ? "Depth is saved with the project so later phases know how far to take it."
+                    ? "Depth is saved with the project so the analysis knows how far to take it."
                     : "Nothing is invented. Extraction reads this version of the idea text."}
             </p>
           </div>

@@ -26,10 +26,10 @@ import { HELP_LEVEL_LABEL, readStructured, REQUIREMENT_GROUPS } from "@/lib/idea
 import type { ProjectDetail } from "@/lib/types";
 
 const NEXT_PHASES = [
-  { phase: "Phase 2", title: "Research", body: "Market and technical sources you can open and check.", path: "research" },
-  { phase: "Phase 3", title: "Evaluation", body: "Six scored dimensions with evidence, risks, competitors and an improvement loop.", path: "evaluation" },
-  { phase: "Phase 4", title: "Blueprint", body: "PRD, architecture, schema, API, UI/UX and a roadmap, each editable.", path: "blueprint" },
-  { phase: "Phase 5", title: "Documents and export", body: "Feasibility report, business model, version history and PDF, Word, Markdown or ZIP export.", path: "export" },
+  { phase: "Sources", title: "Research", body: "Market and technical sources you can open and check.", path: "research" },
+  { phase: "Scores", title: "Evaluation", body: "Six scored dimensions with evidence, risks, competitors and an improvement loop.", path: "evaluation" },
+  { phase: "Build plan", title: "Blueprint", body: "PRD, architecture, schema, API, UI/UX and a roadmap, each editable.", path: "blueprint" },
+  { phase: "Share", title: "Documents and export", body: "Feasibility report, business model, version history and PDF, Word, Markdown or ZIP export.", path: "export" },
 ];
 
 export default function ProjectOverviewPage() {
@@ -246,11 +246,10 @@ export default function ProjectOverviewPage() {
         </Card>
       </div>
 
-      {/* Next phases */}
+      {/* Analysis stages */}
       <div className="mt-2 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-[14px] font-semibold text-ink">Analysis stages</h3>
-          <span className="font-mono text-[11px] text-muted">Phases 2–5</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {NEXT_PHASES.map((phase) => {
@@ -268,7 +267,6 @@ export default function ProjectOverviewPage() {
                 <div className="flex flex-col gap-1">
                   <p className="t-label text-muted">
                     {phase.phase}
-                    {phase.path ? " · live" : ""}
                   </p>
                   <p className="text-[13px] font-medium text-ink">{phase.title}</p>
                   <p className="text-[11.5px] leading-snug text-muted">{phase.body}</p>
@@ -279,6 +277,8 @@ export default function ProjectOverviewPage() {
               <Link
                 key={phase.title}
                 href={`/projects/${id}/${phase.path}`}
+                data-fx
+                data-tilt
                 className="flex items-start gap-3 rounded-xl border border-line bg-surface p-4 transition-colors hover:border-primary/40"
               >
                 {body}

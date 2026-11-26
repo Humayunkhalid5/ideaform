@@ -9,7 +9,7 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-lg text-[14px] font-medium whitespace-nowrap transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.98] active:duration-75 select-none disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-white shadow-sm hover:bg-primary-hover",
+  primary: "if-sheen bg-primary text-white shadow-sm hover:bg-primary-hover",
   secondary:
     "border border-line bg-surface text-ink shadow-sm hover:bg-surface-soft",
   glass: "border border-line bg-surface text-ink shadow-sm hover:bg-surface-soft",

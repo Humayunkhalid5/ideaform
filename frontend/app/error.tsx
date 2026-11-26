@@ -28,7 +28,7 @@ export default function GlobalError({
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-danger">
             Something went wrong
           </p>
-          <h1 className="t-section text-ink">That screen failed to render.</h1>
+          <h1 className="text-[clamp(1.75rem,3vw,2.4rem)] font-semibold leading-[1.08] tracking-[-0.035em]"><span className="if-heading">That screen failed to render.</span></h1>
           <p className="t-body text-muted">
             Your data is untouched. Retry the screen, or head back to the dashboard.
           </p>

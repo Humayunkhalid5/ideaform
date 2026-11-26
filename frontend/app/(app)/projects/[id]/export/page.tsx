@@ -129,7 +129,7 @@ export default function ExportPage() {
       <div className="grid gap-5 lg:grid-cols-[1fr_300px] lg:items-start">
         <div className="grid gap-4 sm:grid-cols-2">
           {FORMATS.map((f) => (
-            <Card key={f.format} className="flex flex-col gap-3">
+            <Card key={f.format} data-tilt className="flex flex-col gap-3">
               <div className="flex items-center gap-2.5">
                 <span className="grid size-9 place-items-center rounded-lg bg-primary-soft text-primary">
                   <f.icon className="size-[18px]" />

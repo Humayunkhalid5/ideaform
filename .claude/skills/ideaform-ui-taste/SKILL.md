@@ -100,9 +100,11 @@ Details, tokens and code: `reference/motion.md`.
 
 ## Never
 
-(Exception, by the user's decision: the **landing page** `/` is a scroll-driven 3D typography
-showcase with section reveals and pointer tilt, built as described in `DESIGN.md` §7. Keep those
-effects there only; the rules below hold for every other page.)
+(Exception, by the user's decision: the whole product uses the landing page's motion language
+through the shared system in `DESIGN.md` §6: ambient brand light, cursor spotlight on cards, reveal
+on scroll, page and tab transitions, headline sheen, and tilt on clickable tiles. Use those classes
+and do not invent new effects; scroll scenes stay on the landing page. Where the rules below forbid
+reveals or tilt, §6 wins. Never show release status such as "Phase N", "live" or "beta" in the UI.)
 
 - New colours, fonts, radii or shadows outside `globals.css`.
 - Glass, blur or gradient behind tables or paragraphs of analysis text.
