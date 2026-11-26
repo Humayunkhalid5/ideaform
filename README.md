@@ -111,7 +111,19 @@ Before Phase 2 retrieval, build it with `scripts/install_pgvector_windows.ps1` (
 Design notes and verification: `docs/phase3_evaluation.md`. Without a database,
 `scripts/phase3_offline_demo.py` runs the evaluate → improve → compare loop against Groq.
 
-`understand`, `regenerate`, `evaluate` and `improve` return 429 once the user's `daily_token_limit` (tokens
+### Phase 4: blueprint
+
+| Method | Path | What it does |
+| --- | --- | --- |
+| POST | `/projects/{id}/blueprint` | Product Design and Technical Architect agents plus generators: PRD, UI/UX concepts, architecture (Mermaid), database schema (ER diagram), API specification, roadmap |
+| GET | `/projects/{id}/artifacts?version=` | Newest version of each section, plus missing sections |
+| GET | `/projects/{id}/artifacts/{type}/history` | Every version of one section |
+| POST | `/projects/{id}/artifacts/{type}/regenerate` | Regenerate one section alone, with optional instructions |
+| GET / PATCH | `/artifacts/{id}` | Read one version / save an edit as the next version |
+
+Design notes, the comparison with `architecture.md`, and verification: `docs/phase4_blueprint.md`.
+
+`understand`, `regenerate`, `evaluate`, `improve`, `blueprint` and section regeneration return 429 once the user's `daily_token_limit` (tokens
 used by their runs since 00:00 UTC) is spent.
 
 ## Checks

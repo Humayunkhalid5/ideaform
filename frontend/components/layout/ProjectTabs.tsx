@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-const LOCKED = ["Blueprint", "Documents", "Export"];
+const LOCKED = ["Documents", "Export"];
 
 export function ProjectTabs({ projectId }: { projectId: string }) {
   const pathname = usePathname();
@@ -17,6 +17,7 @@ export function ProjectTabs({ projectId }: { projectId: string }) {
     { href: `${base}/research`, label: "Research", exact: false },
     { href: `${base}/evaluation`, label: "Evaluation", exact: false },
     { href: `${base}/compare`, label: "Compare", exact: false },
+    { href: `${base}/blueprint`, label: "Blueprint", exact: false },
   ];
 
   return (

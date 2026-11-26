@@ -38,9 +38,9 @@ const stages: Stage[] = [
   },
   {
     title: "Blueprint",
-    body: "PRD, architecture, schema, UI/UX and a phased roadmap you can build from.",
-    status: "Next phase",
-    live: false,
+    body: "PRD, UI/UX, architecture and ER diagrams, API specification and a roadmap. Regenerate or edit any section on its own.",
+    status: "Live",
+    live: true,
   },
 ];
 
@@ -252,7 +252,7 @@ export default function LandingPage() {
         </div>
         <div className="mx-auto w-full max-w-[1180px] px-5 sm:px-8">
           <p className="mt-10 rounded-lg border border-line bg-canvas px-4 py-3 text-[11.5px] leading-relaxed text-muted">
-            {DISCLAIMER} Blueprint and document generation are the next phase.
+            {DISCLAIMER} Export to PDF, Markdown and ZIP is the next phase.
           </p>
         </div>
         <p

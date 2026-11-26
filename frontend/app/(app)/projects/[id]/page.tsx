@@ -28,7 +28,7 @@ import type { ProjectDetail } from "@/lib/types";
 const NEXT_PHASES = [
   { phase: "Phase 2", title: "Research", body: "Market and technical sources you can open and check.", path: "research" },
   { phase: "Phase 3", title: "Evaluation", body: "Six scored dimensions with evidence, risks, competitors and an improvement loop.", path: "evaluation" },
-  { phase: "Phase 4", title: "Blueprint", body: "PRD, architecture, schema, UI/UX and a roadmap.", path: null },
+  { phase: "Phase 4", title: "Blueprint", body: "PRD, architecture, schema, API, UI/UX and a roadmap, each editable.", path: "blueprint" },
 ];
 
 export default function ProjectOverviewPage() {
@@ -88,7 +88,7 @@ export default function ProjectOverviewPage() {
       <div className="flex items-start gap-2 rounded-xl border border-primary/20 bg-primary-soft/60 px-4 py-3 text-[12.5px] text-ink">
         <Info className="mt-0.5 size-4 shrink-0 text-primary" />
         <p>
-          {DISCLAIMER} Blueprints and generated documents arrive in the next phase.
+          {DISCLAIMER} Exports (PDF, Markdown and ZIP) arrive in the next phase.
         </p>
       </div>
 
@@ -248,8 +248,8 @@ export default function ProjectOverviewPage() {
       {/* Next phases */}
       <div className="mt-2 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
-          <h3 className="text-[14px] font-semibold text-ink">What unlocks next</h3>
-          <span className="font-mono text-[11px] text-muted">Understanding is phase 1</span>
+          <h3 className="text-[14px] font-semibold text-ink">Analysis stages</h3>
+          <span className="font-mono text-[11px] text-muted">Phases 2–4</span>
         </div>
         <div className="grid gap-3 md:grid-cols-3">
           {NEXT_PHASES.map((phase) => {

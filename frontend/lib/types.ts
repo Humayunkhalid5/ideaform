@@ -335,3 +335,38 @@ export interface Comparison {
   idea_diff: { op: "equal" | "added" | "removed"; text: string }[];
   change_summary: string | null;
 }
+
+// ---------------------------------------------------------------- Phase 4: blueprint
+
+export type ArtifactType = "ui_ux" | "architecture" | "database_schema" | "api_spec" | "prd" | "roadmap";
+
+export interface Artifact {
+  id: string;
+  artifact_type: ArtifactType;
+  title: string;
+  format: string;
+  content: string;
+  data: {
+    result?: Record<string, unknown>;
+    review_notes?: string[];
+    references?: { id: string; title: string | null; url: string | null }[];
+    based_on?: Record<string, number>;
+    notices?: string[];
+    model?: string | null;
+    prompt_version?: string;
+  } | null;
+  artifact_version: number;
+  edited_by_user: boolean;
+  instructions: string | null;
+  run_id: string | null;
+  created_at: string;
+  stale_inputs: ArtifactType[];
+}
+
+export interface Blueprint {
+  project_id: string;
+  version_no: number;
+  artifacts: Artifact[];
+  missing: ArtifactType[];
+  has_evaluation: boolean;
+}

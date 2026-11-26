@@ -1,4 +1,7 @@
 import type {
+  Artifact,
+  ArtifactType,
+  Blueprint,
   Comparison,
   Decision,
   Evaluation,
@@ -200,4 +203,17 @@ export const api = {
     }),
   compare: (id: string, a: number, b: number) =>
     request<Comparison>(`/projects/${id}/compare?a=${a}&b=${b}`),
+  generateBlueprint: (id: string) =>
+    request<{ run_id: string; status: string }>(`/projects/${id}/blueprint`, { method: "POST" }),
+  blueprint: (id: string, versionNo?: number) =>
+    request<Blueprint>(`/projects/${id}/artifacts${versionNo ? `?version=${versionNo}` : ""}`),
+  artifactHistory: (id: string, type: ArtifactType) =>
+    request<Artifact[]>(`/projects/${id}/artifacts/${type}/history`),
+  regenerateArtifact: (id: string, type: ArtifactType, instructions?: string) =>
+    request<{ run_id: string; status: string }>(`/projects/${id}/artifacts/${type}/regenerate`, {
+      method: "POST",
+      body: JSON.stringify({ instructions: instructions || null }),
+    }),
+  editArtifact: (artifactId: string, content: string) =>
+    request<Artifact>(`/artifacts/${artifactId}`, { method: "PATCH", body: JSON.stringify({ content }) }),
 };

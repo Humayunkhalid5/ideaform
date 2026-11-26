@@ -262,9 +262,12 @@ CREATE TABLE project_artifacts (
     artifact_version INTEGER NOT NULL DEFAULT 1,
     edited_by_user BOOLEAN DEFAULT false,
     run_id        UUID REFERENCES agent_runs(id),
+    data          JSONB,              -- Phase 4: structured section output, based_on, review notes
+    instructions  TEXT,               -- Phase 4: user instructions for a regeneration
     created_at    TIMESTAMPTZ DEFAULT now()
 );
 CREATE INDEX idx_artifacts_version ON project_artifacts(version_id, artifact_type);
+CREATE INDEX idx_artifacts_history ON project_artifacts(version_id, artifact_type, artifact_version DESC);
 
 -- 4.12 Feedback and decisions
 CREATE TABLE project_feedback (

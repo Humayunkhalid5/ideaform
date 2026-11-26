@@ -126,3 +126,30 @@ def improve_project(
         )
     finally:
         db.close()
+
+
+@celery_app.task(name="ideaform.generate_blueprint", bind=True, max_retries=0)
+def generate_blueprint(
+    self,
+    project_id: str,
+    run_id: str | None = None,
+    types: list[str] | None = None,
+    instructions: str | None = None,
+) -> dict:
+    """Blueprint: generate all sections, or regenerate one with optional instructions.
+
+    Not retried: finished sections are already stored, and a retry would add versions.
+    """
+    from app.services.blueprint.agent import run_blueprint
+
+    db = SessionLocal()
+    try:
+        return run_blueprint(
+            db,
+            uuid.UUID(project_id),
+            uuid.UUID(run_id) if run_id else None,
+            types=types,
+            instructions=instructions,
+        )
+    finally:
+        db.close()

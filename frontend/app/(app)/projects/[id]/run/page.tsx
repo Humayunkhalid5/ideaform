@@ -89,7 +89,9 @@ function RunView() {
           ? `/projects/${projectId}/compare?a=${output.compare.a}&b=${output.compare.b}`
           : run.agent_name === "research"
             ? `/projects/${projectId}/research`
-            : `/projects/${projectId}/understand`;
+            : run.agent_name === "blueprint"
+              ? `/projects/${projectId}/blueprint`
+              : `/projects/${projectId}/understand`;
     const timer = setTimeout(() => {
       router.replace(target);
     }, 1400);

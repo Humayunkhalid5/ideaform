@@ -213,6 +213,7 @@ def _dispatch(
         except Exception:  # broker unavailable: run here so the endpoint still works
             logger.warning("celery unavailable, running %s inline for %s", agent_name, project.id)
 
+    from app.services.blueprint.agent import run_blueprint
     from app.services.evaluation.agent import run_evaluation
     from app.services.evaluation.improve import run_improvement
     from app.services.nlp import pipeline
@@ -224,6 +225,7 @@ def _dispatch(
         "research_project": run_research,
         "evaluate_project": run_evaluation,
         "improve_project": run_improvement,
+        "generate_blueprint": run_blueprint,
     }[task_name]
     stage = "Extraction" if agent_name in ("understanding", "requirements") else agent_name.capitalize()
     try:

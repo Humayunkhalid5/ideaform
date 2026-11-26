@@ -107,6 +107,11 @@ Gradients, glass, mesh and brand lighting never go behind tables or paragraphs o
   action), an error state (`ErrorNotice` with retry), long-text and 390px-wide behaviour.
 - Icons: lucide-react, 16px in text and buttons, 20px in headers. `Sparkles` means "run the AI
   step" (Understand, Research, Evaluate, Improve, Generate); keep that meaning.
+- Generated documents (Blueprint, later Export previews) use `MarkdownDoc` (GitHub-flavoured
+  Markdown styled by `.if-doc` in `globals.css`) and `MermaidDiagram` (lazy-loaded Mermaid,
+  `securityLevel: "strict"`, theme-aware, falls back to the source). Never render model HTML
+  directly, and never let the model write diagram code that is shown unsanitised: build
+  diagrams in the backend (`services/blueprint/render.py`).
 - Pages that call `useSearchParams` wrap their content in `<Suspense>`.
 - Two boxes deep at most. Prefer dividers and spacing to another bordered card.
 

@@ -13,8 +13,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { BrandMark, Logo } from "@/components/brand/Logo";
+import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { api, clearToken, getToken } from "@/lib/api";
+import { api, ApiError, clearToken, getToken } from "@/lib/api";
 import { PRODUCT_STATUS, PRODUCT_STATUS_DETAIL } from "@/lib/constants";
 import type { User } from "@/lib/types";
 import { cn, initials } from "@/lib/utils";
@@ -46,6 +47,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [checking, setChecking] = useState(true);
+  const [unreachable, setUnreachable] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     if (!getToken()) {
@@ -53,6 +56,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       return;
     }
     let cancelled = false;
+    setUnreachable(null);
     api
       .me()
       .then((me) => {
@@ -60,14 +64,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         setUser(me);
         setChecking(false);
       })
-      .catch(() => {
-        clearToken();
-        router.replace("/login");
+      .catch((err) => {
+        if (cancelled) return;
+        // only a rejected token signs you out; an unreachable or failing API keeps it
+        if (err instanceof ApiError && (err.status === 401 || err.status === 403)) {
+          clearToken();
+          router.replace("/login");
+        } else {
+          setUnreachable(err instanceof Error ? err.message : "The IdeaForm API did not answer.");
+        }
       });
     return () => {
       cancelled = true;
     };
-  }, [router]);
+  }, [router, attempt]);
 
   function signOut() {
     clearToken();
@@ -76,11 +86,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (checking || !user) {
     return (
-      <div className="grid min-h-screen place-items-center bg-canvas">
-        <div className="flex flex-col items-center gap-3">
-          <BrandMark className="size-10 animate-pulse text-ink" animated={false} />
-          <p className="text-[13px] text-muted">Preparing your workspace…</p>
-        </div>
+      <div className="grid min-h-screen place-items-center bg-canvas px-5">
+        {unreachable ? (
+          <div className="flex max-w-sm flex-col items-center gap-3 text-center">
+            <BrandMark className="size-10 text-ink" animated={false} />
+            <p className="t-sub text-ink">Cannot reach your workspace</p>
+            <p className="text-[13px] text-muted">{unreachable}</p>
+            <Button size="sm" onClick={() => setAttempt((n) => n + 1)}>
+              Try again
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-3">
+            <BrandMark className="size-10 animate-pulse text-ink" animated={false} />
+            <p className="text-[13px] text-muted">Preparing your workspace…</p>
+          </div>
+        )}
       </div>
     );
   }
