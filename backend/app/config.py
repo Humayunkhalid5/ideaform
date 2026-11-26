@@ -75,6 +75,12 @@ class Settings(BaseSettings):
         return self.scraper_user_agent
     scraper_timeout_seconds: int = 20
 
+    # Phase 5: cost controls and orchestration budgets
+    llm_cache_enabled: bool = True  # cache extraction replies by content hash
+    llm_cache_ttl_hours: int = 720
+    analysis_token_budget: int = 150_000  # per full-analysis run; later agents are skipped past it
+    analysis_max_seconds: int = 1_500  # per full-analysis run (wall clock)
+
     # limits
     daily_token_limit_per_user: int = 200_000
     auth_rate_limit_attempts: int = 10  # per client IP per window, login and register

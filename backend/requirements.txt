@@ -23,3 +23,8 @@ trafilatura>=2,<3
 pypdf>=5,<7
 python-docx>=1.1,<2
 # optional: JS-rendered pages (pip install playwright && playwright install chromium)
+# Phase 5: orchestration and export
+langgraph>=0.2,<2
+reportlab>=4,<5
+markdown-it-py>=3,<5
+rl_renderPM>=4  # PNG diagrams in the Word export

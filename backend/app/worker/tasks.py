@@ -153,3 +153,18 @@ def generate_blueprint(
         )
     finally:
         db.close()
+
+
+@celery_app.task(name="ideaform.analyse_project", bind=True, max_retries=0)
+def analyse_project(self, project_id: str, run_id: str, depth: str | None = None) -> dict:
+    """Full analysis through the LangGraph orchestrator.
+
+    Not retried as a whole: each agent step already retries once inside the graph.
+    """
+    from app.services.orchestrator.graph import run_analysis
+
+    db = SessionLocal()
+    try:
+        return run_analysis(db, uuid.UUID(project_id), uuid.UUID(run_id), depth=depth)
+    finally:
+        db.close()

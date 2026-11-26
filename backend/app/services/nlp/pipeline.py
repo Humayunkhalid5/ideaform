@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.models.agent import AgentRun
 from app.models.project import Project, ProjectRequirement, ProjectVersion
+from app.services.nlp import clarity
 from app.services.nlp.extraction import classify_idea, extract_idea, extract_requirements
 
 
@@ -95,7 +96,7 @@ def run_requirements(
                     version_id=version.id,
                     req_type=item.req_type,
                     description=item.description,
-                    priority=item.priority,
+                    priority=clarity.calibrate_priority(item.priority, item.source),
                     source=item.source,
                 )
             )
@@ -132,6 +133,8 @@ def run_understanding(
         version.structured_idea = {
             **structured.model_dump(),
             "classification": classification.model_dump(),
+            # UC-1 alternate flow: a vague idea gets clarifying questions instead of guesses
+            "clarity": clarity.assess(version.idea_text, structured.model_dump(), classification.confidence),
         }
         project.category = classification.category
 
@@ -144,7 +147,7 @@ def run_understanding(
                     version_id=version.id,
                     req_type=item.req_type,
                     description=item.description,
-                    priority=item.priority,
+                    priority=clarity.calibrate_priority(item.priority, item.source),
                     source=item.source,
                 )
             )

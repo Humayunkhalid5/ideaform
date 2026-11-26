@@ -42,6 +42,7 @@ def classify_idea(idea_text: str) -> tuple[IdeaClassification, LLMResult]:
         tier=LLMTier.FAST,
         temperature=0.0,
         max_tokens=800,
+        cache=True,  # same text -> same category: answered from the content-hash cache
     )
 
 
@@ -56,6 +57,7 @@ def extract_idea(idea_text: str, category: str) -> tuple[StructuredIdea, LLMResu
         ),
         StructuredIdea,
         tier=LLMTier.FAST,
+        cache=True,
     )
 
 
@@ -66,7 +68,10 @@ def extract_requirements(idea_text: str) -> tuple[list[RequirementItem], LLMResu
             "Extract 5-12 requirements. Use req_type functional for behaviour the "
             "product must have, non_functional for quality attributes, constraint for "
             "limits the team cannot change, assumption for things taken as true. Mark "
-            "anything you inferred rather than found as ai_suggestion.",
+            "anything you inferred rather than found as ai_suggestion. Set priority: must "
+            "for what the idea cannot work without (its core features as written), should "
+            "for important but not essential, could for nice-to-have; at least one "
+            "requirement of a specific idea is a must.",
             idea_text,
         ),
         RequirementList,

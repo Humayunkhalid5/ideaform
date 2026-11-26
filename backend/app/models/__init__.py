@@ -1,6 +1,6 @@
 """Import every model so ``Base.metadata`` is complete for Alembic."""
 
-from app.models.agent import AgentRun, ProjectArtifact
+from app.models.agent import AgentRun, LLMCache, ProjectArtifact
 from app.models.evaluation import (
     Competitor,
     Evaluation,
@@ -24,6 +24,7 @@ __all__ = [
     "CrawlPage",
     "Embedding",
     "Evaluation",
+    "LLMCache",
     "EvaluationDimension",
     "EvaluationEvidence",
     "Project",

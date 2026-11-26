@@ -20,6 +20,13 @@ export interface StructuredIdea {
   key_features?: string[];
   technologies_mentioned?: string[];
   missing_information?: string[];
+  clarity?: IdeaClarity;
+}
+
+export interface IdeaClarity {
+  vague: boolean;
+  reasons: string[];
+  questions: string[];
 }
 
 export interface Requirement {
@@ -340,9 +347,11 @@ export interface Comparison {
 
 export type ArtifactType = "ui_ux" | "architecture" | "database_schema" | "api_spec" | "prd" | "roadmap";
 
+export type ReportType = "feasibility_report" | "business_model";
+
 export interface Artifact {
   id: string;
-  artifact_type: ArtifactType;
+  artifact_type: ArtifactType | ReportType;
   title: string;
   format: string;
   content: string;
@@ -370,3 +379,86 @@ export interface Blueprint {
   missing: ArtifactType[];
   has_evaluation: boolean;
 }
+
+// ---------------------------------------------------------------- Phase 5: orchestration, export, history
+
+export type StepName =
+  | "understanding"
+  | "research"
+  | "evaluation"
+  | "evidence_validation"
+  | "business"
+  | "product_design"
+  | "technical_architect"
+  | "documentation";
+
+export interface AnalysisStep {
+  step: StepName;
+  label: string;
+  status: "running" | "succeeded" | "failed" | "skipped";
+  run_id?: string | null;
+  attempt?: number;
+  seconds?: number;
+  reason?: string;
+  error?: string;
+}
+
+export interface AnalysisOutput {
+  steps: AnalysisStep[];
+  depth?: string;
+  evaluation_id?: string | null;
+  overall_score?: number | null;
+  evidence?: number | null;
+  sources?: number | null;
+  artifacts?: Record<string, number>;
+  low_confidence: string[];
+  notices: string[];
+  errors: string[];
+  stopped?: string | null;
+  tokens?: number;
+  seconds?: number;
+}
+
+export interface TrackedRun extends Run {
+  parent_run_id: string | null;
+  prompt_version: string | null;
+  duration_seconds: number | null;
+  input: Record<string, unknown> | null;
+  output: Record<string, unknown> | null;
+  steps?: TrackedRun[];
+}
+
+export interface ReportsResponse {
+  version_no: number;
+  has_evaluation: boolean;
+  reports: Artifact[];
+}
+
+export interface HistoryArtifactVersion {
+  id: string;
+  artifact_version: number;
+  edited_by_user: boolean;
+  instructions: string | null;
+  created_at: string;
+  run_id: string | null;
+}
+
+export interface HistoryVersion {
+  id: string;
+  version_no: number;
+  is_current: boolean;
+  parent_version_id: string | null;
+  idea_text: string;
+  created_at: string;
+  understood: boolean;
+  evaluations: { id: string; overall_score: number | null; created_at: string; model_name: string | null }[];
+  artifacts: { artifact_type: string; title: string; versions: HistoryArtifactVersion[] }[];
+}
+
+export interface ProjectHistory {
+  project_id: string;
+  versions: HistoryVersion[];
+  runs: TrackedRun[];
+}
+
+export type ExportFormat = "pdf" | "docx" | "md" | "zip";

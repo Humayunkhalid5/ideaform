@@ -117,6 +117,11 @@ export function readStructured(value: unknown): StructuredIdea | null {
     technologies_mentioned: strings("technologies_mentioned"),
     missing_information: strings("missing_information"),
   };
+  const clarity = record.clarity as Record<string, unknown> | undefined;
+  if (clarity && typeof clarity === "object" && typeof clarity.vague === "boolean") {
+    const list = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
+    idea.clarity = { vague: clarity.vague, reasons: list(clarity.reasons), questions: list(clarity.questions) };
+  }
   if (
     record.category === "business" ||
     record.category === "software" ||

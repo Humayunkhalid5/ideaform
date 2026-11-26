@@ -107,7 +107,7 @@ export default function NewProjectPage() {
     setStep((value) => Math.min(STEPS.length - 1, value + 1));
   }
 
-  async function submit() {
+  async function submit(mode: "analyse" | "understand") {
     if (!category) return;
     setBusy(true);
     setError(null);
@@ -119,6 +119,12 @@ export default function NewProjectPage() {
         help_level: helpLevel,
       });
       try {
+        if (mode === "analyse") {
+          // one submission: the orchestrator runs every stage of this help level in the background
+          const analysis = await api.analyse(project.id, helpLevel);
+          router.push(`/projects/${project.id}/run?run=${analysis.run_id}`);
+          return;
+        }
         const run = await api.understand(project.id);
         if (run.status === "queued") {
           router.push(`/projects/${project.id}/run?run=${run.run_id}`);
@@ -495,22 +501,28 @@ export default function NewProjectPage() {
                   {step === 0 ? "Continue to description" : "Continue"} <ArrowRight className="size-4" />
                 </Button>
               ) : (
-                <Button onClick={submit} disabled={busy} size="md">
-                  {busy ? (
-                    <>
-                      <Loader2 className="size-4 animate-spin" /> Reading your idea…
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="size-4" /> Understand my idea
-                    </>
-                  )}
-                </Button>
+                <div className="flex flex-wrap items-center justify-end gap-2">
+                  <Button variant="ghost" onClick={() => submit("understand")} disabled={busy}>
+                    Understand only, confirm first
+                  </Button>
+                  <Button onClick={() => submit("analyse")} disabled={busy} size="md">
+                    {busy ? (
+                      <>
+                        <Loader2 className="size-4 animate-spin" /> Starting…
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="size-4" /> Run full analysis
+                      </>
+                    )}
+                  </Button>
+                </div>
               )}
             </div>
-            {busy && (
+            {step === STEPS.length - 1 && (
               <p className="-mt-2 text-right text-[11.5px] text-muted">
-                A live model call usually takes 20–60 seconds. Keep this tab open.
+                Full analysis runs every stage of the chosen help level in the background (about 3–8 minutes) and shows its
+                progress. Or understand the idea first and confirm the requirements before going on.
               </p>
             )}
           </div>
@@ -588,11 +600,10 @@ export default function NewProjectPage() {
               <span className="flex items-center gap-1 text-[12px] font-semibold text-ink">
                 <Sparkles className="size-3.5 text-primary" /> What runs next
               </span>
-              <span className="font-mono text-[11px] text-muted">Understanding</span>
+              <span className="font-mono text-[11px] text-muted">Full analysis</span>
             </div>
             <p className="mt-1.5 text-[12px] leading-snug text-muted">
-              Creating the project stores version 1 of your text, then the understanding engine
-              classifies it and extracts requirements.
+              Creating the project stores version 1 of your text. Full analysis then runs understanding, research, evaluation and the blueprint for your help level, and you can follow every step live.
             </p>
           </div>
         </aside>

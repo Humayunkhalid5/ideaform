@@ -62,6 +62,26 @@ class AgentRun(UUIDPrimaryKey, Base):
     error_message: Mapped[str | None] = mapped_column(Text)
     started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Phase 5: the full-analysis run an agent step belongs to (None for standalone runs)
+    parent_run_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("agent_runs.id", ondelete="CASCADE"), index=True
+    )
+
+
+class LLMCache(Base):
+    """Model replies cached by content hash of (model, messages, schema, parameters)."""
+
+    __tablename__ = "llm_cache"
+
+    cache_key: Mapped[str] = mapped_column(Text, primary_key=True)
+    model: Mapped[str | None] = mapped_column(Text)
+    response: Mapped[str] = mapped_column(Text, nullable=False)
+    tokens_in: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    tokens_out: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    hits: Mapped[int] = mapped_column(Integer, nullable=False, default=0, server_default=text("0"))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
 
 
 class ProjectArtifact(UUIDPrimaryKey, Base):

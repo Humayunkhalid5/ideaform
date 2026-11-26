@@ -13,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { ErrorNotice } from "@/components/states/ErrorNotice";
+import { ClarifyCard } from "@/components/understand/ClarifyCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -261,6 +262,14 @@ export default function UnderstandPage() {
         </section>
 
         <aside className="flex flex-col gap-4">
+          {structured?.clarity?.vague && project?.version && (
+            <ClarifyCard
+              projectId={id}
+              ideaText={project.version.idea_text}
+              versionNo={project.version.version_no}
+              clarity={structured.clarity}
+            />
+          )}
           {structured && (
             <Card className="flex flex-col gap-3">
               <h3 className="t-sub text-ink">What we understood</h3>

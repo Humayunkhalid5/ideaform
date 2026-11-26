@@ -1,13 +1,13 @@
 "use client";
 
-import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronRight, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import { ProjectTabs } from "@/components/layout/ProjectTabs";
 import { StatusBadge } from "@/components/ui/badge";
-import { buttonStyles } from "@/components/ui/button";
+import { Button, buttonStyles } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/lib/api";
 import { HELP_LEVEL_LABEL } from "@/lib/idea";
@@ -33,6 +33,26 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
   useEffect(() => {
     load();
   }, [load]);
+
+  const router = useRouter();
+  const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
+
+  async function analyse() {
+    setStarting(true);
+    setStartError(null);
+    try {
+      const { run_id } = await api.analyse(id);
+      router.push(`/projects/${id}/run?run=${run_id}`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not start the analysis.";
+      const running = /run ([0-9a-f-]{36})/.exec(message)?.[1];
+      if (running) router.push(`/projects/${id}/run?run=${running}`);  // already running: show it
+      else setStartError(message);
+    } finally {
+      setStarting(false);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -65,13 +85,17 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
             </p>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2">
-            <Link href={`/projects/${id}/understand`} className={buttonStyles("secondary", "md")}>
-              Requirements
-            </Link>
-            <Link href={`/projects/${id}/understand`} className={buttonStyles("primary", "md")}>
-              <Sparkles className="size-4" /> Re-run extraction
-            </Link>
+          <div className="flex shrink-0 flex-col items-stretch gap-1.5 sm:items-end">
+            <div className="flex items-center gap-2">
+              <Link href={`/projects/${id}/understand`} className={buttonStyles("secondary", "md")}>
+                Requirements
+              </Link>
+              <Button onClick={analyse} disabled={starting || project.status === "analysing"}>
+                {starting ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+                {project.status === "analysing" ? "Analysing…" : "Run full analysis"}
+              </Button>
+            </div>
+            {startError && <p className="max-w-xs text-right text-[12px] text-danger">{startError}</p>}
           </div>
         </div>
       ) : (

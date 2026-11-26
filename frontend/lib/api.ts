@@ -3,6 +3,10 @@ import type {
   ArtifactType,
   Blueprint,
   Comparison,
+  ExportFormat,
+  ProjectHistory,
+  ReportsResponse,
+  TrackedRun,
   Decision,
   Evaluation,
   Project,
@@ -216,4 +220,44 @@ export const api = {
     }),
   editArtifact: (artifactId: string, content: string) =>
     request<Artifact>(`/artifacts/${artifactId}`, { method: "PATCH", body: JSON.stringify({ content }) }),
+  analyse: (id: string, depth?: string) =>
+    request<{ run_id: string; status: string; depth: string }>(`/projects/${id}/analyse`, {
+      method: "POST",
+      body: JSON.stringify(depth ? { depth } : {}),
+    }),
+  trackedRun: (runId: string) => request<TrackedRun>(`/runs/${runId}`),
+  reports: (id: string, versionNo?: number) =>
+    request<ReportsResponse>(`/projects/${id}/reports${versionNo ? `?version=${versionNo}` : ""}`),
+  rebuildReports: (id: string) => request<ReportsResponse>(`/projects/${id}/reports`, { method: "POST" }),
+  history: (id: string) => request<ProjectHistory>(`/projects/${id}/history`),
+  /** Downloads an export and returns the file name the server chose. */
+  exportProject: async (id: string, format: ExportFormat, versionNo?: number): Promise<{ filename: string; bytes: number }> => {
+    const token = getToken();
+    const query = new URLSearchParams({ format, ...(versionNo ? { version: String(versionNo) } : {}) });
+    let response: Response;
+    try {
+      response = await fetch(`${API_URL}/projects/${id}/export?${query}`, {
+        method: "POST",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+    } catch {
+      throw new ApiError("Cannot reach the IdeaForm API. Is the backend running on port 8000?", 0);
+    }
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      throw new ApiError(detailMessage(body, response.status), response.status);
+    }
+    const blob = await response.blob();
+    const disposition = response.headers.get("Content-Disposition") ?? "";
+    const filename = /filename="([^"]+)"/.exec(disposition)?.[1] ?? `ideaform-export.${format}`;
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    return { filename, bytes: blob.size };
+  },
 };

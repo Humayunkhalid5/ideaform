@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
+import { AnalysisProgress } from "@/components/run/AnalysisProgress";
 import { PipelineTimeline } from "@/components/run/PipelineTimeline";
 import { RadialGauge } from "@/components/scores/RadialGauge";
 import { ErrorNotice } from "@/components/states/ErrorNotice";
@@ -80,7 +81,7 @@ function RunView() {
 
   const finished = run?.status === "succeeded";
   useEffect(() => {
-    if (!finished || !run) return;
+    if (!finished || !run || run.agent_name === "analysis") return;
     const output = (run as RunWithOutput).output as { compare?: { a: number; b: number } } | null;
     const target =
       run.agent_name === "evaluation"
@@ -157,6 +158,8 @@ function RunView() {
       </Card>
     );
   }
+
+  if (run?.agent_name === "analysis") return <AnalysisProgress runId={runId} projectId={projectId} />;
 
   return (
     <div className="flex flex-col gap-4">

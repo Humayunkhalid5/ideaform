@@ -112,6 +112,11 @@ Gradients, glass, mesh and brand lighting never go behind tables or paragraphs o
   `securityLevel: "strict"`, theme-aware, falls back to the source). Never render model HTML
   directly, and never let the model write diagram code that is shown unsanitised: build
   diagrams in the backend (`services/blueprint/render.py`).
+- Long-running work starts a background run and sends the user to `/projects/{id}/run?run=…`.
+  A full analysis shows `AnalysisProgress` (one row per agent step: status, retry, low
+  confidence, time, link to the result); never block a page on a multi-minute request.
+- Files are downloaded with `api.exportProject` (authenticated fetch + the server's file name);
+  never put the token in a URL.
 - Pages that call `useSearchParams` wrap their content in `<Suspense>`.
 - Two boxes deep at most. Prefer dividers and spacing to another bordered card.
 

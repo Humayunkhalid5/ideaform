@@ -252,7 +252,7 @@ export default function LandingPage() {
         </div>
         <div className="mx-auto w-full max-w-[1180px] px-5 sm:px-8">
           <p className="mt-10 rounded-lg border border-line bg-canvas px-4 py-3 text-[11.5px] leading-relaxed text-muted">
-            {DISCLAIMER} Export to PDF, Markdown and ZIP is the next phase.
+            {DISCLAIMER} Every project exports as PDF, Word, Markdown or a ZIP package.
           </p>
         </div>
         <p

@@ -123,7 +123,19 @@ Design notes and verification: `docs/phase3_evaluation.md`. Without a database,
 
 Design notes, the comparison with `architecture.md`, and verification: `docs/phase4_blueprint.md`.
 
-`understand`, `regenerate`, `evaluate`, `improve`, `blueprint` and section regeneration return 429 once the user's `daily_token_limit` (tokens
+### Phase 5: orchestration and export
+
+| Method | Path | What it does |
+| --- | --- | --- |
+| POST | `/projects/{id}/analyse` | One submission runs the whole pipeline (LangGraph): understanding, research, evaluation, evidence validation, business, product design, technical architecture, documentation. Runs in the background; returns a `run_id` |
+| GET | `/runs/{id}` | Status, model, prompt version, tokens, duration, errors, and for an analysis every agent step (`steps`) |
+| GET / POST | `/projects/{id}/reports` | The Documentation Agent's feasibility report and business model / rebuild them from the evaluation (no tokens) |
+| GET | `/projects/{id}/history` | Idea versions with their evaluations and every artifact version, plus run history |
+| POST | `/projects/{id}/export?format=pdf\|docx\|md\|zip&version=` | Download the project as PDF (ReportLab), Word (python-docx), Markdown, or a ZIP package |
+
+Design notes, checks against the design docs, and verification: `docs/phase5_orchestration.md`.
+
+`understand`, `regenerate`, `evaluate`, `improve`, `blueprint`, section regeneration and `analyse` return 429 once the user's `daily_token_limit` (tokens
 used by their runs since 00:00 UTC) is spent.
 
 ## Checks
